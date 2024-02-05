@@ -1,0 +1,79 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { SliderData } from "./SliderData";
+import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+
+const Slider = ({ slides }) => {
+  const [current, setCurrent] = useState(0);
+  const length = slides.length;
+
+  const nextSlide = () => {
+    setCurrent(current === length - 1 ? 0 : current + 1);
+  };
+
+  const prevSlide = () => {
+    setCurrent(current === 0 ? length - 1 : current - 1);
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      nextSlide();
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [current, nextSlide]);
+
+  if (!Array.isArray(slides) || slides.length <= 0) {
+    return null;
+  }
+
+  return (
+    <div className="hero-section relative flex items-center justify-center h-screen overflow-hidden">
+      {SliderData.map((slide, index) => (
+        <div
+          key={index}
+          className={`hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center transition-opacity duration-500 ${
+            index === current ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src={slide.image}
+            alt={`Slide ${index + 1}`}
+            layout="fill"
+            objectFit="cover"
+          />
+         <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white">
+        <h1 className="text-4xl font-bold mb-4">Fischer Telesec</h1>        
+        <p className="text-lg mb-8 font-bold">
+          For a better tomorrow - High-Tech Technical Services for Business Continuity
+        </p>
+        <div className="flex items-center justify-center gap-4">
+          <Link href="/services">
+            <a className="btn btn-primary py-5">Explore Services</a>
+          </Link>
+          <Link href="/contact">
+            <a className="btn btn-outline py-5">Get a Quote</a>
+          </Link>
+        </div>
+      </div>
+        </div>
+      ))}
+      <FaArrowCircleLeft
+        onClick={prevSlide}
+        className="absolute top-[50%] left-[30px] text-white/70 cursor-pointer select-none z-[2]"
+        size={50}
+      />
+      <FaArrowCircleRight
+        onClick={nextSlide}
+        className="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
+        size={50}
+      />
+    </div>
+  );
+};
+
+export default Slider;
