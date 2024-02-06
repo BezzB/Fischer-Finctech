@@ -22,22 +22,15 @@ const ServiceButton = ({ text }) => (
   </button>
 );
 
-const ServiceCard = ({ icon, title, description }) => (
-  <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
-    <div className="p-4 flex flex-col items-center">
-      <Image src={icon} alt={`${title} Icon`} width={80} height={80} />
-      <h2 className="text-3xl font-bold mb-4 text-primary">{title}</h2>
-      <p className="text-xl text-gray-700 text-center">{description}</p>
-    </div>
-  </div>
-);
 
 const ListServiceCard = ({ icon, title, items }) => (
-  <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
-    <div className="p-4 flex flex-col items-center">
+  <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0 flex flex-row items-center">
+    <div className="p-4">
       <Image src={icon} alt={`${title} Icon`} width={80} height={80} />
+    </div>
+    <div className="flex-1 p-4">
       <h2 className="text-3xl font-bold mb-4 text-primary">{title}</h2>
-      <ul className="list-inside text-xl text-gray-700 text-center">
+      <ul className="list-inside text-xl text-gray-700">
         {items.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
@@ -46,9 +39,10 @@ const ListServiceCard = ({ icon, title, items }) => (
   </div>
 );
 
+
 const ServicesPage = () => {
   return (
-    <div className="max-container py-12">
+    <div className="max-container py-6">
       <Head>
         <title>Fischer Telesec - Services</title>
         <meta
@@ -74,7 +68,7 @@ const ServicesPage = () => {
             Fischer Telesec offers a suite of ICT services to ensure
             organizational resilience.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-center md:gap-4">
             <ServiceButton text="Explore Telecommunications" />
             <ServiceButton text="Discover IT Services" />
             <ServiceButton text="Explore Datacenter Solutions" />
@@ -84,35 +78,44 @@ const ServicesPage = () => {
       </section>
 
       <section className="services-grid grid grid-cols-1 md:grid-cols-3 gap-8">
-        <ServiceCard
+        <ListServiceCard
           icon="/telecomunication.jpg"
           title="Telecommunications Services"
-          description="Wired and wireless installations, configurations, activation, and maintenance including Fiber, Copper, Wireless technologies, and Satellite services."
+          items={[
+            "Wired and wireless installations",
+            "Configurations, activation, and maintenance including Fiber, Copper, Wireless technologies",
+            "Satellite services.",
+          ]}
         />
-        <ServiceCard
+        <ListServiceCard
           icon="/comunications.png"
           title="Communication Services"
-          description="Tower maintenance,
-          •power setup and maintenance,
-          •Alarm systems,
-          •Unified CCTV surveillance"
+          items={[
+            "Tower maintenance",
+            "Power setup and maintenance",
+            "Alarm systems",
+            "Unified CCTV surveillance",
+          ]}
         />
-        <ServiceCard
+        <ListServiceCard
           icon="/itservices.png"
           title="Communication Site Maintenance"
-          description="Technical surveys, quality checks, commissioning, network audits, project planning, and management, onsite and off-site support."
+          items={[
+            "Technical surveys, quality checks, commissioning, network audits",
+            "Project planning, and management",
+            "Onsite and off-site support.",
+          ]}
         />
 
-        <ServiceCard
+        <ListServiceCard
           icon="/itservices.png"
           title="IT Services"
-          description="Office-To-Office VPN setups, IT infrastructure setup and maintenance, wired and wireless LAN setup, LAN and WAN diagnostics, firewall and server setup, diagnostics, and maintenance."
-        />
-
-        <ServiceCard
-          icon="/datacenter.png"
-          title="Datacenter Services"
-          description="Design and setup, equipment supply, installation, configuration, and maintenance. Biometrics and Access Control. Management As A Service (MaaS) - complete management of day-to-day office network infrastructure, advisory on turnkey solutions for effective office automation, onsite and offsite support services."
+          items={[
+            "Office-To-Office VPN setups",
+            "IT infrastructure setup and maintenance, wired and wireless LAN setup",
+            "LAN and WAN diagnostics",
+            "Firewall and server setup, diagnostics, and maintenance.",
+          ]}
         />
 
         <ListServiceCard
@@ -122,6 +125,16 @@ const ServicesPage = () => {
             "Complete management of day-to-day office network infrastructure",
             "Advisory on turnkey solutions for effective office automation",
             "Onsite and Offsite support services",
+          ]}
+        />
+        <ListServiceCard
+          icon="/datacenter.png"
+          title="Datacenter Services"
+          items={[
+            "Design and setup, equipment supply, installation, configuration, and maintenance.",
+            "Biometrics and Access Control",
+            "Management As A Service (MaaS) - complete management of day-to-day office network infrastructure",
+            "Advisory on turnkey solutions for effective office automation, onsite and offsite support services.",
           ]}
         />
       </section>

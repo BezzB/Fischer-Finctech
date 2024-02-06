@@ -46,20 +46,93 @@ const Slider = ({ slides }) => {
             layout="fill"
             objectFit="cover"
           />
-         <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white">
-        <h1 className="text-4xl font-bold mb-4">Fischer Telesec</h1>        
-        <p className="text-lg mb-8 font-bold">
-          For a better tomorrow - High-Tech Technical Services for Business Continuity
-        </p>
-        <div className="flex items-center justify-center gap-4">
-          <Link href="/services">
-            <a className="btn btn-primary py-5">Explore Services</a>
-          </Link>
-          <Link href="/contact">
-            <a className="btn btn-outline py-5">Get a Quote</a>
-          </Link>
-        </div>
-      </div>
+          <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white">
+            <h1 className="text-4xl font-bold mb-4">Fischer Telesec</h1>
+            <p className="text-lg mb-8 font-bold">
+              For a better tomorrow - High-Tech Technical Services for Business
+              Continuity
+            </p>
+            <div className="flex items-center justify-center gap-4">
+              <Link href="/services">
+                <a className="btn btn-primary py-5">Explore Services</a>
+              </Link>
+              <Link href="/contact">
+                <a className="btn btn-outline py-5">Get a Quote</a>
+              </Link>
+            </div>
+            <div className="p-4 flex flex-col lg:flex-row">
+              <div className="flex items-center justify-start mb-6 lg:mr-8">
+                <div>
+                  <Image
+                    src="/check.png"
+                    alt="logo"
+                    height={50}
+                    width={70}
+                    className="logo-image"
+                  />
+                </div>
+                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
+                  Telecommunication Services
+                </h2>
+              </div>
+              <div className="flex items-center justify-start mb-6 lg:mr-8">
+                <div>
+                  <Image
+                    src="/check.png"
+                    alt="logo"
+                    height={50}
+                    width={70}
+                    className="logo-image"
+                  />
+                </div>
+                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
+                  Communication Services
+                </h2>
+              </div>
+              <div className="flex justify-start mb-6 lg:mr-8">
+                <div>
+                  <Image
+                    src="/check.png"
+                    alt="logo"
+                    height={50}
+                    width={70}
+                    className="logo-image"
+                  />
+                </div>
+                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
+                  Site Maintenance
+                </h2>
+              </div>
+              <div className="flex justify-start mb-6 lg:mr-8">
+                <div>
+                  <Image
+                    src="/check.png"
+                    alt="logo"
+                    height={50}
+                    width={70}
+                    className="logo-image"
+                  />
+                </div>
+                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
+                  IT Services
+                </h2>
+              </div>
+              <div className="flex items-center justify-start mb-6">
+                <div>
+                  <Image
+                    src="/check.png"
+                    alt="logo"
+                    height={50}
+                    width={70}
+                    className="logo-image"
+                  />
+                </div>
+                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
+                  Management as a Service
+                </h2>
+              </div>
+            </div>
+          </div>
         </div>
       ))}
       <FaArrowCircleLeft
