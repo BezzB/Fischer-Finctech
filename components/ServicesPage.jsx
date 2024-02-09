@@ -29,7 +29,7 @@ const ListServiceCard = ({ icon, title, items }) => (
       <Image src={icon} alt={`${title} Icon`} width={80} height={80} />
     </div>
     <div className="flex-1 p-4">
-      <h2 className="text-3xl font-bold mb-4 text-primary">{title}</h2>
+      <h2 className="text-2xl font-bold mb-4 text-primary">{title}</h2>
       <ul className="list-inside text-xl text-gray-700">
         {items.map((item, index) => (
           <li key={index}>{item}</li>
@@ -113,7 +113,7 @@ const ServicesPage = () => {
           icon="/maas.webp"
           title="Management As A Service (MaaS)"
           items={[
-            "Complete management of day-to-day office network infrastructure",
+            "Management of office network infrastructure",
             "Advisory on turnkey solutions for effective office automation",
             "Onsite and Offsite support services",
           ]}
@@ -124,8 +124,8 @@ const ServicesPage = () => {
           items={[
             "Design and setup, equipment supply, installation, configuration, and maintenance.",
             "Biometrics and Access Control",
-            "Management As A Service (MaaS) - complete management of day-to-day office network infrastructure",
-            "Advisory on turnkey solutions for effective office automation, onsite and offsite support services.",
+            "Management As A Service (MaaS)",
+            "Advisory on turnkey solutions.",
           ]}
         />
       </section>

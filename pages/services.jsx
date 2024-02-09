@@ -1,12 +1,12 @@
 import React from 'react'
 import Hero from '../components/Hero'
-import ServicesPage from '../components/ServicesPage'
+import ServicePage from '../components/Services'
 
 const services = () => {
   return (
     <div>
-        <Hero heading='Contact' message='Submit the form below for more work and quotes.' />
-        <ServicesPage />
+      <Hero heading='My Work' message='This is some of my recent work traveling the world.' />
+        <ServicePage />
     </div>
   )
 }
