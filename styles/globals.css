@@ -223,6 +223,18 @@ body {
   transform: scaleX(1);
 }
 
+.service-slide {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.service-slide.active {
+  opacity: 1;
+}
+
+
+
+
 @media (max-width: 768px) {
   /* Responsive adjustments for smaller screens */
   .hero-content h1 {

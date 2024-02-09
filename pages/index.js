@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Hero from "../components/Hero";
 import Slider from "../components/Slider";
 import { SliderData } from "../components/SliderData";
 import AboutUsPage from "../components/AboutUs";
 import ServicesPage from "../components/ServicesPage";
+import PartnersPage from "../components/PartnersPage";
 
 export default function Home() {
   return (
@@ -20,6 +20,7 @@ export default function Home() {
       />
       <ServicesPage />
       <AboutUsPage />
+      <PartnersPage/>
     </div>
   );
 }

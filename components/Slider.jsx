@@ -1,9 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { SliderData } from "./SliderData";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
+import ServiceSliderPage from "./ServiceSliderPage";
 
 const Slider = ({ slides }) => {
   const [current, setCurrent] = useState(0);
@@ -32,11 +32,11 @@ const Slider = ({ slides }) => {
   }
 
   return (
-    <div className="hero-section relative flex items-center justify-center h-screen overflow-hidden">
+    <div className="hero-section relative h-screen overflow-hidden">
       {SliderData.map((slide, index) => (
         <div
           key={index}
-          className={`hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center transition-opacity duration-500 ${
+          className={`hero-content absolute inset-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white transition-opacity duration-500 ${
             index === current ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -46,12 +46,14 @@ const Slider = ({ slides }) => {
             layout="fill"
             objectFit="cover"
           />
-          <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">Fischer Telesec</h1>
-            <p className="text-lg mb-8 font-bold">
+          <div className="absolute inset-0 flex flex-col items-center justify-center space-y-8">
+            <div className="text-xl lg:text-2xl font-semibold">
+              Fischer Telesec
+            </div>
+            <div className="text-lg lg:text-xl font-bold">
               For a better tomorrow - High-Tech Technical Services for Business
               Continuity
-            </p>
+            </div>
             <div className="flex items-center justify-center gap-4">
               <Link href="/services">
                 <a className="btn btn-primary py-5">Explore Services</a>
@@ -59,78 +61,6 @@ const Slider = ({ slides }) => {
               <Link href="/contact">
                 <a className="btn btn-outline py-5">Get a Quote</a>
               </Link>
-            </div>
-            <div className="p-4 flex flex-col lg:flex-row">
-              <div className="flex items-center justify-start mb-6 lg:mr-8">
-                <div>
-                  <Image
-                    src="/check.png"
-                    alt="logo"
-                    height={50}
-                    width={70}
-                    className="logo-image"
-                  />
-                </div>
-                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
-                  Telecommunication Services
-                </h2>
-              </div>
-              <div className="flex items-center justify-start mb-6 lg:mr-8">
-                <div>
-                  <Image
-                    src="/check.png"
-                    alt="logo"
-                    height={50}
-                    width={70}
-                    className="logo-image"
-                  />
-                </div>
-                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
-                  Communication Services
-                </h2>
-              </div>
-              <div className="flex justify-start mb-6 lg:mr-8">
-                <div>
-                  <Image
-                    src="/check.png"
-                    alt="logo"
-                    height={50}
-                    width={70}
-                    className="logo-image"
-                  />
-                </div>
-                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
-                  Site Maintenance
-                </h2>
-              </div>
-              <div className="flex justify-start mb-6 lg:mr-8">
-                <div>
-                  <Image
-                    src="/check.png"
-                    alt="logo"
-                    height={50}
-                    width={70}
-                    className="logo-image"
-                  />
-                </div>
-                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
-                  IT Services
-                </h2>
-              </div>
-              <div className="flex items-center justify-start mb-6">
-                <div>
-                  <Image
-                    src="/check.png"
-                    alt="logo"
-                    height={50}
-                    width={70}
-                    className="logo-image"
-                  />
-                </div>
-                <h2 className="text-xl lg:text-2xl font-semibold ml-4">
-                  Management as a Service
-                </h2>
-              </div>
             </div>
           </div>
         </div>
@@ -145,6 +75,14 @@ const Slider = ({ slides }) => {
         className="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
         size={50}
       />
+      <div className="absolute bottom-0 left-0 right-0 bg-gray-900 text-white py-8 lg:hidden flex items-center justify-center">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-semibold mb-4">Services Highlights</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <ServiceSliderPage />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

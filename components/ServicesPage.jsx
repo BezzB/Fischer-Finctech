@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
 
 const handleHoverEffect = (e) => {
   const element = e.currentTarget;
@@ -22,7 +23,6 @@ const ServiceButton = ({ text }) => (
   </button>
 );
 
-
 const ListServiceCard = ({ icon, title, items }) => (
   <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0 flex flex-row items-center">
     <div className="p-4">
@@ -39,7 +39,6 @@ const ListServiceCard = ({ icon, title, items }) => (
   </div>
 );
 
-
 const ServicesPage = () => {
   return (
     <div className="max-container py-6">
@@ -51,29 +50,21 @@ const ServicesPage = () => {
         />
         {/* Add more SEO metadata as needed */}
       </Head>
-
-      <section className="hero-section relative flex flex-col items-center justify-center h-screen overflow-hidden">
-        <Image
-          src="/telesec7.jpg" // Replace with your actual hero image
-          alt="Hero image"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center bottom"
-        />
-        <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-4 py-8 text-center text-white">
-          <h1 className="text-4xl font-bold mb-4">
-            Empowering Business Continuity Through High-Tech Technical Services
+      <section className="hero-section relative flex flex-col items-center justify-center h-auto">
+        <div
+          className="hero-background absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/telesec7.jpg')" }}
+        ></div>
+        <div className="hero-content relative flex flex-col items-center justify-center px-4 py-8 text-center">
+          {/* Add your logo or text here */}
+          <h2>WELCOME TO</h2>
+          <h1 className="text-4xl font-bold mb-4 text-blue">
+           Fischer Telesec
           </h1>
-          <p className="text-base text-gray-300 mb-8">
-            Fischer Telesec offers a suite of ICT services to ensure
-            organizational resilience.
-          </p>
-          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-center md:gap-4">
-            <ServiceButton text="Explore Telecommunications" />
-            <ServiceButton text="Discover IT Services" />
-            <ServiceButton text="Explore Datacenter Solutions" />
-            <ServiceButton text="Explore MaaS Services" />
-          </div>
+          <h2 className="text-2xl font-bold mb-4 text-white">
+            We Connect the World with Cutting-Edge Technology
+          </h2>
+          <h3>We offer</h3>
         </div>
       </section>
 
