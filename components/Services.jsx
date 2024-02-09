@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const ServicePage = () => {
   return (
-    <div className="container mx-auto py-8 px-4 md:px-0">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Our Services</h1>
+    <div className="container mx-auto py-8 px-4 md:px-0" style={{ background: 'linear-gradient(to right, #FFA500, #00008B)' }}>
+        <h1 className="text-3xl font-semibold mb-6 text-center">Our Services</h1>
       
       {/* Telecommunications Services Section */}
       <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
@@ -13,8 +13,8 @@ const ServicePage = () => {
             <Image
               src="/telecom_image.jpg"
               alt="Telecommunications Services"
-              width={400}
-              height={300}
+              width={500}
+              height={400}
               objectFit="cover"
             />
           </div>
@@ -48,8 +48,8 @@ const ServicePage = () => {
             <Image
               src="/maintenance_image.jpg"
               alt="Communication Site Maintenance"
-              width={400}
-              height={300}
+              width={500}
+              height={400}
               objectFit="cover"
             />
           </div>
@@ -63,8 +63,8 @@ const ServicePage = () => {
             <Image
               src="/it-services.jpg"
               alt="IT Services"
-              width={400}
-              height={300}
+              width={500}
+              height={400}
               objectFit="cover"
             />
           </div>
@@ -98,7 +98,7 @@ const ServicePage = () => {
             <Image
               src="/datacenter.jpg"
               alt="Datacenter Services"
-              width={400}
+              width={500}
               height={300}
               objectFit="cover"
             />
@@ -113,7 +113,7 @@ const ServicePage = () => {
             <Image
               src="/MaaS.jpg"
               alt="Management As A Service (MaaS)"
-              width={400}
+              width={500}
               height={300}
               objectFit="cover"
             />
