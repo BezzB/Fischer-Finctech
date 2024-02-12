@@ -7,8 +7,8 @@ const Footer = () => (
       <div className="mb-4 lg:mb-0 lg:mr-8">
         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
         <ul className="list-none p-0">
-          <li>Email: robert@fischertelesec.co.ke</li>
-          <li>Phone: +254724-612-514</li>
+          <li>Email:  info@fischertelesec.co.ke </li>
+          <li>Mobile: +254724-612-514</li>
           <li>Address: Zayed Plaza, New Mombasa- Malindi Road, Mombasa.</li>
         </ul>
       </div>

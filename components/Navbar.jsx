@@ -30,10 +30,13 @@ const Navbar = () => {
       style={{ backgroundColor: `${color}` }}
       className="fixed left-0 top-0 w-full z-10 ease-in duration-300"
     >
+      <div className="top-text bg-gray-800 text-white text-right p-2">
+        <p>Mobile: +254724612514 | Email Us</p>      
+      </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
           <Image
-            src="/logo3.PNG"
+            src="/logo2.PNG"
             alt="logo"
             height={60} // Adjust the height to fit your design
             width={190} // Adjust the width to fit your design

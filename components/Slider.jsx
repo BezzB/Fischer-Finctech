@@ -51,8 +51,7 @@ const Slider = ({ slides }) => {
               Fischer Telesec
             </div>
             <div className="text-lg lg:text-xl font-bold">
-              For a better tomorrow - High-Tech Technical Services for Business
-              Continuity
+            Connecting the World with Cutting-Edge Technology
             </div>
             <div className="flex items-center justify-center gap-4">
               <Link href="/services">
