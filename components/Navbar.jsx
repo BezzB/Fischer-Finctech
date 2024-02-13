@@ -38,7 +38,7 @@ const Navbar = () => {
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
           <Image
-            src="/logo2.PNG"
+            src="/logo2.png"
             alt="logo"
             height={60} // Adjust the height to fit your design
             width={190} // Adjust the width to fit your design
