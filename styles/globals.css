@@ -236,6 +236,23 @@ body {
   padding-top: 20px;
 }
 
+@keyframes scrolling {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scrolling-text span {
+  display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  animation: scrolling 20s linear infinite;
+}
+
+
+
 @media (max-width: 768px) {
   /* Responsive adjustments for smaller screens */
   .hero-content h1 {

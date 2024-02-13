@@ -8,39 +8,44 @@ const ServicePage = () => {
       
       {/* Telecommunications Services Section */}
       <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
-        <div className="md:w-1/2">
-          <div className="flex items-center justify-center mb-4">
-            <Image
-              src="/telecom_image.jpg"
-              alt="Telecommunications Services"
-              width={500}
-              height={400}
-              objectFit="cover"
-            />
-          </div>
-        </div>
-        <div className="md:w-1/2">
-          <h2 className="text-2xl font-semibold mb-4">Telecommunications Services</h2>
-          <p className="mb-4">At Fischer Telesec, we provide comprehensive telecommunications solutions to meet your business needs.</p>
-          <h3 className="text-xl font-semibold mb-2">Wired and Wireless Installations</h3>
-          <p className="mb-4">We offer expert installation services for both wired and wireless telecommunications systems.</p>
-          <h3 className="text-xl font-semibold mb-2">Configurations, Activation, and Maintenance</h3>
-          <p className="mb-4">Our team handles the setup, activation, and ongoing maintenance of various telecommunications technologies, including fiber, copper, wireless, and satellite services.</p>
-        </div>
-      </section>
+  <div className="md:w-1/2">
+    <div className="flex items-center justify-center mb-4">
+      <Image
+        src="/telecom_image.jpg"
+        alt="Telecommunications Services"
+        width={500}
+        height={400}
+        objectFit="cover"
+      />
+    </div>
+  </div>
+  <div className="md:w-1/2">
+    <h2 className="text-2xl font-semibold mb-4">Telecommunications Services</h2>
+    <p className="mb-4">At Fischer Telesec, we provide comprehensive telecommunications solutions to meet your business needs.</p>
+    <h3 className="text-xl  mb-2 font-semibold text-blue-600"> 1. Wired and Wireless Installations</h3>
+    <ul className="list-disc mb-4">
+      <li>We offer expert installation services for both wired and wireless telecommunications systems.</li>
+    </ul>
+    <h3 className="text-xl font-semibold mb-2 text-blue-600">2. Configurations, Activation, and Maintenance</h3>
+    <ul className="list-disc mb-4">
+      <li>Our team handles the setup, activation, and ongoing maintenance of various telecommunications technologies, including fiber, copper, wireless, and satellite services.</li>
+    </ul>
+  </div>
+</section>
+
 
       {/* Communication Site Maintenance Section */}
       <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2 order-2 md:order-1">
           <h2 className="text-2xl font-semibold mb-4">Communication Site Maintenance</h2>
           <p className="mb-4">Ensure the reliability and security of your communication sites with our comprehensive maintenance services.</p>
-          <h3 className="text-xl font-semibold mb-2">Tower Maintenance</h3>
+          <h3 className="text-xl font-semibold mb-2  text-blue-600">Tower Maintenance</h3>
           <p className="mb-4">We provide regular maintenance and inspections for communication towers to ensure structural integrity and optimal performance.</p>
-          <h3 className="text-xl font-semibold mb-2">Power Setup and Maintenance</h3>
+          <h3 className="text-xl font-semibold mb-2  text-blue-600">Power Setup and Maintenance</h3>
           <p className="mb-4">Our team handles the setup and maintenance of power systems to ensure uninterrupted communication operations.</p>
-          <h3 className="text-xl font-semibold mb-2">Alarm Systems</h3>
+          <h3 className="text-xl font-semibold mb-2  text-blue-600">Alarm Systems</h3>
           <p className="mb-4">We install and maintain alarm systems to protect your communication sites from unauthorized access and security threats.</p>
-          <h3 className="text-xl font-semibold mb-2">Unified CCTV Surveillance</h3>
+          <h3 className="text-xl font-semibold mb-2  text-blue-600">Unified CCTV Surveillance</h3>
           <p className="mb-4">Implement comprehensive CCTV surveillance systems to monitor and secure your communication sites.</p>
         </div>
         <div className="md:w-1/2 order-1 md:order-2">
@@ -72,7 +77,7 @@ const ServicePage = () => {
         <div className="md:w-1/2">
           <h2 className="text-2xl font-semibold mb-4">IT Services</h2>
           <p className="mb-4">Empower your business with our comprehensive IT services tailored to your specific needs.</p>
-          <ul className="list-disc pl-6 mb-4">
+          <ul className="list-disc pl-6 mb-4 ">
             <li>Office-To-Office VPN Setups</li>
             <li>IT Infrastructure Setup and Maintenance</li>
             <li>Wired and Wireless LAN Setup</li>

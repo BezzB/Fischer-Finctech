@@ -60,25 +60,6 @@ const AboutUsPage = () => {
 
       {/* Container for Vision, Mission, Core Values */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-white rounded-md shadow-md mb-8">
-        {/* Vision Section */}
-        <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
-          <div className="p-4 flex flex-col items-center">
-            <Image
-              src="/vision-1.png"
-              alt="Vision Image"
-              width={80}
-              height={80}
-            />
-            <h2 className="text-3xl font-bold mb-4 text-primary">Vision</h2>
-            <p className="text-xl text-gray-700 text-center">
-              Empowering business continuity through high-tech technical
-              services. Our suite of ICT solutions, crafted by seasoned
-              technocrats and informed by customer insights, ensures
-              organizational resilience.
-            </p>
-          </div>
-        </div>
-
         {/* Mission Section */}
         <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
           <div className="p-4 flex flex-col items-center">
@@ -97,6 +78,25 @@ const AboutUsPage = () => {
           </div>
         </div>
 
+        {/* Vision Section */}
+        <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
+          <div className="p-4 flex flex-col items-center">
+            <Image
+              src="/vision-1.png"
+              alt="Vision Image"
+              width={80}
+              height={80}
+            />
+            <h2 className="text-3xl font-bold mb-4 text-primary">Vision</h2>
+            <p className="text-xl text-gray-700 text-center">
+              Empowering business continuity through high-tech technical
+              services. Our suite of ICT solutions, crafted by seasoned
+              technocrats and informed by customer insights, ensures
+              organizational resilience.
+            </p>
+          </div>
+        </div>
+        
         {/* Core Values Section */}
         <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
           <div className="p-4 flex flex-col items-center">

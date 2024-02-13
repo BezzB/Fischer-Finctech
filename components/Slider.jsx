@@ -75,9 +75,9 @@ const Slider = ({ slides }) => {
         size={50}
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gray-900 text-white py-8 lg:hidden flex items-center justify-center">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-semibold mb-4">Services Highlights</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="container mx-auto max-w-md" >
+          <h2 className="text-2xl mb-2">Services Highlights</h2>
+          <div>
             <ServiceSliderPage />
           </div>
         </div>

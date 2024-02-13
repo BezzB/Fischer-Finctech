@@ -22,17 +22,17 @@ const ServiceSliderPage = () => {
     <div className="container mx-auto lg:hidden">
       <div className="service-slide active">
         <div className="flex items-center justify-start">
-          <div>
+          <div className="mr-2">
             <Image
               src="/check.png"
               alt="logo"
-              height={50}
-              width={70}
+              height={30}
+              width={30}
               className="logo-image"
             />
           </div>
           <div>
-            <h2 className="text-xl font-semibold">{currentService.title}</h2>
+            <h4 className="text-xl">{currentService.title}</h4>
           </div>
         </div>
       </div>
