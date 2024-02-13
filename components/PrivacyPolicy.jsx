@@ -7,7 +7,7 @@ const PrivacyPolicyPage = () => {
         <h1 style={{ textAlign: 'center', fontSize: '36px', fontWeight: 'bold', marginBottom: '30px', color: '#333' }}>Privacy Policy</h1>
 
         <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', color: '#007bff' }}>Introduction</h2>
-        <p style={{ fontSize: '16px', marginBottom: '20px', color: '#555' }}>Welcome to Fischer Telesec's Privacy Policy.</p>
+        <p style={{ fontSize: '16px', marginBottom: '20px', color: '#555' }}>Welcome to Fischer Telesecs Privacy Policy.</p>
 
         <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px', color: '#007bff' }}>Our Commitment to Privacy</h2>
         <p style={{ fontSize: '16px', marginBottom: '20px', color: '#555' }}>
