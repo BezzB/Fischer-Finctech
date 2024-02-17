@@ -245,13 +245,6 @@ body {
   }
 }
 
-.scrolling-text span {
-  display: inline-block;
-  white-space: nowrap; /* Prevent text from wrapping */
-  animation: scrolling 20s linear infinite;
-}
-
-
 
 @media (max-width: 768px) {
   /* Responsive adjustments for smaller screens */
@@ -261,6 +254,13 @@ body {
   .hero-content p {
     font-size: sm;
   }
+  
+.scrolling-text span {
+  display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping */
+  animation: scrolling 20s linear infinite;
+}
+
 }
 
 /* styles.css or add to your component */

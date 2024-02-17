@@ -5,7 +5,7 @@ import ServicePage from '../components/Services'
 const services = () => {
   return (
     <div>
-      <Hero heading='My Work' message='This is some of my recent work traveling the world.' />
+      <Hero heading='Services' message='Select from an array of services we offer.' />
         <ServicePage />
     </div>
   )

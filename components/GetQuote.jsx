@@ -3,10 +3,11 @@ import emailjs from '@emailjs/browser';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const ContactUs = () => {
+export const GetAQuote = () => {
   const form = useRef();
   const [formError, setFormError] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [selectedService, setSelectedService] = useState('');
 
   const sendEmail = (e) => {
     e.preventDefault();
@@ -27,15 +28,17 @@ export const ContactUs = () => {
 
     // Send email if form is valid
     emailjs
-      .sendForm('service_dv7wh96', 'template_nf3bs2w', form.current, {
+    .sendForm('service_dv7wh96', 'template_bsvmkq7', form.current, {
         publicKey: 'bD4Vm_zoa3MYX5QBf',
+        selectedService: selectedService,
       })
       .then(
         () => {
           console.log('SUCCESS!');
           setFormError(null);
           form.current.reset(); // Reset form after successful submission
-          toast.success('Message sent successfully');
+          setSelectedService('');
+          toast.success('Quote request sent successfully to Fischer Telesec');
         },
         (error) => {
           console.log('FAILED...', error.text);
@@ -56,15 +59,29 @@ export const ContactUs = () => {
     setIsButtonDisabled(!isFormValid);
   };
 
+  const handleSelectChange = (e) => {
+    setSelectedService(e.target.value);
+  };
+
   return (
     <div>
-      <h1 style={{ textAlign: 'center', fontSize: '2rem', margin: '20px 0' }}>Contact Us</h1>
+      <h1 style={{ textAlign: 'center', fontSize: '2rem', margin: '20px 0' }}>Get a Quote</h1>
       <form ref={form} onSubmit={sendEmail} style={{ maxWidth: '400px', margin: '0 auto', paddingBottom: '20px' }}>
         <label style={{ display: 'block', marginBottom: '10px' }}>Name</label>
         <input type="text" name="user_name" required onChange={handleInputChange} style={{ width: '100%', padding: '10px', marginBottom: '20px', border: '1px solid #ccc', borderRadius: '5px' }} />
         
         <label style={{ display: 'block', marginBottom: '10px' }}>Email</label>
         <input type="email" name="user_email" required onChange={handleInputChange} style={{ width: '100%', padding: '10px', marginBottom: '20px', border: '1px solid #ccc', borderRadius: '5px' }} />
+        
+        <label style={{ display: 'block', marginBottom: '10px' }}>Service</label>
+        <select name="service" onChange={handleSelectChange} value={selectedService} required style={{ width: '100%', padding: '10px', marginBottom: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+          <option value="">Select Service</option>
+          <option value="Telecomunication Service">Telecomunication Service</option>
+          <option value="Communication Site Maintanance">Communication Site Maintanance</option>
+          <option value="IT Service">IT Service</option>
+          <option value="Data Center Services">Data Center Services</option>
+          <option value="Management As a Service">Management As a Service</option>
+        </select>
         
         <label style={{ display: 'block', marginBottom: '10px' }}>Message</label>
         <textarea name="message" required onChange={handleInputChange} style={{ width: '100%', padding: '10px', marginBottom: '20px', border: '1px solid #ccc', borderRadius: '5px' }}></textarea>

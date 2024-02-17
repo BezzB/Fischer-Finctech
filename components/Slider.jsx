@@ -57,7 +57,7 @@ const Slider = ({ slides }) => {
               <Link href="/services">
                 <a className="btn btn-primary py-5">Explore Services</a>
               </Link>
-              <Link href="/contact">
+              <Link href="/getaquote">
                 <a className="btn btn-outline py-5">Get a Quote</a>
               </Link>
             </div>

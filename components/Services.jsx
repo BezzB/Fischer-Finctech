@@ -4,13 +4,13 @@ import Image from "next/image";
 const ServicePage = () => {
   return (
     <div
-      className="container mx-auto py-8 px-4 md:px-0"
-      style={{ background: "linear-gradient(to right, #FFA500, #FFD700)" }}
+    className=""
+         style={{ background: "linear-gradient(to right, #FFA500, #FFD700)" }}
     >
       <h1 className="text-3xl font-semibold mb-6 text-center">Our Services</h1>
 
       {/* Telecommunications Services Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+      <section className="mx-4 flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2">
           <div className="flex items-center justify-center mb-4">
             <Image
@@ -73,7 +73,7 @@ const ServicePage = () => {
       </section>
 
       {/* Communication Site Maintenance Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+      <section className="mx-4 flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2 order-2 md:order-1">
           <h2 className="text-2xl font-semibold mb-4">
             Communication Site Maintenance
@@ -161,7 +161,7 @@ const ServicePage = () => {
       </section>
 
       {/* IT Services Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+      <section className=" mx-4 flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2">
           <div className="flex items-center justify-center mb-4">
             <Image
@@ -190,7 +190,7 @@ const ServicePage = () => {
       </section>
 
       {/* Datacenter Services Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+      <section className=" mx-4 flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2 order-2 md:order-1">
           <h2 className="text-2xl font-semibold mb-4">Datacenter Services</h2>
           <p className="mb-4">
@@ -219,7 +219,7 @@ const ServicePage = () => {
       </section>
 
       {/* Management As A Service (MaaS) Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
+      <section className="mx-4 flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
         <div className="md:w-1/2">
           <div className="flex items-center justify-center mb-4">
             <Image

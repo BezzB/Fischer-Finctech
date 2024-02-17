@@ -10,13 +10,13 @@ export default function Home() {
     <div>
       <Head>
         <title>Fischer Telesec</title>
-        <meta name="description" content="For a better tomorrow" />
+        <meta name="description" content="Conecting the World with Cutting Edge Technology" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Slider
         slides={SliderData}
         heading="Fischer Telesec"
-        message="For a Better Tomorrow."
+        message="Conecting the World with Cutting Edge Technology."
       />
       <ServicesPage />
       <AboutUsPage />

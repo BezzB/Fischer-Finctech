@@ -32,7 +32,9 @@ const Navbar = () => {
     >
       <div className="top-text bg-gray-800 text-white p-2 overflow-hidden">
         <p className="scrolling-text">
-          <span>Mobile: +254724612514 | Email Us info@fischertelesec.co.ke </span>
+          <span>
+            Mobile: +254724612514 | Email Us info@fischertelesec.co.ke{" "}
+          </span>
         </p>
       </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
@@ -45,19 +47,15 @@ const Navbar = () => {
             className="logo-image" // Add your custom class here
           />
         </Link>
-
-        <ul style={{ color: `${textColor}` }} className="hidden sm:flex">
+        <ul style={{ color: `${textColor}` }} className="hidden md:flex justify-end">
           <li className="p-4">
             <Link href="/">Home</Link>
           </li>
           <li className="p-4">
-            <Link href="/aboutus">AboutUs </Link>
+            <Link href="/aboutus">AboutUs</Link>
           </li>
           <li className="p-4">
             <Link href="/services">Services</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/fiber">Fiber </Link>
           </li>
           <li className="p-4">
             <Link href="/projects">Projects</Link>
@@ -65,8 +63,14 @@ const Navbar = () => {
           <li className="p-4">
             <Link href="/contact">Contact Us</Link>
           </li>
+          <li className="p-4">
+            <Link href="/getaquote">
+              <a className="bg-orange-500 text-white px-4 py-2 rounded">
+                Get a Quote
+              </a>
+            </Link>
+          </li>
         </ul>
-
         {/* Mobile Button */}
         <div onClick={handleNav} className="block sm:hidden z-10">
           {nav ? (
@@ -101,12 +105,6 @@ const Navbar = () => {
               className="p-4 text-4xl hover:text-gray-500"
             >
               <Link href="/projects">Projects</Link>
-            </li>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/homefiber">Home Fiber</Link>
             </li>
             <li
               onClick={handleNav}
