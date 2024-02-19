@@ -4,7 +4,7 @@ import Link from 'next/link'; // Import Link from 'next/link' directly
 
 const Hero = () => {
   return (
-    <section className="hero-section relative flex flex-col items-center justify-center h-screen overflow-hidden" style={{ height: '60vh' }}>
+    <section className="hero-section relative flex flex-col items-center justify-center h-screen overflow-hidden" style={{ height: '55vh' }}>
       <Image
         src="/telesec1.png" // Replace with your actual hero image
         alt="Telecommunication Hero Image"

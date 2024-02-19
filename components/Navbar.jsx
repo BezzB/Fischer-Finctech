@@ -58,7 +58,7 @@ const Navbar = () => {
             <Link href="/services">Services</Link>
           </li>
           <li className="p-4">
-            <Link href="/projects">Projects</Link>
+            <Link href="/work">Projects</Link>
           </li>
           <li className="p-4">
             <Link href="/contact">Contact Us</Link>
@@ -104,13 +104,20 @@ const Navbar = () => {
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/projects">Projects</Link>
+              <Link href="/work">Projects</Link>
             </li>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
               <Link href="/contact">Contact Us</Link>
+            </li>
+            <li>
+            <Link href="/getaquote">
+              <a className="bg-orange-500 text-white px-4 py-2 rounded">
+                Get a Quote
+              </a>
+            </Link>
             </li>
           </ul>
         </div>

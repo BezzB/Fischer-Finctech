@@ -29,8 +29,8 @@ const ListServiceCard = ({ icon, title, items }) => (
       <Image src={icon} alt={`${title} Icon`} width={80} height={80} />
     </div>
     <div className="flex-1 p-4">
-      <h2 className="text-2xl font-bold mb-4 text-primary">{title}</h2>
-      <ul className="list-inside text-xl text-gray-700">
+      <h2 className="text-2xl font-bold mb-4 text-primary " >{title}</h2>
+      <ul className="list-inside text-xl text-gray-700" style={{ listStyleType: "square" }}>
         {items.map((item, index) => (
           <li key={index}>{item}</li>
         ))}
