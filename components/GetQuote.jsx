@@ -66,7 +66,7 @@ export const GetAQuote = () => {
   return (
     <div>
       <h1 style={{ textAlign: 'center', fontSize: '2rem', margin: '20px 0' }}>Get a Quote</h1>
-      <form ref={form} onSubmit={sendEmail} style={{ maxWidth: '400px', margin: '0 auto', paddingBottom: '20px' }}>
+      <form ref={form} action="https://formspree.io/f/xrgnqjeo" method="POST" style={{ maxWidth: '400px', margin: '0 auto', paddingBottom: '20px' }}>
         <label style={{ display: 'block', marginBottom: '10px' }}>Name</label>
         <input type="text" name="user_name" required onChange={handleInputChange} style={{ width: '100%', padding: '10px', marginBottom: '20px', border: '1px solid #ccc', borderRadius: '5px' }} />
         
