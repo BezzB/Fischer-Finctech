@@ -66,12 +66,13 @@ const Slider = ({ slides }) => {
       ))}
       <FaArrowCircleLeft
         onClick={prevSlide}
-        className="absolute top-[50%] left-[30px] text-white/70 cursor-pointer select-none z-[2]"
+        className="absolute top-[50%] left-[30px] text-orange-500/70 cursor-pointer select-none z-[2]"
+
         size={50}
       />
       <FaArrowCircleRight
         onClick={nextSlide}
-        className="absolute top-[50%] right-[30px] text-white/70 cursor-pointer select-none z-[2]"
+        className="absolute top-[50%] right-[30px] text-orange-500/70 cursor-pointer select-none z-[2]"
         size={50}
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gray-900 text-white py-8 lg:hidden flex items-center justify-center">
