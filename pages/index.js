@@ -4,6 +4,7 @@ import { SliderData } from "../components/SliderData";
 import AboutUsPage from "../components/AboutUs";
 import ServicesPage from "../components/ServicesPage";
 import PartnersPage from "../components/PartnersPage";
+import ClientsPage from "../components/Clients";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <ServicesPage />
       <AboutUsPage />
       <PartnersPage/>
+      <ClientsPage />
     </div>
   );
 }

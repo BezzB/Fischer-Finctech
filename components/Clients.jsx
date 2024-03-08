@@ -2,14 +2,18 @@ import React from "react";
 import Image from "next/image";
 import Slider from "react-slick"; // Import your preferred slider library
 
-const PartnersPage = () => {
+const ClientsPage = () => {
   // Sample partner data
   const partnerImages = [
-    "/ictlogo.png",
-    "/logoliquid.png",
-    "/kenya-power.png",
-    "/safaricomlogo.png",
-    "/faibafixed.png",
+    "/images1.png",
+    "/images2.png",
+    "/images3.webp",
+    "/images4.jpeg",
+    "/keen.jpeg",
+    "/Securex.png",
+    "/chai.jpeg",
+    "/fibrant.jpeg",
+    "/green.jpg",
     // Add more partner images as needed
   ];
 
@@ -33,10 +37,10 @@ const PartnersPage = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-semibold mb-6 text-center">Our Partners</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-center">Our Clients</h1>
       
       {/* Grid layout for smaller screens */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8 justify-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 justify-center">
   {partnerImages.map((image, index) => (
     <div key={index} className="flex justify-center">
       <Image
@@ -53,4 +57,4 @@ const PartnersPage = () => {
   );
 };
 
-export default PartnersPage;
+export default ClientsPage;
