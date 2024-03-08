@@ -22,7 +22,7 @@ export default function Home() {
       <ServicesPage />
       <AboutUsPage />
       <PartnersPage/>
-      <ClientsPage />
+      
     </div>
   );
 }
