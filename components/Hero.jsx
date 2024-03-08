@@ -14,7 +14,7 @@ const Hero = () => {
       />
       <div className="hero-content absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center px-2 py-2 text-center">
         {/* Add your logo or text here */}
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white"> We are a Leading Telecommunication Solutions Provider</h2>
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-white"> We are a Premier IT and Telecoms consulting Solutions provider</h2>
         
             <Link href="/getaquote">
               <a className="bg-orange-500 text-white px-4 py-2 rounded">
