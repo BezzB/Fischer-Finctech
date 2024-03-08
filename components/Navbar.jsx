@@ -39,15 +39,27 @@ const Navbar = () => {
       </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
-          <Image
-            src="/logo2.png"
-            alt="logo"
-            height={60} // Adjust the height to fit your design
-            width={190} // Adjust the width to fit your design
-            className="logo-image" // Add your custom class here
-          />
+        <div className="flex items-center">
+  <div className="relative">
+    <Image
+      src="/LG1.PNG"
+      alt="logo"
+      height={40} // Adjust the height to fit your design
+      width={60} // Adjust the width to fit your design
+      className="logo-image" // Add your custom class here
+    />
+    <p className="cursor-pointer select-none inline ml-2 text-lg font-bold text-red-500">FISCHER TELESEC</p>
+
+
+  </div>
+</div>
+
         </Link>
-        <ul style={{ color: `${textColor}` }} className="hidden md:flex justify-end">
+
+        <ul
+          style={{ color: `${textColor}` }}
+          className="hidden md:flex justify-end"
+        >
           <li className="p-4">
             <Link href="/">Home</Link>
           </li>
@@ -62,7 +74,7 @@ const Navbar = () => {
           </li>
           <li className="p-4">
             <Link href="/clients">Our Clients</Link>
-          </li>          
+          </li>
           <li className="p-4">
             <Link href="/contact">Contact Us</Link>
           </li>
@@ -122,11 +134,11 @@ const Navbar = () => {
               <Link href="/contact">Contact Us</Link>
             </li>
             <li>
-            <Link href="/getaquote">
-              <a className="bg-orange-500 text-white px-4 py-2 rounded">
-                Get a Quote
-              </a>
-            </Link>
+              <Link href="/getaquote">
+                <a className="bg-orange-500 text-white px-4 py-2 rounded">
+                  Get a Quote
+                </a>
+              </Link>
             </li>
           </ul>
         </div>
