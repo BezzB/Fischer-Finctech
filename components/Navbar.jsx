@@ -49,7 +49,7 @@ const Navbar = () => {
       className="logo-image" // Add your custom class here
     />   
   </div>
-  <h1 className="text-red-600 text-3xl sm:text-1xl font-bold tracking-wide py-4 px-8 border-red-600">Fischer Telesec</h1>
+  <h1 className="text-red-600 text-2xl md:text-2xl font-bold tracking-wide py-4 px-8 border-red-600">FischerTelesec</h1>
 
 </div>
 
