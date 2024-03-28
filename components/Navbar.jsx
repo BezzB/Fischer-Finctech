@@ -44,14 +44,13 @@ const Navbar = () => {
     <Image
       src="/LG1.PNG"
       alt="logo"
-      height={40} // Adjust the height to fit your design
-      width={60} // Adjust the width to fit your design
+      height={60} // Adjust the height to fit your design
+      width={80} // Adjust the width to fit your design
       className="logo-image" // Add your custom class here
-    />
-    <p className="cursor-pointer select-none inline ml-2 text-lg font-bold text-red-500">FISCHER TELESEC</p>
-
-
+    />   
   </div>
+  <h1 className="text-red-600 text-3xl font-bold tracking-wide py-4 px-8  border-red-600">Fischer Telesec</h1>
+
 </div>
 
         </Link>
@@ -113,7 +112,7 @@ const Navbar = () => {
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/clients">Services</Link>
+              <Link href="/services">Services</Link>
             </li>
             <li
               onClick={handleNav}
@@ -125,7 +124,7 @@ const Navbar = () => {
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/contact">Our Clients</Link>
+              <Link href="/clients">Our Clients</Link>
             </li>
             <li
               onClick={handleNav}
