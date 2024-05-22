@@ -8,17 +8,20 @@ const AboutUsPage = () => {
 
   return (
     <div
-      // className="max-container py-6"
       style={{ background: "linear-gradient(to right, #FFD700, #001F3F)" }}
     >
-      {/* Head section ... */}
+      {/* Head section */}
       <Head>
         <title>Fischer Telesec - About Us</title>
         <meta
           name="description"
-          content="Learn more about Bay Multistruct, our vision, mission, and core values."
+          content="Learn more about Fischer Telesec, our vision, mission, and core values."
         />
-        {/* Add more SEO metadata as needed */}
+        <meta
+          name="keywords"
+          content="Fischer Telesec, Information Communications Technology, ICT solutions, technical services, mission, vision, core values"
+        />
+        <meta name="author" content="Fischer Telesec" />
       </Head>
 
       {/* About Us Section */}
@@ -27,7 +30,7 @@ const AboutUsPage = () => {
         <div className="mr-8 hidden md:block">
           <Image
             src="/telesec7.jpg"
-            alt="About Us Image"
+            alt="Team working on a project"
             width={1600}
             height={1200}
           />
@@ -49,7 +52,7 @@ const AboutUsPage = () => {
           </p>
         </div>
 
-        {/* Add border and margin-top for spacing */}
+        {/* Image for mobile */}
         <div className="md:hidden mt-8 border-t border-gray-300">
           <div
             className="bg-cover bg-center w-full h-72"
@@ -58,14 +61,14 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      {/* Container for Vision, Mission, Core Values */}
+      {/* Vision, Mission, Core Values Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-white rounded-md shadow-md mb-8">
         {/* Mission Section */}
         <div className="border border-primary rounded-md overflow-hidden transition duration-300 transform hover:scale-105 hover:shadow-lg hover:border-opacity-0">
           <div className="p-4 flex flex-col items-center">
             <Image
               src="/mission.png"
-              alt="Mission Image"
+              alt="Mission icon"
               width={80}
               height={80}
             />
@@ -73,7 +76,7 @@ const AboutUsPage = () => {
             <p className="text-xl text-gray-700 text-center">
               To be a center of excellence in implementing technical services
               that bring about positive, measurable change in technological
-              advancement
+              advancement.
             </p>
           </div>
         </div>
@@ -83,7 +86,7 @@ const AboutUsPage = () => {
           <div className="p-4 flex flex-col items-center">
             <Image
               src="/vision-1.png"
-              alt="Vision Image"
+              alt="Vision icon"
               width={80}
               height={80}
             />
@@ -102,7 +105,7 @@ const AboutUsPage = () => {
           <div className="p-4 flex flex-col items-center">
             <Image
               src="/corevalues.jpg"
-              alt="Core Values Image"
+              alt="Core values icon"
               width={80}
               height={80}
             />
@@ -116,7 +119,6 @@ const AboutUsPage = () => {
               <li>Value</li>
               <li>Integrity</li>
               <li>Delivery</li>
-
               <li>Efficiency</li>
             </ul>
           </div>
