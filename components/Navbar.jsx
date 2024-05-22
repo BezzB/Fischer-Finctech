@@ -26,9 +26,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div
+    <nav
       style={{ backgroundColor: `${color}` }}
       className="fixed left-0 top-0 w-full z-10 ease-in duration-300"
+      aria-label="Main Navigation"
     >
       <div className="top-text bg-gray-800 text-white p-2 overflow-hidden">
         <p className="scrolling-text">
@@ -39,18 +40,16 @@ const Navbar = () => {
       </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
-          <div className="flex items-center">
+          <a className="flex items-center" aria-label="Home">
             <div className="relative" style={{ height: '70px', width: '300px' }}>
               <Image
                 src="/Fischerlogo.png"
-                alt="logo"
-                className="logo-image"
+                alt="Fischer Telesec Logo"
+                layout="fill"
+                objectFit="contain"
               />
             </div>
-
-
-          </div>
-
+          </a>
         </Link>
 
         <ul
@@ -61,7 +60,7 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           <li className="p-4">
-            <Link href="/aboutus">AboutUs</Link>
+            <Link href="/aboutus">About Us</Link>
           </li>
           <li className="p-4">
             <Link href="/services">Services</Link>
@@ -84,13 +83,13 @@ const Navbar = () => {
           </li>
         </ul>
         {/* Mobile Button */}
-        <div onClick={handleNav} className="block sm:hidden z-10">
+        <button onClick={handleNav} className="block sm:hidden z-10" aria-label="Toggle Navigation Menu">
           {nav ? (
             <AiOutlineClose size={50} style={{ color: `${textColor}` }} />
           ) : (
             <AiOutlineMenu size={50} style={{ color: `${textColor}` }} />
           )}
-        </div>
+        </button>
         {/* Mobile Menu */}
         <div
           className={
@@ -140,7 +139,7 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 
