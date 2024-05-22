@@ -33,25 +33,23 @@ const Navbar = () => {
       <div className="top-text bg-gray-800 text-white p-2 overflow-hidden">
         <p className="scrolling-text">
           <span>
-            Mobile: +254724612514 | Email Us info@fischertelesec.co.ke{" "}
+            Mobile: +254724612514 | Email Us Today info@fischertelesec.co.ke{" "}
           </span>
         </p>
       </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
         <Link href="/">
-        <div className="flex items-center">
-  <div className="relative">
-    <Image
-      src="/LG1.PNG"
-      alt="logo"
-      height={60} // Adjust the height to fit your design
-      width={80} // Adjust the width to fit your design
-      className="logo-image" // Add your custom class here
-    />   
-  </div>
-  <h1 className="text-red-600 text-2xl md:text-2xl font-bold tracking-wide py-4 px-8 border-red-600">FischerTelesec</h1>
+          <div className="flex items-center">
+            <div className="relative" style={{ height: '70px', width: '300px' }}>
+              <Image
+                src="/Fischerlogo.png"
+                alt="logo"
+                className="logo-image"
+              />
+            </div>
 
-</div>
+
+          </div>
 
         </Link>
 
