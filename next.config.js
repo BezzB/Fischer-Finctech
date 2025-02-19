@@ -1,12 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export',
+  images: {
+    unoptimized: true,
+    loader: 'akamai',
+    path: '',
+  },
+  // Disable server-side features since we're exporting to static HTML
+  trailingSlash: true,
 }
 
-module.exports = {
-  images: {
-    domains: [
-      'images.unsplash.com',
-    ]
-  }
-}
+module.exports = nextConfig
