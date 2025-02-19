@@ -9,6 +9,8 @@ const nextConfig = {
   },
   // Disable server-side features since we're exporting to static HTML
   trailingSlash: true,
+  basePath: '/Fischer-Finctech',
+  assetPrefix: '/Fischer-Finctech',
 }
 
 module.exports = nextConfig
