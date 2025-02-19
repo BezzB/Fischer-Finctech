@@ -4,13 +4,10 @@ const nextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
-    loader: 'akamai',
-    path: '',
   },
-  // Disable server-side features since we're exporting to static HTML
+  basePath: process.env.GITHUB_ACTIONS ? '/Fischer-Finctech' : '',
+  assetPrefix: process.env.GITHUB_ACTIONS ? '/Fischer-Finctech/' : '',
   trailingSlash: true,
-  basePath: '/Fischer-Finctech',
-  assetPrefix: '/Fischer-Finctech',
 }
 
 module.exports = nextConfig
