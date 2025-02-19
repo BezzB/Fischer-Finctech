@@ -6,8 +6,6 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [],
   },
-  basePath: process.env.GITHUB_ACTIONS ? '/Fischer-Finctech' : '',
-  assetPrefix: process.env.GITHUB_ACTIONS ? '/Fischer-Finctech/' : '',
   trailingSlash: true,
   distDir: 'out',
 }
