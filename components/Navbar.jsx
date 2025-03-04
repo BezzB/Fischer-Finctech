@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -39,48 +40,60 @@ const Navbar = () => {
         </p>
       </div>
       <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
-        <Link href="/">
-          <a className="flex items-center" aria-label="Home">
-            <div className="relative" style={{ height: '70px', width: '300px' }}>
-              <Image
-                src="/Fischerlogo.png"
-                alt="Fischer Telesec Logo"
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-          </a>
-        </Link>
-
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
+        >
+          <Link href="/" className="navbar-brand">
+            <Image src="/Fischerlogo.png" alt="Fischer Logo" width={180} height={40} />
+          </Link>
+        </motion.div>
         <ul
           style={{ color: `${textColor}` }}
-          className="hidden md:flex justify-end"
+          className="hidden md:flex justify-end items-center space-x-6"
         >
-          <li className="p-4">
-            <Link href="/">Home</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/aboutus">About Us</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/services">Services</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/work">Projects</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/clients">Our Clients</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/contact">Contact Us</Link>
-          </li>
-          <li className="p-4">
-            <Link href="/getaquote">
-              <a className="bg-orange-500 text-white px-4 py-2 rounded">
-                Get a Quote
-              </a>
-            </Link>
-          </li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/" className="nav-link hover:text-orange-500 transition-colors duration-300">Home</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/aboutus" className="nav-link hover:text-orange-500 transition-colors duration-300">About Us</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/services" className="nav-link hover:text-orange-500 transition-colors duration-300">Services</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/work" className="nav-link hover:text-orange-500 transition-colors duration-300">Projects</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/clients" className="nav-link hover:text-orange-500 transition-colors duration-300">Our Clients</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ y: -2 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/contact" className="nav-link hover:text-orange-500 transition-colors duration-300">Contact Us</Link>
+          </motion.li>
+          <motion.li
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Link href="/getaquote" className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors duration-300 shadow-md">Get a Quote</Link>
+          </motion.li>
         </ul>
         {/* Mobile Button */}
         <button onClick={handleNav} className="block sm:hidden z-10" aria-label="Toggle Navigation Menu">
@@ -91,53 +104,53 @@ const Navbar = () => {
           )}
         </button>
         {/* Mobile Menu */}
-        <div
-          className={
-            nav
-              ? "sm:hidden absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black text-center ease-in duration-300"
-              : "sm:hidden absolute top-0 left-[-100%] right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black text-center ease-in duration-300"
-          }
-        >
-          <ul>
+        <AnimatePresence mode="wait">
+          {nav && (
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "tween", duration: 0.3 }}
+              className="sm:hidden fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black bg-opacity-95 text-center z-50"
+            >
+              <ul>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/">Home</Link>
+              <Link href="/" className="mobile-nav-link">Home</Link>
             </li>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/services">Services</Link>
+              <Link href="/services" className="mobile-nav-link">Services</Link>
             </li>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/work">Projects</Link>
+              <Link href="/work" className="mobile-nav-link">Projects</Link>
             </li>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/clients">Our Clients</Link>
+              <Link href="/clients" className="mobile-nav-link">Our Clients</Link>
             </li>
             <li
               onClick={handleNav}
               className="p-4 text-4xl hover:text-gray-500"
             >
-              <Link href="/contact">Contact Us</Link>
+              <Link href="/contact" className="mobile-nav-link">Contact Us</Link>
             </li>
             <li>
-              <Link href="/getaquote">
-                <a className="bg-orange-500 text-white px-4 py-2 rounded">
-                  Get a Quote
-                </a>
-              </Link>
+              <Link href="/getaquote" className="bg-orange-500 text-white px-4 py-2 rounded">Get a Quote</Link>
             </li>
           </ul>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );

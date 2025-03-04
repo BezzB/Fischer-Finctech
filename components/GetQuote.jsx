@@ -3,7 +3,7 @@ import emailjs from '@emailjs/browser';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const GetAQuote = () => {
+const GetAQuote = () => {
   const form = useRef();
   const [formError, setFormError] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -96,3 +96,5 @@ export const GetAQuote = () => {
     </div>
   );
 };
+
+export default GetAQuote;
