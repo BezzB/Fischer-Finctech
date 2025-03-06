@@ -1,14 +1,18 @@
-import React from 'react'
-import Hero from '../components/Hero'
-import { GetAQuote } from '../components/GetQuote'
+import React from 'react';
+import Head from 'next/head';
+import GetQuote from '../components/GetQuote';
 
-const quote = () => {
+const GetAQuotePage = () => {
   return (
-    <div>
-        <Hero heading='Get A Quote' message='Select your service and get a qoute.' />
-        <GetAQuote />
-    </div>
-  )
-}
+    <>
+      <Head>
+        <title>Get a Quote | Fischer Telesec - Telecommunications & IT Solutions</title>
+        <meta name="description" content="Request a free, no-obligation quote for telecommunications and IT services tailored to your business needs." />
+        <meta name="keywords" content="telecommunications quote, IT services quote, free quote, Fischer Telesec pricing, custom IT solutions" />
+      </Head>
+      <GetQuote />
+    </>
+  );
+};
 
-export default quote
+export default GetAQuotePage;

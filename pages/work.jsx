@@ -1,14 +1,18 @@
 import React from 'react'
-import Hero from '../components/Hero'
+import Head from 'next/head'
 import Portfolio from '../components/Portfolio'
 
-const work = () => {
+const Work = () => {
   return (
-    <div>
-        <Hero heading='Recent projects' message='This are some of the Recent projects.' />
-        <Portfolio />
-    </div>
+    <>
+      <Head>
+        <title>Our Portfolio | Fischer Telesec - Telecommunications & IT Projects</title>
+        <meta name="description" content="Explore Fischer Telesec's successful telecommunications and IT infrastructure projects that have helped businesses across East Africa transform their operations." />
+        <meta name="keywords" content="Fischer Telesec portfolio, telecommunications projects, IT infrastructure, network solutions, security systems" />
+      </Head>
+      <Portfolio />
+    </>
   )
 }
 
-export default work
+export default Work

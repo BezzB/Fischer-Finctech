@@ -1,14 +1,18 @@
 import React from 'react'
-import Hero from '../components/Hero'
+import Head from 'next/head'
 import PrivacyPolicyPage from '../components/PrivacyPolicy'
 
-const contact = () => {
+const Privacy = () => {
   return (
-    <div>
-        <Hero heading='My Work' message='This is some of my recent work traveling the world.' />
-        <PrivacyPolicyPage/>
-    </div>
+    <>
+      <Head>
+        <title>Privacy Policy | Fischer Telesec</title>
+        <meta name="description" content="Fischer Telesec's privacy policy explains how we collect, use, and protect your personal information when you use our website or services." />
+        <meta name="keywords" content="Fischer Telesec privacy policy, data protection, information security, privacy rights" />
+      </Head>
+      <PrivacyPolicyPage />
+    </>
   )
 }
 
-export default contact
+export default Privacy

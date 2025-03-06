@@ -1,157 +1,203 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { FaPhoneAlt, FaEnvelope, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const [color, setColor] = useState("transparent");
-  const [textColor, setTextColor] = useState("white");
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   const handleNav = () => {
     setNav(!nav);
   };
 
   useEffect(() => {
-    const changeColor = () => {
+    const changeNavbar = () => {
       if (window.scrollY >= 90) {
-        setColor("#ffffff");
-        setTextColor("#000000");
+        setScrolled(true);
       } else {
-        setColor("transparent");
-        setTextColor("#ffffff");
+        setScrolled(false);
       }
     };
-    window.addEventListener("scroll", changeColor);
+
+    // Handle section highlighting based on scroll position
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section[id]");
+      const scrollPosition = window.scrollY + 100;
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute("id");
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setActiveSection(sectionId);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", changeNavbar);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", changeNavbar);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
+  const navLinks = [
+    { name: "Home", path: "/", section: "home" },
+    { name: "About", path: "/aboutus", section: "about" },
+    { name: "Services", path: "/services", section: "services" },
+    { name: "Work", path: "/work", section: "work" },
+    { name: "Clients", path: "/clients", section: "clients" },
+    { name: "Contact", path: "/contact", section: "contact" },
+  ];
 
   return (
     <nav
-      style={{ backgroundColor: `${color}` }}
-      className="fixed left-0 top-0 w-full z-10 ease-in duration-300"
+      className={`fixed left-0 top-0 w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white shadow-md py-2"
+          : "bg-transparent py-4"
+      }`}
       aria-label="Main Navigation"
     >
-      <div className="top-text bg-gray-800 text-white p-2 overflow-hidden">
-        <p className="scrolling-text">
-          <span>
-            Mobile: +254724612514 | Email Us Today info@fischertelesec.co.ke{" "}
-          </span>
-        </p>
+      {/* Top bar with contact info */}
+      <div className="bg-gradient-bg-primary text-white py-2 px-4">
+        <div className="container-wide flex-between">
+          <div className="hidden md:flex items-center space-x-4">
+            <a href="tel:+254724612514" className="flex items-center text-sm hover:text-primary-200 transition-colors">
+              <FaPhoneAlt className="mr-2" size={14} />
+              +254 724 612 514
+            </a>
+            <a href="mailto:info@fischertelesec.co.ke" className="flex items-center text-sm hover:text-primary-200 transition-colors">
+              <FaEnvelope className="mr-2" size={14} />
+              info@fischertelesec.co.ke
+            </a>
+          </div>
+          <div className="flex items-center space-x-3 ml-auto">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <FaLinkedin className="hover:text-primary-200 transition-colors" />
+            </a>
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+              <FaTwitter className="hover:text-primary-200 transition-colors" />
+            </a>
+          </div>
+        </div>
       </div>
-      <div className="max-w-[1240px] m-auto flex justify-between items-center p-4 text-white">
+
+      {/* Main navbar */}
+      <div className="container-wide flex-between">
         <motion.div
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.2 }}
         >
-          <Link href="/" className="navbar-brand">
-            <Image src="/Fischerlogo.png" alt="Fischer Logo" width={180} height={40} />
+          <Link href="/" className="block">
+            <Image 
+              src="/Fischerlogo.png" 
+              alt="Fischer Telesec Logo" 
+              width={160} 
+              height={40} 
+              className="object-contain" 
+            />
           </Link>
         </motion.div>
-        <ul
-          style={{ color: `${textColor}` }}
-          className="hidden md:flex justify-end items-center space-x-6"
-        >
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/" className="nav-link hover:text-orange-500 transition-colors duration-300">Home</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/aboutus" className="nav-link hover:text-orange-500 transition-colors duration-300">About Us</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/services" className="nav-link hover:text-orange-500 transition-colors duration-300">Services</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/work" className="nav-link hover:text-orange-500 transition-colors duration-300">Projects</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/clients" className="nav-link hover:text-orange-500 transition-colors duration-300">Our Clients</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/contact" className="nav-link hover:text-orange-500 transition-colors duration-300">Contact Us</Link>
-          </motion.li>
-          <motion.li
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
-          >
-            <Link href="/getaquote" className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors duration-300 shadow-md">Get a Quote</Link>
-          </motion.li>
-        </ul>
-        {/* Mobile Button */}
-        <button onClick={handleNav} className="block sm:hidden z-10" aria-label="Toggle Navigation Menu">
-          {nav ? (
-            <AiOutlineClose size={50} style={{ color: `${textColor}` }} />
-          ) : (
-            <AiOutlineMenu size={50} style={{ color: `${textColor}` }} />
-          )}
-        </button>
-        {/* Mobile Menu */}
-        <AnimatePresence mode="wait">
-          {nav && (
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="sm:hidden fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center w-full h-screen bg-black bg-opacity-95 text-center z-50"
+
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center space-x-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.path}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                activeSection === link.section
+                  ? "text-primary-700 bg-primary-50"
+                  : scrolled
+                  ? "text-neutral-700 hover:text-primary-600 hover:bg-primary-50"
+                  : "text-white hover:text-white hover:bg-white/10"
+              }`}
             >
-              <ul>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/" className="mobile-nav-link">Home</Link>
-            </li>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/services" className="mobile-nav-link">Services</Link>
-            </li>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/work" className="mobile-nav-link">Projects</Link>
-            </li>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/clients" className="mobile-nav-link">Our Clients</Link>
-            </li>
-            <li
-              onClick={handleNav}
-              className="p-4 text-4xl hover:text-gray-500"
-            >
-              <Link href="/contact" className="mobile-nav-link">Contact Us</Link>
-            </li>
-            <li>
-              <Link href="/getaquote" className="bg-orange-500 text-white px-4 py-2 rounded">Get a Quote</Link>
-            </li>
-          </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              {link.name}
+            </Link>
+          ))}
+          <Link
+            href="/getaquote"
+            className="btn btn-accent ml-4"
+          >
+            Get a Quote
+          </Link>
+        </div>
+
+        {/* Mobile Navigation Button */}
+        <div className="lg:hidden">
+          <button
+            onClick={handleNav}
+            className={`p-2 rounded-md ${
+              scrolled ? "text-neutral-800" : "text-white"
+            }`}
+            aria-label="Toggle menu"
+          >
+            {nav ? (
+              <AiOutlineClose size={24} />
+            ) : (
+              <AiOutlineMenu size={24} />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {nav && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden bg-white shadow-lg overflow-hidden"
+          >
+            <div className="container py-4 flex flex-col space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.path}
+                  onClick={() => setNav(false)}
+                  className={`px-4 py-3 rounded-md text-neutral-800 hover:bg-primary-50 hover:text-primary-700 transition-colors ${
+                    activeSection === link.section ? "bg-primary-50 text-primary-700" : ""
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+              <Link
+                href="/getaquote"
+                onClick={() => setNav(false)}
+                className="btn btn-accent mt-4 text-center"
+              >
+                Get a Quote
+              </Link>
+              
+              <div className="mt-6 pt-6 border-t border-neutral-200">
+                <div className="flex items-center space-x-4 mb-4">
+                  <FaPhoneAlt size={16} className="text-primary-600" />
+                  <a href="tel:+254724612514" className="text-neutral-800">+254 724 612 514</a>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <FaEnvelope size={16} className="text-primary-600" />
+                  <a href="mailto:info@fischertelesec.co.ke" className="text-neutral-800 text-sm">info@fischertelesec.co.ke</a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

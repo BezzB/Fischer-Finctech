@@ -1,14 +1,18 @@
 import React from 'react'
-import Hero from '../components/Hero'
+import Head from 'next/head'
 import ClientsPage from '../components/Clients'
 
-const clients = () => {
+const Clients = () => {
   return (
-    <div>
-        <Hero heading='Contact' message='Submit the form below for more work and quotes.' />
-        <ClientsPage />
-    </div>
+    <>
+      <Head>
+        <title>Our Clients | Fischer Telesec - Trusted by Leading Organizations</title>
+        <meta name="description" content="Fischer Telesec has built strong relationships with clients across various industries, delivering exceptional telecommunications and IT solutions." />
+        <meta name="keywords" content="Fischer Telesec clients, telecommunications clients, IT solutions Kenya, network infrastructure clients" />
+      </Head>
+      <ClientsPage />
+    </>
   )
 }
 
-export default clients
+export default Clients

@@ -2,76 +2,178 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { FaServer, FaNetworkWired, FaShieldAlt, FaHeadset, FaChartLine, FaUsers } from 'react-icons/fa';
 
 const LandingPage = () => {
   const stats = [
-    { number: '10+', label: 'Years Experience' },
-    { number: '500+', label: 'Projects Completed' },
-    { number: '98%', label: 'Client Satisfaction' },
-    { number: '24/7', label: 'Support Available' },
+    { number: '10+', label: 'Years Experience', icon: <FaChartLine className="text-primary-600 mb-3 text-3xl" /> },
+    { number: '500+', label: 'Projects Completed', icon: <FaNetworkWired className="text-primary-600 mb-3 text-3xl" /> },
+    { number: '98%', label: 'Client Satisfaction', icon: <FaUsers className="text-primary-600 mb-3 text-3xl" /> },
+    { number: '24/7', label: 'Support Available', icon: <FaHeadset className="text-primary-600 mb-3 text-3xl" /> },
   ];
 
   const services = [
     {
       title: 'Telecommunication Services',
-      icon: '/telecommunication.webp',
-      description: 'Cutting-edge communication solutions for your business needs',
+      icon: <FaNetworkWired className="text-4xl text-primary-600" />,
+      description: 'Comprehensive network infrastructure solutions including fiber optics, wireless systems, and VoIP implementations.',
+      features: ['Network Design & Implementation', 'Fiber Optic Solutions', 'Wireless Systems'],
+      link: '/services#telecommunications'
     },
     {
-      title: 'IT Services',
-      icon: '/it-services.jpg',
-      description: 'Comprehensive IT solutions to drive your digital transformation',
+      title: 'IT Infrastructure',
+      icon: <FaServer className="text-4xl text-primary-600" />,
+      description: 'End-to-end IT infrastructure solutions designed to optimize performance, security, and scalability for your business.',
+      features: ['Server Solutions', 'Cloud Infrastructure', 'Hardware Procurement'],
+      link: '/services#it-infrastructure'
     },
     {
       title: 'Data Center Services',
-      icon: '/datacenter.jpg',
-      description: 'Secure and reliable data center infrastructure management',
-    },
-    {
-      title: 'Management as a Service',
-      icon: '/maas.webp',
-      description: 'Expert management solutions to optimize your operations',
+      icon: <FaShieldAlt className="text-4xl text-primary-600" />,
+      description: 'State-of-the-art data center solutions with robust security, redundancy, and performance optimization.',
+      features: ['Data Center Design', 'Colocation Services', 'Disaster Recovery'],
+      link: '/services#data-center'
     },
   ];
+
+  const testimonials = [
+    {
+      quote: "Fischer Telesec transformed our network infrastructure, resulting in a 40% increase in performance and significant cost savings.",
+      author: "Sarah Johnson",
+      position: "CTO, Safaricom",
+      image: "/safaricomlogo.png"
+    },
+    {
+      quote: "Their expertise in telecommunications and IT services has been invaluable to our business growth and digital transformation journey.",
+      author: "Michael Kamau",
+      position: "IT Director, Kenya Power",
+      image: "/kenya-power.png"
+    }
+  ];
+
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    })
+  };
 
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="container mx-auto px-4 z-10 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl font-bold mb-6"
+      <section id="home" className="relative min-h-screen flex items-center justify-center tech-pattern overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900/90 to-primary-800/90"></div>
+        
+        {/* Animated circuit lines */}
+        <div className="absolute inset-0 opacity-20">
+          <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5"></path>
+            <path d="M0,50 L100,50" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5"></path>
+            <path d="M50,0 L50,100" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5"></path>
+            <circle cx="50" cy="50" r="10" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.5" className="pulse-glow"></circle>
+          </svg>
+        </div>
+        
+        <div className="container-wide z-10 px-4 md:px-0 flex flex-col md:flex-row items-center justify-between">
+          <div className="w-full md:w-1/2 text-white mb-12 md:mb-0">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              custom={0}
+              className="mb-6"
+            >
+              <span className="inline-block px-4 py-1 rounded-full bg-white/10 text-sm font-medium text-primary-200 mb-4">
+                Leading Telecommunications & IT Solutions Provider
+              </span>
+            </motion.div>
+            
+            <motion.h1 
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              custom={1}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+            >
+              <span className="gradient-text bg-gradient-to-r from-white to-primary-200">Transforming Business</span> Through Advanced Technology
+            </motion.h1>
+            
+            <motion.p 
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              custom={2}
+              className="text-lg md:text-xl text-primary-100 mb-8 max-w-xl"
+            >
+              Fischer Telesec delivers enterprise-grade telecommunications and IT solutions that drive innovation, efficiency, and growth for businesses across East Africa.
+            </motion.p>
+            
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              custom={3}
+              className="flex flex-wrap gap-4"
+            >
+              <Link href="/getaquote" className="btn btn-accent">
+                Get a Free Consultation
+              </Link>
+              <Link href="/services" className="btn btn-outline border-white text-white hover:bg-white/10">
+                Explore Our Services
+              </Link>
+            </motion.div>
+          </div>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="w-full md:w-1/2 flex justify-center"
           >
-            Transforming Business Through Technology
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl mb-8"
-          >
-            Your trusted partner in telecommunications and IT solutions
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <Link href="/getaquote" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 inline-block">
-              Get Started Today
-            </Link>
+            <div className="relative w-full max-w-md">
+              <div className="absolute inset-0 bg-primary-600 rounded-full filter blur-3xl opacity-20 animate-pulse"></div>
+              <Image
+                src="/datacenter.jpg"
+                alt="Data Center Technology"
+                width={600}
+                height={500}
+                className="rounded-2xl shadow-2xl object-cover z-10 relative animate-float"
+              />
+              <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-lg z-20">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-full bg-green-500"></div>
+                  <span className="text-sm font-medium text-primary-900">Enterprise Solutions</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
 
+      {/* Trusted By Section */}
+      <section className="py-12 bg-white">
+        <div className="container-wide">
+          <h2 className="text-center text-xl text-neutral-600 mb-8">Trusted by Industry Leaders</h2>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+            <Image src="/safaricomlogo.png" alt="Safaricom" width={120} height={60} className="grayscale hover:grayscale-0 transition-all duration-300" />
+            <Image src="/kenya-power.png" alt="Kenya Power" width={120} height={60} className="grayscale hover:grayscale-0 transition-all duration-300" />
+            <Image src="/ictlogo.png" alt="ICT Authority" width={120} height={60} className="grayscale hover:grayscale-0 transition-all duration-300" />
+            <Image src="/Securex.png" alt="Securex" width={120} height={60} className="grayscale hover:grayscale-0 transition-all duration-300" />
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-20 bg-gradient-bg-light">
+        <div className="container-wide">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -79,10 +181,11 @@ const LandingPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center"
+                className="bg-white p-8 rounded-xl shadow-sm text-center card-hover"
               >
-                <h3 className="text-4xl font-bold text-blue-900 mb-2">{stat.number}</h3>
-                <p className="text-gray-600">{stat.label}</p>
+                {stat.icon}
+                <h3 className="text-4xl font-bold text-primary-800 mb-2">{stat.number}</h3>
+                <p className="text-neutral-600">{stat.label}</p>
               </motion.div>
             ))}
           </div>
@@ -90,42 +193,101 @@ const LandingPage = () => {
       </section>
 
       {/* Services Section */}
-      <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-        <div className="container mx-auto px-4">
+      <section id="services" className="section bg-white">
+        <div className="container-wide">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold mb-4">Our Services</h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
+            <h2 className="section-title gradient-text">Our Core Services</h2>
+            <p className="section-subtitle">
+              Comprehensive telecommunications and IT solutions tailored to meet your business needs
+            </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <div className="relative h-48">
-                  <Image
-                    src={service.icon}
-                    alt={service.title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-gray-600 mb-4">{service.description}</p>
-                  <Link href="/services" className="text-blue-600 hover:text-blue-800 font-medium">
-                    Learn More →
+                  <div className="w-16 h-16 rounded-full bg-primary-50 flex items-center justify-center mb-6">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-xl font-bold mb-3 text-primary-900">{service.title}</h3>
+                  <p className="text-neutral-600 mb-6">{service.description}</p>
+                  <ul className="mb-6 space-y-2">
+                    {service.features.map((feature, i) => (
+                      <li key={i} className="flex items-start">
+                        <svg className="w-5 h-5 text-primary-600 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path>
+                        </svg>
+                        <span className="text-neutral-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={service.link} className="text-primary-600 font-medium hover:text-primary-700 inline-flex items-center">
+                    Learn more
+                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
                   </Link>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-12">
+            <Link href="/services" className="btn btn-primary">
+              View All Services
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-primary-900 text-white">
+        <div className="container-tight">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <p className="text-primary-200 max-w-2xl mx-auto">
+              We've helped businesses across East Africa transform their telecommunications and IT infrastructure
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-primary-800/50 p-8 rounded-xl backdrop-blur-sm"
+              >
+                <div className="flex items-center mb-6">
+                  <div className="mr-4">
+                    <Image 
+                      src={testimonial.image} 
+                      alt={testimonial.author} 
+                      width={60} 
+                      height={60}
+                      className="rounded-full bg-white p-1" 
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">{testimonial.author}</h4>
+                    <p className="text-primary-300">{testimonial.position}</p>
+                  </div>
+                </div>
+                <p className="text-primary-100 italic">"{testimonial.quote}"</p>
               </motion.div>
             ))}
           </div>
@@ -133,89 +295,26 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900 to-blue-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/pattern-2.png')] opacity-10 bg-repeat"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-8">Ready to Transform Your Business?</h2>
-          <p className="text-xl mb-12 max-w-2xl mx-auto">Join hundreds of satisfied clients who trust Fischer Telesec for their technology needs</p>
-          <div className="flex justify-center gap-6">
-            <Link href="/contact" className="bg-white text-blue-900 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-              Contact Us
-            </Link>
-            <Link href="/getaquote" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
-              Get a Quote
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonial Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-16">What Our Clients Say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <div className="flex items-center mb-4">
-                <div className="ml-4">
-                  <h4 className="font-semibold">Safaricom Limited</h4>
-                  <p className="text-gray-600">Telecommunications</p>
-                </div>
-              </div>
-              <p className="text-gray-600">"Fischer Telesec has been instrumental in modernizing our communication infrastructure. Their expertise and dedication are unmatched."</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 relative mr-4">
-                  <Image
-                    src="/kenya-power.png"
-                    alt="Kenya Power Logo"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-                <div>
-                  <h4 className="font-semibold">Kenya Power</h4>
-                  <p className="text-gray-600">Energy Sector</p>
-                </div>
-              </div>
-              <p className="text-gray-600">"The level of technical support and innovative solutions provided by Fischer Telesec has helped us maintain our competitive edge."</p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white p-8 rounded-lg shadow-lg"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 relative mr-4">
-                  <Image
-                    src="/logoliquid.png"
-                    alt="Liquid Telecom Logo"
-                    fill
-                    style={{ objectFit: 'contain' }}
-                  />
-                </div>
-                <div>
-                  <h4 className="font-semibold">Liquid Telecom</h4>
-                  <p className="text-gray-600">Internet Service Provider</p>
-                </div>
-              </div>
-              <p className="text-gray-600">"Working with Fischer Telesec has been a game-changer for our business. Their 24/7 support and expertise are invaluable."</p>
-            </motion.div>
-          </div>
+      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700 text-white">
+        <div className="container-tight text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Business?</h2>
+            <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
+              Get in touch with our experts today for a free consultation and discover how our telecommunications and IT solutions can drive your business forward.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/getaquote" className="btn bg-white text-primary-700 hover:bg-primary-50">
+                Request a Free Quote
+              </Link>
+              <Link href="/contact" className="btn border-2 border-white text-white hover:bg-white/10">
+                Contact Our Team
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </section>
     </div>

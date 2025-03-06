@@ -1,16 +1,18 @@
-import React from 'react'
+import React from 'react';
+import Head from 'next/head';
+import ContactUs from '../components/Contact';
 
-import Hero from '../components/Hero'
-import { ContactUs } from '../components/Contact'
-
-
-const contact = () => {
+const Contact = () => {
   return (
-    <div>
-        <Hero heading='Contact Us' message='Reach out to Us and get connected.' />
-        <ContactUs />
-    </div>
-  )
-}
+    <>
+      <Head>
+        <title>Contact Us | Fischer Telesec - Telecommunications & IT Solutions</title>
+        <meta name="description" content="Get in touch with Fischer Telesec for all your telecommunications and IT needs. Our team of experts is ready to assist you." />
+        <meta name="keywords" content="contact Fischer Telesec, telecommunications contact, IT solutions contact, Fischer Telesec phone, Fischer Telesec email" />
+      </Head>
+      <ContactUs />
+    </>
+  );
+};
 
-export default contact
+export default Contact;

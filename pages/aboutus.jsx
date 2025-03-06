@@ -1,14 +1,18 @@
-import React from 'react'
-import Hero from '../components/Hero'
-import AboutUsPage from '../components/AboutUs'
+import React from 'react';
+import Head from 'next/head';
+import AboutUs from '../components/AboutUs';
 
-const aboutus = () => {
+const AboutUsPage = () => {
   return (
-    <div>
-        <Hero heading='Contact' message='Submit the form below for more work and quotes.' />
-        <AboutUsPage />
-    </div>
-  )
-}
+    <>
+      <Head>
+        <title>About Us | Fischer Telesec - Telecommunications & IT Solutions</title>
+        <meta name="description" content="Learn about Fischer Telesec, our story, mission, vision, and the team behind our telecommunications and IT solutions." />
+        <meta name="keywords" content="Fischer Telesec about, telecommunications company, IT solutions provider, company history, mission vision, team" />
+      </Head>
+      <AboutUs />
+    </>
+  );
+};
 
-export default aboutus
+export default AboutUsPage;
