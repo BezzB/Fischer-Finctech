@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaNetworkWired, FaServer, FaWifi, FaShieldAlt, FaDesktop } from 'react-icons/fa';
+import Link from 'next/link';
 
 const Portfolio = () => {
   // Animation variants
@@ -297,21 +298,21 @@ const Portfolio = () => {
           >
             <h2 className="text-3xl font-bold mb-6">Ready to Start Your Project?</h2>
             <p className="text-xl text-gray-600 mb-8">
-              Let's discuss how Fischer Telesec can help transform your telecommunications and IT infrastructure.
+              Let&apos;s discuss how Fischer Telesec can help transform your telecommunications and IT infrastructure.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
+              <Link 
                 href="/contact" 
                 className="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 rounded-full font-semibold transition-colors duration-300"
               >
                 Contact Us
-              </a>
-              <a 
+              </Link>
+              <Link 
                 href="/getaquote" 
                 className="bg-white border border-primary-600 text-primary-600 hover:bg-primary-50 px-8 py-3 rounded-full font-semibold transition-colors duration-300"
               >
                 Request a Quote
-              </a>
+              </Link>
         </div>
           </motion.div>
         </section>

@@ -134,7 +134,7 @@ const AboutUs = () => {
                   Our journey began with a simple mission: to provide reliable, high-quality telecommunications services to businesses in Kenya. As technology evolved, so did we, expanding our expertise to include IT infrastructure, data center services, and managed IT solutions.
                 </p>
                 <p>
-                  Today, we're proud to be a trusted partner to organizations of all sizes, from small businesses to large enterprises, helping them leverage technology to achieve their business objectives and stay competitive in an increasingly digital world.
+                  Today, we&apos;re proud to be a trusted partner to organizations of all sizes, from small businesses to large enterprises, helping them leverage technology to achieve their business objectives and stay competitive in an increasingly digital world.
           </p>
         </div>
             </motion.div>

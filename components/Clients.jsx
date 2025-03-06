@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaHandshake, FaUsers, FaBuilding, FaGlobe } from "react-icons/fa";
+import Link from "next/link";
 
 const ClientsPage = () => {
   // Animation variants
@@ -206,7 +207,7 @@ const ClientsPage = () => {
                 variants={itemVariants}
                 className="bg-primary-800 p-8 rounded-xl relative"
               >
-                <div className="absolute -top-4 left-8 text-5xl text-primary-500">"</div>
+                <div className="absolute -top-4 left-8 text-5xl text-primary-500">&quot;</div>
                 <p className="mb-6 relative z-10 pt-4">{testimonial.quote}</p>
                 <div className="flex flex-col">
                   <span className="font-semibold">{testimonial.author}</span>
@@ -280,9 +281,9 @@ const ClientsPage = () => {
             transition={{ delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <a href="/contact" className="bg-white text-primary-700 px-8 py-3 rounded-full font-semibold text-lg inline-block hover:bg-gray-100 transition-colors duration-300">
+            <Link href="/contact" className="bg-white text-primary-700 px-8 py-3 rounded-full font-semibold text-lg inline-block hover:bg-gray-100 transition-colors duration-300">
               Contact Us Today
-            </a>
+            </Link>
           </motion.div>
         </div>
       </section>

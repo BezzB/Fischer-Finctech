@@ -122,7 +122,7 @@ const ContactUs = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl text-primary-100"
             >
-              We're here to answer your questions and discuss how we can help your business succeed
+              We&apos;re here to answer your questions and discuss how we can help your business succeed
             </motion.p>
           </div>
         </div>
@@ -177,7 +177,7 @@ const ContactUs = () => {
             <div className="bg-white rounded-xl shadow-sm p-8">
               <h2 className="text-2xl font-bold mb-6 text-primary-900">Send Us a Message</h2>
               <p className="text-neutral-600 mb-8">
-                Fill out the form below, and we'll get back to you within 24 hours.
+                Fill out the form below, and we&apos;ll get back to you within 24 hours.
               </p>
               
               {formError && (

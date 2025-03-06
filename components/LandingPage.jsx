@@ -258,7 +258,7 @@ const LandingPage = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
             <p className="text-primary-200 max-w-2xl mx-auto">
-              We've helped businesses across East Africa transform their telecommunications and IT infrastructure
+              We&apos;ve helped businesses across East Africa transform their telecommunications and IT infrastructure
             </p>
           </div>
           
@@ -287,7 +287,7 @@ const LandingPage = () => {
                     <p className="text-primary-300">{testimonial.position}</p>
                   </div>
                 </div>
-                <p className="text-primary-100 italic">"{testimonial.quote}"</p>
+                <p className="text-primary-100 italic">&quot;{testimonial.quote}&quot;</p>
               </motion.div>
             ))}
           </div>

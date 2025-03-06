@@ -313,7 +313,7 @@ const PartnersPage = () => {
             viewport={{ once: true }}
             className="text-xl mb-10 opacity-90"
           >
-            Let's explore how we can create value together through strategic collaboration.
+            Let&apos;s explore how we can create value together through strategic collaboration.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

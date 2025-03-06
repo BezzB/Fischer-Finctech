@@ -143,7 +143,7 @@ const PrivacyPolicyPage = () => {
               <li>The right to withdraw consent at any time</li>
             </ul>
             <p className="text-gray-700">
-              To exercise these rights, please contact us using the information provided in the "Contact Us" section below.
+              To exercise these rights, please contact us using the information provided in the &quot;Contact Us&quot; section below.
             </p>
           </section>
 
