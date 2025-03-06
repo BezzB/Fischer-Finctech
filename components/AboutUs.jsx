@@ -108,14 +108,14 @@ const AboutUs = () => {
               <div className="relative">
                 <div className="absolute -inset-4 bg-primary-500/10 rounded-xl blur-lg -z-10"></div>
                 <div className="relative rounded-xl overflow-hidden shadow-lg">
-                  <Image 
+          <Image
                     src="/Fischerlogo.png" 
                     alt="Fischer Telesec Team" 
                     width={600} 
                     height={400} 
                     className="w-full h-auto object-cover bg-white p-8"
-                  />
-                </div>
+          />
+        </div>
               </div>
             </motion.div>
             
@@ -135,8 +135,8 @@ const AboutUs = () => {
                 </p>
                 <p>
                   Today, we're proud to be a trusted partner to organizations of all sizes, from small businesses to large enterprises, helping them leverage technology to achieve their business objectives and stay competitive in an increasingly digital world.
-                </p>
-              </div>
+          </p>
+        </div>
             </motion.div>
           </div>
         </div>
@@ -154,8 +154,8 @@ const AboutUs = () => {
               className="bg-white p-8 rounded-xl shadow-sm"
             >
               <div className="w-16 h-16 rounded-full bg-primary-50 flex items-center justify-center mb-6">
-                <Image 
-                  src="/mission.png" 
+            <Image
+              src="/mission.png"
                   alt="Mission" 
                   width={40} 
                   height={40} 
@@ -342,7 +342,7 @@ const AboutUs = () => {
             >
               <div className="absolute -inset-4 bg-primary-500/10 rounded-xl blur-lg -z-10"></div>
               <div className="relative rounded-xl overflow-hidden shadow-lg">
-                <Image 
+            <Image
                   src="/telecomunication.jpg" 
                   alt="Fischer Telesec Services" 
                   width={600} 
@@ -377,7 +377,7 @@ const AboutUs = () => {
               </Link>
             </div>
           </motion.div>
-        </div>
+      </div>
       </section>
     </div>
   );

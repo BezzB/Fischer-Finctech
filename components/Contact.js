@@ -36,7 +36,7 @@ const ContactUs = () => {
 
   const sendEmail = (e) => {
     e.preventDefault();
-    
+
     // Validate form
     const error = validateForm();
     if (error) {
@@ -204,7 +204,7 @@ const ContactUs = () => {
                     />
                   </div>
                   
-                  <div>
+    <div>
                     <label htmlFor="user_email" className="block text-sm font-medium text-neutral-700 mb-1">
                       Email Address *
                     </label>

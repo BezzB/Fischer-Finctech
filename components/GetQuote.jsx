@@ -63,14 +63,14 @@ const GetQuote = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Validate form
     const error = validateForm();
     if (error) {
       setFormError(error);
       return;
     }
-    
+
     setIsSubmitting(true);
     setFormError(null);
     
@@ -214,7 +214,7 @@ const GetQuote = () => {
                     />
                   </div>
                   
-                  <div>
+    <div>
                     <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
                       Email Address *
                     </label>

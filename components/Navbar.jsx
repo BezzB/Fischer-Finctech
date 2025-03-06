@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   const handleNav = () => {
@@ -15,14 +14,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const changeNavbar = () => {
-      if (window.scrollY >= 90) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
     // Handle section highlighting based on scroll position
     const handleScroll = () => {
       const sections = document.querySelectorAll("section[id]");
@@ -42,14 +33,24 @@ const Navbar = () => {
       });
     };
 
-    window.addEventListener("scroll", changeNavbar);
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener("scroll", changeNavbar);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // Fixed navbar height for content padding
+  const navbarHeight = "100px"; // Adjusted to eliminate white space
+
+  useEffect(() => {
+    // Apply padding to the body to prevent content from being hidden behind the navbar
+    document.body.style.paddingTop = navbarHeight;
+    
+    return () => {
+      document.body.style.paddingTop = "0";
+    };
+  }, [navbarHeight]);
 
   const navLinks = [
     { name: "Home", path: "/", section: "home" },
@@ -62,15 +63,11 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed left-0 top-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white shadow-md py-2"
-          : "bg-transparent py-4"
-      }`}
+      className="fixed left-0 top-0 w-full z-50"
       aria-label="Main Navigation"
     >
       {/* Top bar with contact info */}
-      <div className="bg-gradient-bg-primary text-white py-2 px-4">
+      <div className="bg-primary-900 text-white py-1 px-4">
         <div className="container-wide flex-between">
           <div className="hidden md:flex items-center space-x-4">
             <a href="tel:+254724612514" className="flex items-center text-sm hover:text-primary-200 transition-colors">
@@ -94,62 +91,62 @@ const Navbar = () => {
       </div>
 
       {/* Main navbar */}
-      <div className="container-wide flex-between">
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          transition={{ duration: 0.2 }}
-        >
-          <Link href="/" className="block">
-            <Image 
-              src="/Fischerlogo.png" 
-              alt="Fischer Telesec Logo" 
-              width={160} 
-              height={40} 
-              className="object-contain" 
-            />
-          </Link>
-        </motion.div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center space-x-1">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.path}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeSection === link.section
-                  ? "text-primary-700 bg-primary-50"
-                  : scrolled
-                  ? "text-neutral-700 hover:text-primary-600 hover:bg-primary-50"
-                  : "text-white hover:text-white hover:bg-white/10"
-              }`}
-            >
-              {link.name}
+      <div className="bg-white shadow-md py-1.5">
+        <div className="container-wide flex-between">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+            className="logo-container"
+          >
+            <Link href="/" className="block">
+              <Image 
+                src="/Fischerlogo.png" 
+                alt="Fischer Telesec Logo" 
+                width={120} 
+                height={30} 
+                className="object-contain" 
+                priority
+              />
             </Link>
-          ))}
-          <Link
-            href="/getaquote"
-            className="btn btn-accent ml-4"
-          >
-            Get a Quote
-          </Link>
-        </div>
+          </motion.div>
 
-        {/* Mobile Navigation Button */}
-        <div className="lg:hidden">
-          <button
-            onClick={handleNav}
-            className={`p-2 rounded-md ${
-              scrolled ? "text-neutral-800" : "text-white"
-            }`}
-            aria-label="Toggle menu"
-          >
-            {nav ? (
-              <AiOutlineClose size={24} />
-            ) : (
-              <AiOutlineMenu size={24} />
-            )}
-          </button>
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.path}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  activeSection === link.section
+                    ? "text-primary-700 bg-primary-50"
+                    : "text-neutral-700 hover:text-primary-600 hover:bg-primary-50"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <Link
+              href="/getaquote"
+              className="btn btn-accent ml-4"
+            >
+              Get a Quote
+            </Link>
+          </div>
+
+          {/* Mobile Navigation Button */}
+          <div className="lg:hidden">
+            <button
+              onClick={handleNav}
+              className="p-2 rounded-md text-neutral-800"
+              aria-label="Toggle menu"
+            >
+              {nav ? (
+                <AiOutlineClose size={24} />
+              ) : (
+                <AiOutlineMenu size={24} />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -161,7 +158,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white shadow-lg overflow-hidden"
+            className="lg:hidden bg-white shadow-lg overflow-hidden absolute w-full left-0 top-full z-50"
           >
             <div className="container py-4 flex flex-col space-y-2">
               {navLinks.map((link) => (

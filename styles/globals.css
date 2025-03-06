@@ -90,6 +90,7 @@
     line-height: 1.6;
     color: var(--color-neutral-800);
     background-color: var(--color-neutral-50);
+    scroll-padding-top: 100px; /* Updated to match reduced padding */
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -417,7 +418,6 @@
   .get-app {
     flex-direction: row;
     gap: 3rem;
-    padding-top: 6rem;
     padding-bottom: 6rem;
   }
 }
@@ -529,4 +529,57 @@
 .circuit-pattern {
   background-color: #fafafa;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Add this after the existing .section class */
+.page-content {
+ min-height: calc(100vh - 80px); /* Adjust based on footer height */
+  margin-top: 0;
+}
+
+/* Ensure the navbar doesn't overlap content on mobile */
+@media (max-width: 768px) {
+  .page-content {
+    padding-top: var(--spacing-xl); /* Reduced padding */
+  }
+}
+
+/* Adjust the page content padding based on screen size */
+@media (max-width: 640px) {
+  .page-content {
+    padding-top: 1px; /* Reduced padding to eliminate white space */
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+  .page-content {
+    padding-top: 1px; /* Reduced padding to eliminate white space */
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-content {
+    padding-top: 1px; /* Reduced padding to eliminate white space */
+  }
+}
+
+/* Improve logo display */
+.logo-container {
+  display: flex;
+  align-items: center;
+  height: 35px; /* Reduced from 40px */
+  position: relative;
+  z-index: 10;
+}
+
+.logo-container img {
+  object-fit: contain;
+  max-height: 100%;
+}
+
+/* Ensure logo doesn't overlap with content */
+@media (max-width: 640px) {
+  .logo-container {
+    height: 30px; /* Reduced from 35px */
+  }
 }

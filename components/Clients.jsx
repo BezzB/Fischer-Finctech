@@ -125,14 +125,14 @@ const ClientsPage = () => {
               >
                 <div className="p-8 flex flex-col items-center">
                   <div className="h-24 flex items-center justify-center mb-6">
-                    <Image
+      <Image
                       src={client.logo}
                       alt={client.name}
                       width={200}
                       height={80}
                       objectFit="contain"
-                    />
-                  </div>
+      />
+    </div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{client.name}</h3>
                   <p className="text-sm text-primary-600 mb-4">{client.industry}</p>
                   <p className="text-gray-600 text-center">{client.description}</p>
@@ -215,7 +215,7 @@ const ClientsPage = () => {
               </motion.div>
             ))}
           </motion.div>
-        </div>
+</div>
       </section>
 
       {/* Industries Served */}

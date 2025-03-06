@@ -241,19 +241,19 @@ const PartnersPage = () => {
                 className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col items-center justify-center h-40 w-full"
               >
                 <div className="h-20 flex items-center justify-center mb-4">
-                  <Image
+      <Image
                     src={partner.logo}
                     alt={partner.name}
                     width={140}
                     height={70}
                     objectFit="contain"
-                  />
-                </div>
+      />
+    </div>
                 <p className="text-sm text-primary-600 font-medium">{partner.category}</p>
               </motion.div>
-            ))}
+  ))}
           </motion.div>
-        </div>
+</div>
       </section>
 
       {/* Partnership Benefits */}

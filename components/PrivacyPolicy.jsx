@@ -76,18 +76,18 @@ const PrivacyPolicyPage = () => {
               <h2 className="text-2xl font-bold text-gray-900">How We Use Your Information</h2>
             </div>
             <p className="text-gray-700 mb-4">
-              We may use the personal information we collect for various purposes, including:
-            </p>
+          We may use the personal information we collect for various purposes, including:
+        </p>
             <ul className="list-disc pl-6 mb-4 text-gray-700 space-y-2">
-              <li>Providing and improving our services</li>
+          <li>Providing and improving our services</li>
               <li>Communicating with you about our services, promotions, and events</li>
               <li>Responding to your inquiries and providing customer support</li>
               <li>Processing and fulfilling your requests and transactions</li>
               <li>Personalizing your experience on our website</li>
               <li>Conducting research and analysis to improve our services</li>
               <li>Protecting our rights, property, and safety, and the rights, property, and safety of others</li>
-              <li>Complying with legal obligations</li>
-            </ul>
+          <li>Complying with legal obligations</li>
+        </ul>
           </section>
 
           {/* Information Sharing and Disclosure */}
@@ -118,8 +118,8 @@ const PrivacyPolicyPage = () => {
               <h2 className="text-2xl font-bold text-gray-900">Data Security</h2>
             </div>
             <p className="text-gray-700 mb-4">
-              We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.
-            </p>
+          We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure. However, no method of transmission over the internet or electronic storage is 100% secure.
+        </p>
             <p className="text-gray-700">
               We implement appropriate technical and organizational measures to ensure a level of security appropriate to the risk, including encryption of personal data, regular testing and evaluation of the effectiveness of our security measures, and procedures to address any suspected personal data breach.
             </p>

@@ -144,7 +144,7 @@ const Portfolio = () => {
                 className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <div className="relative h-80 w-full">
-                  <Image
+          <Image
                     src={project.image}
                     alt={project.title}
                     layout="fill"
@@ -183,7 +183,7 @@ const Portfolio = () => {
                 {category.name}
               </button>
             ))}
-          </div>
+        </div>
         </section>
 
         {/* Project Grid */}
@@ -201,7 +201,7 @@ const Portfolio = () => {
               onClick={() => toggleProjectDetails(project.id)}
             >
               <div className="relative h-56">
-                <Image
+          <Image
                   src={project.image}
                   alt={project.title}
                   layout="fill"
@@ -217,7 +217,7 @@ const Portfolio = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-primary-600">{project.client}</span>
                   <span className="text-sm text-gray-500">{project.year}</span>
-                </div>
+        </div>
                 
                 {/* Expanded details */}
                 {expandedProject === project.id && (
@@ -232,10 +232,10 @@ const Portfolio = () => {
                       <button className="text-primary-600 hover:text-primary-700 text-sm font-medium">
                         View Case Study
                       </button>
-                    </div>
+        </div>
                   </motion.div>
                 )}
-              </div>
+        </div>
             </motion.div>
           ))}
         </motion.div>
@@ -283,7 +283,7 @@ const Portfolio = () => {
               <span className="text-4xl font-bold mb-2">5</span>
               <span className="text-primary-300">Industry Awards</span>
             </motion.div>
-          </div>
+        </div>
         </section>
 
         {/* CTA Section */}
@@ -312,7 +312,7 @@ const Portfolio = () => {
               >
                 Request a Quote
               </a>
-            </div>
+        </div>
           </motion.div>
         </section>
       </div>
