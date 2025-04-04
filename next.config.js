@@ -4,6 +4,7 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   poweredByHeader: false,
+  output: 'export',
 
   images: {
     domains: ['fischertelesec.com'],
@@ -12,7 +13,8 @@ const nextConfig = {
     formats: ['image/webp'],
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;"
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    unoptimized: true // Required for static export
   },
 
   async headers() {
