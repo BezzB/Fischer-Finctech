@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import emailjs from '@emailjs/browser';
-import { FaCheckCircle, FaNetworkWired, FaServer, FaShieldAlt, FaHeadset, FaCloudUploadAlt, FaTools } from 'react-icons/fa';
+import { FaCheckCircle, FaNetworkWired, FaServer, FaShieldAlt, FaHeadset, FaCloudUploadAlt, FaTools, FaChevronRight } from 'react-icons/fa';
 
 const GetQuote = () => {
   const form = useRef();
@@ -116,32 +116,150 @@ const GetQuote = () => {
   };
 
   return (
-    <div className="bg-neutral-50 pb-20">
+    <div className="bg-neutral-50 pb-20 relative overflow-hidden">
+      {/* Digital background elements */}
+      <div className="absolute inset-0 w-full h-full z-0 opacity-5 pointer-events-none">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <pattern id="grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <rect width="1" height="1" fill="#000" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+      
+      {/* Floating digital orbs */}
+      <motion.div 
+        className="absolute top-1/4 right-10 w-80 h-80 rounded-full bg-primary-500/10 blur-3xl z-0 pointer-events-none"
+        animate={{ 
+          x: [0, 30, 0], 
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 12, repeat: Infinity }}
+      />
+      <motion.div 
+        className="absolute bottom-1/4 left-10 w-60 h-60 rounded-full bg-accent-500/10 blur-3xl z-0 pointer-events-none"
+        animate={{ 
+          x: [0, -20, 0], 
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
+
       {/* Hero Section */}
-      <section className="gradient-bg-primary py-20 text-white mb-16">
-        <div className="container-wide">
-          <div className="max-w-3xl mx-auto text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl md:text-5xl font-bold mb-6"
-            >
-              Request a Free Quote
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl text-primary-100"
-            >
-              Get a customized solution and pricing for your telecommunications and IT needs
-            </motion.p>
+      <section className="relative z-10 overflow-hidden mb-16">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-900 to-primary-800 z-0"></div>
+        
+        {/* Digital circuit pattern */}
+        <div className="absolute inset-0 z-10 opacity-10">
+          <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <pattern id="circuit" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40,0 L0,0 0,40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              <circle cx="10" cy="10" r="1" fill="currentColor" />
+              <circle cx="30" cy="30" r="1" fill="currentColor" />
+              <circle cx="20" cy="20" r="1.5" fill="currentColor" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#circuit)" />
+          </svg>
+        </div>
+        
+        {/* Central digital glow effect */}
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-primary-400/20 blur-xl z-10 pointer-events-none"
+          animate={{ 
+            scale: [1, 1.3, 1],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{ duration: 5, repeat: Infinity }}
+        />
+        
+        <div className="relative z-20 py-20 text-white">
+          <div className="container-wide">
+            <div className="max-w-3xl mx-auto text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="relative inline-block mb-6"
+              >
+                <h1 className="text-4xl md:text-5xl font-bold relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-200">
+                  Request a Free Quote
+                </h1>
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent-500 to-primary-400 rounded-full"></div>
+                <motion.div 
+                  className="absolute -inset-4 rounded-3xl opacity-20 blur-lg z-0"
+                  animate={{ 
+                    background: [
+                      'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)',
+                      'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
+                      'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)'
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              </motion.div>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-xl text-primary-100 relative z-10"
+              >
+                Get a customized solution and pricing for your telecommunications and IT needs
+              </motion.p>
+              
+              {/* Animated accent lines */}
+              <motion.div
+                className="mt-8 flex justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+              >
+                <motion.div
+                  className="w-20 h-px bg-primary-400/50"
+                  animate={{ width: [20, 80, 20] }}
+                  transition={{ duration: 5, repeat: Infinity }}
+                />
+                <motion.div 
+                  className="w-2 h-2 rounded-full bg-primary-300 mx-2"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.5, 1, 0.5]
+                  }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                />
+                <motion.div
+                  className="w-20 h-px bg-primary-400/50"
+                  animate={{ width: [20, 80, 20] }}
+                  transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+                />
+              </motion.div>
+            </div>
           </div>
+          
+          {/* Digital wave accent */}
+          <svg className="absolute left-0 right-0 bottom-0 h-8 w-full" viewBox="0 0 1440 48" preserveAspectRatio="none">
+            <motion.path 
+              d="M0,0 L1440,0 L1440,48 L0,48 L0,0 Z" 
+              fill="url(#gradient)" 
+              initial={{ d: "M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z" }}
+              animate={{ 
+                d: ["M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z", 
+                    "M0,25 L360,40 L720,30 L1080,35 L1440,25 L1440,48 L0,48 L0,25 Z", 
+                    "M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z"] 
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#081427" />
+                <stop offset="50%" stopColor="#0f2b4a" />
+                <stop offset="100%" stopColor="#081427" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
       </section>
 
-      <div className="container-wide">
+      <div className="container-wide relative z-10">
         <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-3">
             {/* Left Panel */}

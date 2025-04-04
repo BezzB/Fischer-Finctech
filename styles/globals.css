@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* Base styles */
 @layer base {
@@ -172,6 +172,23 @@
   .grid-auto-fit {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8;
   }
+  
+  /* Tech pattern background */
+  .tech-pattern {
+    @apply bg-primary-900 bg-opacity-95 relative;
+    background-image: 
+      radial-gradient(circle at 25px 25px, rgba(255, 255, 255, 0.05) 2px, transparent 0),
+      radial-gradient(circle at 75px 75px, rgba(255, 255, 255, 0.025) 2px, transparent 0);
+    background-size: 100px 100px;
+  }
+  
+  /* Text gradient */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, var(--color-primary-300), white, var(--color-primary-300));
+    background-size: 200% auto;
+    animation: gradientText 4s ease-in-out infinite alternate;
+  }
 }
 
 /* Utilities */
@@ -249,91 +266,110 @@
     font-weight: normal;
     line-height: 1.2;
   }
-
-  .regular-32 {
-    font-size: 32px;
-    font-weight: normal;
-    line-height: 120%;
+  
+  /* Custom Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+  
+  @keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  
+  @keyframes circuitPulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.6; }
+  }
+  
+  @keyframes dataFlow {
+    0% { stroke-dashoffset: 1000; }
+    100% { stroke-dashoffset: 0; }
+  }
+  
+  @keyframes nodeFlicker {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+  }
+  
+  @keyframes techReveal {
+    0% { width: 0; }
+    100% { width: 100%; }
+  }
+  
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-circuit-pulse {
+    animation: circuitPulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-data-flow {
+    animation: dataFlow 10s linear infinite;
+  }
+  
+  .animate-node-flicker {
+    animation: nodeFlicker 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-tech-reveal {
+    animation: techReveal 1s ease-out forwards;
+  }
+  
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .delay-700 {
+    animation-delay: 700ms;
+  }
+  
+  .delay-1000 {
+    animation-delay: 1000ms;
+  }
+  
+  .delay-1500 {
+    animation-delay: 1500ms;
+  }
+  
+  .delay-2000 {
+    animation-delay: 2000ms;
   }
 
-  .regular-20 {
-    font-size: 20px;
-    font-weight: normal;
+  /* 3D Transformation utilities */
+  .perspective-1000 {
+    perspective: 1000px;
   }
-
-  .regular-18 {
-    font-size: 18px;
-    font-weight: normal;
+  
+  .preserve-3d {
+    transform-style: preserve-3d;
   }
-
-  .regular-16 {
-    font-size: 16px;
-    font-weight: normal;
+  
+  .rotate-y-2 {
+    transform: rotateY(2deg);
   }
-
-  .regular-14 {
-    font-size: 14px;
-    font-weight: normal;
-  }
-
-  .medium-14 {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .bold-88 {
-    font-size: 88px;
-    font-weight: bold;
-    line-height: 1.2;
-  }
-
-  .bold-64 {
-    font-size: 64px;
-    font-weight: bold;
-    line-height: 1.2;
-  }
-
-  .bold-52 {
-    font-size: 52px;
-    font-weight: bold;
-    line-height: 1.2;
-  }
-
-  .bold-40 {
-    font-size: 40px;
-    font-weight: bold;
-    line-height: 1.2;
-  }
-
-  .bold-32 {
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 1.2;
-  }
-
-  .bold-20 {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .bold-18 {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .bold-16 {
-    font-size: 16px;
-    font-weight: bold;
-  }
-
-  /* Hide scrollbar */
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  
+  .rotate-y-[-2deg] {
+    transform: rotateY(-2deg);
   }
 }
 
