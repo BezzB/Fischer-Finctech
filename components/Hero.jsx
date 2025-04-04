@@ -60,7 +60,7 @@ const Hero = () => {
             repeat: Infinity,
             repeatType: 'mirror'
           }}
-          className="text-5xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg"
+          className="text-2xl md:text-4xl font-bold mb-4 text-white drop-shadow-lg"
         >
           Transforming Business Through
           <span className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent"> Innovation</span>
@@ -70,7 +70,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-xl md:text-2xl mb-8 text-gray-200 max-w-2xl mx-auto"
+          className="text-lg md:text-xl mb-6 text-gray-200 max-w-2xl mx-auto"
         >
           Empower your enterprise with cutting-edge telecommunications solutions and strategic IT infrastructure
         </motion.p>

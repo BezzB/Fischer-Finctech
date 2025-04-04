@@ -70,7 +70,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="bg-neutral-50 pt-24">
+    <div className="bg-neutral-50">
       {/* Hero Section */}
       <section className="gradient-bg-primary py-20 text-white">
         <div className="container-wide">

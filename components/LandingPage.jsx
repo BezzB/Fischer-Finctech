@@ -6,10 +6,10 @@ import { FaServer, FaNetworkWired, FaShieldAlt, FaHeadset, FaChartLine, FaUsers 
 
 const LandingPage = () => {
   const stats = [
-    { number: '10+', label: 'Years Experience', icon: <FaChartLine className="text-primary-600 mb-3 text-3xl" /> },
-    { number: '500+', label: 'Projects Completed', icon: <FaNetworkWired className="text-primary-600 mb-3 text-3xl" /> },
-    { number: '98%', label: 'Client Satisfaction', icon: <FaUsers className="text-primary-600 mb-3 text-3xl" /> },
-    { number: '24/7', label: 'Support Available', icon: <FaHeadset className="text-primary-600 mb-3 text-3xl" /> },
+    { number: '10+', label: 'Years Experience', icon: <FaChartLine className="text-primary-600 mb-3 text-3xl" />, description: 'Decade of excellence in delivering enterprise solutions' },
+    { number: '500+', label: 'Projects Completed', icon: <FaNetworkWired className="text-primary-400 mb-3 text-3xl" />, description: 'Successfully transformed businesses across East Africa' },
+    { number: '98%', label: 'Client Satisfaction', icon: <FaUsers className="text-primary-400 mb-3 text-3xl" />, description: 'Consistently exceeding client expectations' },
+    { number: '24/7', label: 'Support Available', icon: <FaHeadset className="text-primary-400 mb-3 text-3xl" />, description: 'Round-the-clock technical support and assistance' },
   ];
 
   const services = [
@@ -90,8 +90,8 @@ const LandingPage = () => {
               custom={0}
               className="mb-6"
             >
-              <span className="inline-block px-4 py-1 rounded-full bg-white/10 text-sm font-medium text-primary-200 mb-4">
-                Leading Telecommunications & IT Solutions Provider
+              <span className="inline-block px-4 py-1 rounded-full bg-white/10 text-sm font-medium text-primary-200 mb-4 backdrop-blur-sm border border-white/20">
+                East Africa's Premier Enterprise Technology Partner
               </span>
             </motion.div>
             
@@ -102,7 +102,7 @@ const LandingPage = () => {
               custom={1}
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
             >
-              <span className="gradient-text bg-gradient-to-r from-white to-primary-200">Transforming Business</span> Through Advanced Technology
+              <span className="gradient-text bg-gradient-to-r from-white to-primary-200">Transform Your Business</span> with Future-Proof Telecommunications & IT Solutions
             </motion.h1>
             
             <motion.p 
@@ -112,7 +112,7 @@ const LandingPage = () => {
               custom={2}
               className="text-lg md:text-xl text-primary-100 mb-8 max-w-xl"
             >
-              Fischer Telesec delivers enterprise-grade telecommunications and IT solutions that drive innovation, efficiency, and growth for businesses across East Africa.
+              Empowering businesses in East Africa with enterprise-grade technology for innovation, growth, and efficiency. Experience the future of digital transformation with our cutting-edge solutions.
             </motion.p>
             
             <motion.div

@@ -116,7 +116,7 @@ const GetQuote = () => {
   };
 
   return (
-    <div className="bg-neutral-50 pt-24 pb-20">
+    <div className="bg-neutral-50 pb-20">
       {/* Hero Section */}
       <section className="gradient-bg-primary py-20 text-white mb-16">
         <div className="container-wide">

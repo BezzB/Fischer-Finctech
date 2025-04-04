@@ -14,6 +14,7 @@ const ContactUs = () => {
     user_email: '',
     user_phone: '',
     company: '',
+    service_interest: '',
     message: ''
   });
 
@@ -62,6 +63,7 @@ const ContactUs = () => {
             user_email: '',
             user_phone: '',
             company: '',
+            service_interest: '',
             message: ''
           });
           toast.success('Your message has been sent successfully. We will get back to you soon!');
@@ -103,7 +105,7 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="bg-neutral-50 pt-24 pb-20">
+    <div className="bg-neutral-50 pb-20">
       {/* Hero Section */}
       <section className="gradient-bg-primary py-20 text-white mb-16">
         <div className="container-wide">
@@ -250,6 +252,27 @@ const ContactUs = () => {
                       className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                       placeholder="Your Company"
                     />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="service_interest" className="block text-sm font-medium text-neutral-700 mb-1">
+                      Service Interest *
+                    </label>
+                    <select
+                      name="service_interest"
+                      id="service_interest"
+                      value={formData.service_interest}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                      required
+                    >
+                      <option value="">Select a Service</option>
+                      <option value="telecom">Telecommunications</option>
+                      <option value="it_solutions">IT Solutions</option>
+                      <option value="both">Both</option>
+                    </select>
                   </div>
                 </div>
                 
