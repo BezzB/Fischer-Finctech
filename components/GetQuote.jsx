@@ -294,7 +294,7 @@ const GetQuote = () => {
                 <div className="space-y-3">
                   <p className="flex items-center">
                     <span className="mr-2">📞</span>
-                    <a href="tel:+254724612514" className="hover:text-primary-300 transition-colors">+254 724 612 514</a>
+                    <a href="tel:+254725763135" className="hover:text-primary-300 transition-colors">+254 725 763 135</a>
                   </p>
                   <p className="flex items-center">
                     <span className="mr-2">✉️</span>

@@ -108,7 +108,7 @@ const Footer = () => {
                   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-800/70 mr-3 border border-primary-700 group-hover:border-primary-500 transition-colors">
                     <FaMapMarkerAlt className="text-primary-400 group-hover:text-primary-300 transition-colors" />
                   </div>
-                  <p className="text-primary-100 pt-1">123 Business Park, Nairobi, Kenya</p>
+                  <p className="text-primary-100 pt-1">Zayed Plaza, Mombasa-Malindi Road, Mombasa</p>
                 </motion.div>
                 <motion.div 
                   className="flex items-center group"
@@ -118,8 +118,8 @@ const Footer = () => {
                   <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-800/70 mr-3 border border-primary-700 group-hover:border-primary-500 transition-colors">
                     <FaPhoneAlt className="text-primary-400 group-hover:text-primary-300 transition-colors" />
                   </div>
-                  <a href="tel:+254724612514" className="text-primary-100 hover:text-white transition-colors">
-                    +254 724 612 514
+                  <a href="tel:+254725763135" className="text-primary-100 hover:text-white transition-colors">
+                    +254 725 763 135
                   </a>
                 </motion.div>
                 <motion.div 

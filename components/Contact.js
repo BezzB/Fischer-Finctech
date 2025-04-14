@@ -81,19 +81,19 @@ const ContactUs = () => {
     {
       icon: <FaPhoneAlt className="text-primary-500" />,
       title: 'Phone',
-      details: ['+254 724 612 514', '+254 733 123 456'],
+      details: ['+254 725 763 135', '+254 724 612 514'],
       action: 'tel:+254724612514'
     },
     {
       icon: <FaEnvelope className="text-primary-500" />,
       title: 'Email',
-      details: ['info@fischertelesec.co.ke', 'support@fischertelesec.co.ke'],
+      details: ['info@fischertelesec.co.ke'],
       action: 'mailto:info@fischertelesec.co.ke'
     },
     {
       icon: <FaMapMarkerAlt className="text-primary-500" />,
       title: 'Location',
-      details: ['Zayed Plaza, New Mombasa-Malindi Road', 'Mombasa, Kenya'],
+      details: ['Zayed Plaza, Mombasa-Malindi Road', 'Mombasa, Kenya'],
       action: 'https://maps.google.com/?q=Zayed+Plaza+Mombasa+Kenya'
     },
     {
