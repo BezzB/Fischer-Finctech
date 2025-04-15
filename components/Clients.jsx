@@ -1,53 +1,192 @@
-import React from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaHandshake, FaUsers, FaBuilding, FaGlobe, FaArrowRight } from "react-icons/fa";
+import { FaHandshake, FaUsers, FaBuilding, FaGlobe, FaArrowRight, FaStar } from "react-icons/fa";
 import Link from "next/link";
+import dynamic from 'next/dynamic';
 
-const ClientsPage = () => {
-  // Animation variants
+// Create dynamic motion components with SSR disabled
+const MotionDiv = dynamic(() => import('framer-motion').then(mod => mod.motion.div), { ssr: false });
+const MotionH2 = dynamic(() => import('framer-motion').then(mod => mod.motion.h2), { ssr: false });
+const MotionP = dynamic(() => import('framer-motion').then(mod => mod.motion.p), { ssr: false });
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
-      }
-    }
+      staggerChildren: 0.2,
+    },
+  },
   };
 
   const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
+  hidden: { opacity: 0, y: 20 },
     visible: {
-      y: 0,
       opacity: 1,
-      transition: { duration: 0.5 }
-    }
-  };
+    y: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
 
-  // Featured clients with more details
+const testimonials = [
+  {
+    name: "John Smith",
+    position: "CEO, China Mobile International",
+    quote: "Fischer Fintech has been instrumental in helping us streamline our financial operations. Their expertise and dedication are unmatched.",
+    rating: 5,
+    avatar: "/user.svg"
+  },
+  {
+    name: "Sarah Johnson",
+    position: "CTO, Data5 IT GmbH",
+    quote: "Working with Fischer Fintech has transformed our financial technology infrastructure. Their solutions are innovative and reliable.",
+    rating: 5,
+    avatar: "/user.svg"
+  },
+  {
+    name: "Michael Brown",
+    position: "Director, Fibrant EOOD",
+    quote: "The team at Fischer Fintech delivered exceptional results. Their attention to detail and customer service is outstanding.",
+    rating: 5,
+    avatar: "/user.svg"
+  }
+];
+
   const featuredClients = [
     {
-      name: "Safaricom PLC",
-      logo: "/safaricomlogo.png",
-      description: "Collaborated on network infrastructure projects and telecommunications solutions.",
+    name: "China Mobile International",
+    logo: "/china-mobile-logo.png",
+    description: "Leading telecommunications provider in China",
       industry: "Telecommunications"
     },
     {
-      name: "Kenya Power",
-      logo: "/kenya-power.png",
-      description: "Provided IT infrastructure and network security solutions for critical systems.",
-      industry: "Energy"
-    },
-    {
-      name: "Faiba",
-      logo: "/faibafixed.png",
-      description: "Partnered on fiber optic network expansion and maintenance projects.",
-      industry: "Internet Service Provider"
-    },
-  ];
+    name: "Data5 IT GmbH (Germany)",
+    logo: "/data5-logo.png",
+    description: "German IT solutions provider",
+    industry: "Information Technology"
+  },
+  {
+    name: "Fibrant EOOD",
+    logo: "/fibrant-logo.png",
+    description: "Bulgarian fiber optics manufacturer",
+    industry: "Manufacturing"
+  },
+  {
+    name: "Innovis Telecoms",
+    logo: "/innovis-logo.png",
+    description: "Innovative telecom solutions provider",
+    industry: "Telecommunications"
+  },
+  {
+    name: "Symbion Consulting Group",
+    logo: "/symbion-logo.png",
+    description: "Business and technology consulting firm",
+    industry: "Consulting"
+  },
+  {
+    name: "Green Telecoms Tanzania Limited",
+    logo: "/green-telecoms-logo.png",
+    description: "Sustainable telecom solutions in Tanzania",
+    industry: "Telecommunications"
+  },
+  {
+    name: "Solian",
+    logo: "/solian-logo.png",
+    description: "Digital transformation specialists",
+    industry: "Technology"
+  },
+  {
+    name: "Chai Trading Company Limited (KTDA)",
+    logo: "/chai-trading-logo.png",
+    description: "Leading tea trading company",
+    industry: "Agriculture"
+  },
+  {
+    name: "Mitchell Cotts Logistics",
+    logo: "/mitchell-cotts-logo.png",
+    description: "Comprehensive logistics solutions",
+    industry: "Logistics"
+  },
+  {
+    name: "Securex Agencies Limited",
+    logo: "/securex-logo.png",
+    description: "Security and risk management services",
+    industry: "Security"
+  },
+  {
+    name: "Double Portion Agencies Limited",
+    logo: "/double-portion-logo.png",
+    description: "Business development and consulting",
+    industry: "Consulting"
+  },
+  {
+    name: "The Nyali School",
+    logo: "/nyali-school-logo.png",
+    description: "Premier educational institution",
+    industry: "Education"
+  }
+];
 
-  // Client logos for the showcase section
+const partners = [
+  {
+    name: "Safaricom",
+    logo: "/safaricomlogo.png",
+    description: "Leading telecommunications provider in Kenya",
+    industry: "Telecommunications"
+  },
+  {
+    name: "Huawei",
+    logo: "/huawei-logo.png",
+    description: "Global ICT solutions provider",
+    industry: "Technology"
+  },
+  {
+    name: "ICT Authority",
+    logo: "/ictlogo.png",
+    description: "Government ICT regulatory body",
+    industry: "Government"
+  },
+  {
+    name: "Hewlett Packard",
+    logo: "/hp-logo.png",
+    description: "Global technology company",
+    industry: "Technology"
+  },
+  {
+    name: "Cambium Networks",
+    logo: "/cambium-logo.png",
+    description: "Wireless networking solutions provider",
+    industry: "Technology"
+  },
+  {
+    name: "Cisco",
+    logo: "/cisco-logo.png",
+    description: "Networking and communications technology",
+    industry: "Technology"
+  },
+  {
+    name: "Airtel",
+    logo: "/airtel-logo.png",
+    description: "Global telecommunications company",
+    industry: "Telecommunications"
+  },
+  {
+    name: "iColo (Digital Reality Company)",
+    logo: "/icolo-logo.png",
+    description: "Data center and cloud solutions provider",
+    industry: "Technology"
+  },
+  {
+    name: "Wingu Datacenters",
+    logo: "/wingu-logo.png",
+    description: "Data center and cloud infrastructure provider",
+    industry: "Technology"
+  }
+];
+
   const clientLogos = [
     "/images1.png",
     "/images2.png",
@@ -60,37 +199,31 @@ const ClientsPage = () => {
     "/green.jpg",
   ];
 
-  // Testimonials from clients
-  const testimonials = [
-    {
-      quote: "Fischer Telesec has been instrumental in upgrading our network infrastructure. Their expertise and professionalism are unmatched in the industry.",
-      author: "John Kamau",
-      position: "IT Director",
-      company: "Global Enterprises Ltd"
-    },
-    {
-      quote: "We've worked with Fischer Telesec for over 5 years, and they consistently deliver high-quality telecommunications solutions that meet our complex needs.",
-      author: "Sarah Njeri",
-      position: "CTO",
-      company: "TechVision Kenya"
-    },
-    {
-      quote: "Their team's technical knowledge and commitment to excellence have made them our go-to partner for all our IT and network security requirements.",
-      author: "Michael Omondi",
-      position: "Operations Manager",
-      company: "Secure Systems International"
-    }
-  ];
-
-  // Industry sectors served
   const sectors = [
     { name: "Telecommunications", icon: <FaGlobe className="text-4xl text-primary-600 mb-4" /> },
-    { name: "Financial Services", icon: <FaBuilding className="text-4xl text-primary-600 mb-4" /> },
-    { name: "Government", icon: <FaUsers className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Information Technology", icon: <FaUsers className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Manufacturing", icon: <FaBuilding className="text-4xl text-primary-600 mb-4" /> },
     { name: "Corporate", icon: <FaHandshake className="text-4xl text-primary-600 mb-4" /> }
   ];
 
+const ClientsPage = () => {
+  const [mounted, setMounted] = useState(false);
+  const [positions, setPositions] = useState([]);
+
+  useEffect(() => {
+    setMounted(true);
+    const newPositions = Array.from({ length: 8 }).map(() => ({
+      transform: `translate(${Math.random() * 80}%, ${Math.random() * 60}%)`
+    }));
+    setPositions(newPositions);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <div className="relative overflow-hidden">
       {/* Digital background elements */}
       <div className="fixed inset-0 w-full h-full z-0 opacity-5 pointer-events-none">
@@ -140,145 +273,247 @@ const ClientsPage = () => {
           </div>
           
           {/* Animated tech nodes */}
+            {mounted && positions.length > 0 && (
           <div className="absolute inset-0 z-10 overflow-hidden">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <motion.div
+                {positions.map((pos, i) => (
+                  <div
                 key={i}
                 className="absolute w-1 h-1 rounded-full bg-primary-300"
-                style={{
-                  top: `${20 + Math.random() * 60}%`,
-                  left: `${10 + Math.random() * 80}%`,
-                }}
-                animate={{
-                  opacity: [0.2, 0.8, 0.2],
-                  scale: [1, 1.5, 1]
-                }}
-                transition={{
-                  duration: 3 + Math.random() * 3,
-                  repeat: Infinity,
-                  delay: Math.random() * 2
-                }}
+                    style={pos}
               />
             ))}
           </div>
+            )}
           
           {/* Central digital glow effect */}
-          <motion.div 
+            {mounted && (
+              <div 
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-primary-400/20 blur-xl z-10 pointer-events-none"
-            animate={{ 
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{ duration: 5, repeat: Infinity }}
           />
+            )}
           
           <div className="container mx-auto max-w-6xl relative z-20">
-            <motion.div 
+              {mounted ? (
+                <MotionDiv 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-center mb-16"
             >
-              <motion.div className="relative inline-block mb-6">
                 <h1 className="text-4xl md:text-5xl font-bold relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-white to-primary-200">
                   Trusted by Leading <span className="text-primary-300">Organizations</span>
                 </h1>
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-accent-500 to-primary-400 rounded-full"></div>
-                <motion.div 
-                  className="absolute -inset-4 rounded-3xl opacity-20 blur-lg z-0"
-                  animate={{ 
-                    background: [
-                      'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)',
-                      'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%)',
-                      'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)'
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-              </motion.div>
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl text-primary-100 max-w-3xl mx-auto relative z-10"
-              >
+                  <p className="text-xl text-primary-100 max-w-3xl mx-auto relative z-10 mt-6">
                 Fischer Telesec has built strong relationships with clients across various industries, 
                 delivering exceptional telecommunications and IT solutions that drive business success.
-              </motion.p>
-              
-              {/* Animated accent lines */}
-              <motion.div
-                className="mt-8 flex justify-center"
+                  </p>
+                </MotionDiv>
+              ) : null}
+            </div>
+          </section>
+
+          {/* Featured Clients Section */}
+          <section className="py-20 px-4 relative z-20">
+            <div className="container mx-auto max-w-6xl">
+              {mounted ? (
+                <MotionH2 
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-              >
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600"
+                >
+                  Our Featured Clients
+                </MotionH2>
+              ) : (
+                <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600">
+                  Our Featured Clients
+                </h2>
+              )}
+              
+              {mounted ? (
+                <MotionDiv
+                  variants={containerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+                >
+                  {featuredClients.map((client, index) => (
+                    <MotionDiv
+                      key={index}
+                      variants={itemVariants}
+                      className="bg-white backdrop-blur-md bg-opacity-80 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group relative"
+                      whileHover={{ y: -5 }}
+                    >
+                      {/* Digital corner accents */}
+                      <svg className="absolute top-0 right-0 w-16 h-16 text-primary-500/5 z-10" viewBox="0 0 16 16" fill="none">
+                        <path d="M0,0 L16,0 L16,16 L0,0 Z" fill="currentColor" />
+                      </svg>
+                      <svg className="absolute bottom-0 left-0 w-16 h-16 text-primary-500/5 z-10" viewBox="0 0 16 16" fill="none">
+                        <path d="M0,16 L0,0 L16,16 L0,16 Z" fill="currentColor" />
+                      </svg>
+                      
+                      {/* Card accent lighting */}
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      
+                      <div className="p-8 flex flex-col items-center relative z-10">
+                        <div className="h-24 flex items-center justify-center mb-6 relative w-full max-w-[200px]">
+                          <motion.div
+                            className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 bg-primary-500/20 blur-md transition-opacity duration-300"
+                          />
+                          <Image
+                            src={client.logo}
+                            alt={client.name}
+                            width={140}
+                            height={70}
+                            className="object-contain"
+                            priority={index < 2}
+                          />
+                        </div>
+                        <h3 className="text-xl font-semibold text-primary-900 mb-2 text-center">{client.name}</h3>
+                        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 mb-4">{client.industry}</p>
+                        <p className="text-gray-600 text-center">{client.description}</p>
+                        
+                        {/* Digital scan effect on hover */}
                 <motion.div
-                  className="w-20 h-px bg-primary-400/50"
-                  animate={{ width: [20, 60, 20] }}
-                  transition={{ duration: 5, repeat: Infinity }}
-                />
-                <motion.div 
-                  className="w-2 h-2 rounded-full bg-primary-300 mx-2"
-                  animate={{ 
-                    scale: [1, 1.3, 1],
-                    opacity: [0.5, 1, 0.5]
-                  }}
-                  transition={{ duration: 2.5, repeat: Infinity }}
-                />
-                <motion.div
-                  className="w-20 h-px bg-primary-400/50"
-                  animate={{ width: [20, 60, 20] }}
-                  transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
-                />
-              </motion.div>
+                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-400/30 opacity-0 group-hover:opacity-100 pointer-events-none"
+                          transition={{ duration: 0.3 }}
+                        >
+                          <motion.div 
+                            className="h-full bg-primary-500/80"
+                            initial={{ width: 0 }}
+                            animate={{ x: ["0%", "100%"] }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                          />
             </motion.div>
           </div>
-          
-          {/* Digital wave accent */}
-          <svg className="absolute left-0 right-0 bottom-0 h-8 w-full" viewBox="0 0 1440 48" preserveAspectRatio="none">
-            <motion.path 
-              d="M0,0 L1440,0 L1440,48 L0,48 L0,0 Z" 
-              fill="url(#gradient)" 
-              initial={{ d: "M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z" }}
-              animate={{ 
-                d: ["M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z", 
-                    "M0,25 L360,40 L720,30 L1080,35 L1440,25 L1440,48 L0,48 L0,25 Z", 
-                    "M0,30 L360,25 L720,40 L1080,25 L1440,30 L1440,48 L0,48 L0,30 Z"] 
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#081427" />
-                <stop offset="50%" stopColor="#0f2b4a" />
-                <stop offset="100%" stopColor="#081427" />
-              </linearGradient>
-            </defs>
-          </svg>
+                    </MotionDiv>
+                  ))}
+                </MotionDiv>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                  {featuredClients.map((client, index) => (
+                    <div
+                      key={index}
+                      className="bg-white backdrop-blur-md bg-opacity-80 rounded-xl shadow-lg overflow-hidden group relative"
+                    >
+                      <div className="p-8 flex flex-col items-center relative z-10">
+                        <div className="h-24 flex items-center justify-center mb-6 relative w-full max-w-[200px]">
+                          <Image
+                            src={client.logo}
+                            alt={client.name}
+                            width={140}
+                            height={70}
+                            className="object-contain"
+                            priority={index < 2}
+                          />
+                        </div>
+                        <h3 className="text-xl font-semibold text-primary-900 mb-2 text-center">{client.name}</h3>
+                        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 mb-4">{client.industry}</p>
+                        <p className="text-gray-600 text-center">{client.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* Client Testimonials */}
+          <section className="py-20 bg-gray-50">
+            <div className="container mx-auto max-w-6xl px-4">
+              <MotionDiv
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={containerVariants}
+                className="text-center mb-16"
+              >
+                <MotionH2
+                  variants={itemVariants}
+                  className="text-3xl md:text-4xl font-bold text-gray-900 mb-6"
+                >
+                  What Our Clients Say
+                </MotionH2>
+                <MotionP
+                  variants={itemVariants}
+                  className="text-xl text-gray-600 max-w-3xl mx-auto"
+                >
+                  Hear from our satisfied clients about their experience working with us
+                </MotionP>
+              </MotionDiv>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {testimonials.map((testimonial, index) => (
+                  <MotionDiv
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-white rounded-lg shadow-lg p-8"
+                  >
+                    <div className="flex items-center mb-6">
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
+                        <Image
+                          src={testimonial.avatar}
+                          alt={testimonial.name}
+                          width={48}
+                          height={48}
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900">
+                          {testimonial.name}
+                        </h4>
+                        <p className="text-sm text-gray-600">
+                          {testimonial.position}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 mb-4">
+                      {testimonial.quote}
+                    </p>
+                    <div className="flex text-yellow-400">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <FaStar key={i} />
+                      ))}
+                    </div>
+                  </MotionDiv>
+                ))}
+              </div>
+            </div>
         </section>
 
-        {/* Featured Clients */}
-        <section className="py-20 px-4 relative z-20">
+          {/* Our Partners Section */}
+          <section className="py-20 px-4 relative z-20 bg-gray-50">
           <div className="container mx-auto max-w-6xl">
-            <motion.h2 
+              {mounted ? (
+                <MotionH2 
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600"
             >
-              Our Featured Partners
-            </motion.h2>
-            
-            <motion.div
+                  Our Partners
+                </MotionH2>
+              ) : (
+                <h2 className="text-3xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-primary-800 to-primary-600">
+                  Our Partners
+                </h2>
+              )}
+              
+              {mounted ? (
+                <MotionDiv
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
             >
-              {featuredClients.map((client, index) => (
-                <motion.div
+                  {partners.map((partner, index) => (
+                    <MotionDiv
                   key={index}
                   variants={itemVariants}
                   className="bg-white backdrop-blur-md bg-opacity-80 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group relative"
@@ -296,22 +531,22 @@ const ClientsPage = () => {
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   
                   <div className="p-8 flex flex-col items-center relative z-10">
-                    <div className="h-24 flex items-center justify-center mb-6 relative">
-                      {/* Logo glow effect */}
-                      <motion.div 
+                    <div className="h-24 flex items-center justify-center mb-6 relative w-full max-w-[200px]">
+                      <motion.div
                         className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 bg-primary-500/20 blur-md transition-opacity duration-300"
                       />
                       <Image
-                        src={client.logo}
-                        alt={client.name}
-                        width={200}
-                        height={80}
-                        objectFit="contain"
+                        src={partner.logo}
+                        alt={partner.name}
+                        width={140}
+                        height={70}
+                        className="object-contain"
+                        priority={index < 2}
                       />
                     </div>
-                    <h3 className="text-xl font-semibold text-primary-900 mb-2">{client.name}</h3>
-                    <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 mb-4">{client.industry}</p>
-                    <p className="text-gray-600 text-center">{client.description}</p>
+                        <h3 className="text-xl font-semibold text-primary-900 mb-2 text-center">{partner.name}</h3>
+                        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 mb-4">{partner.industry}</p>
+                        <p className="text-gray-600 text-center">{partner.description}</p>
                     
                     {/* Digital scan effect on hover */}
                     <motion.div 
@@ -326,9 +561,35 @@ const ClientsPage = () => {
                       />
                     </motion.div>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                    </MotionDiv>
+                  ))}
+                </MotionDiv>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                  {partners.map((partner, index) => (
+                    <div
+                      key={index}
+                      className="bg-white backdrop-blur-md bg-opacity-80 rounded-xl shadow-lg overflow-hidden group relative"
+                    >
+                      <div className="p-8 flex flex-col items-center relative z-10">
+                        <div className="h-24 flex items-center justify-center mb-6 relative w-full max-w-[200px]">
+                          <Image
+                            src={partner.logo}
+                            alt={partner.name}
+                            width={140}
+                            height={70}
+                            className="object-contain"
+                            priority={index < 2}
+                          />
+                        </div>
+                        <h3 className="text-xl font-semibold text-primary-900 mb-2 text-center">{partner.name}</h3>
+                        <p className="text-sm bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600 mb-4">{partner.industry}</p>
+                        <p className="text-gray-600 text-center">{partner.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
           </div>
         </section>
 
@@ -362,7 +623,8 @@ const ClientsPage = () => {
                     alt={`Client ${index + 1}`}
                     width={120}
                     height={60}
-                    objectFit="contain"
+                    className="object-contain"
+                    priority={index === 0}
                   />
                 </motion.div>
               ))}
@@ -477,8 +739,8 @@ const ClientsPage = () => {
                       viewport={{ once: true }}
                     />
                     
-                    <span className="font-semibold text-white mt-2">{testimonial.author}</span>
-                    <span className="text-primary-300 text-sm">{testimonial.position}, {testimonial.company}</span>
+                      <span className="font-semibold text-white mt-2">{testimonial.name}</span>
+                      <span className="text-primary-300 text-sm">{testimonial.position}</span>
                   </div>
                   
                   {/* Digital scan effect on hover */}
@@ -501,14 +763,16 @@ const ClientsPage = () => {
           {/* Digital wave accent */}
           <svg className="absolute left-0 right-0 bottom-0 h-8 w-full text-gray-50" viewBox="0 0 1440 48" preserveAspectRatio="none">
             <motion.path 
-              d="M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z" 
-              fill="currentColor" 
+              initial={{ d: "M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z" }}
               animate={{ 
-                d: ["M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z", 
-                    "M0,48 L1440,48 L1440,0 C1080,0 720,20 360,0 L0,20 L0,48 Z", 
-                    "M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z"] 
+                d: [
+                  "M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z",
+                  "M0,48 L1440,48 L1440,0 C1080,0 720,20 360,0 L0,20 L0,48 Z",
+                  "M0,48 L1440,48 L1440,0 C1080,20 720,0 360,20 L0,0 L0,48 Z"
+                ] 
               }}
               transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+              fill="currentColor"
             />
           </svg>
         </section>
@@ -551,15 +815,19 @@ const ClientsPage = () => {
           {/* Digital connectivity lines */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
             <motion.path 
-              d="M10,50 Q30,30 50,50 T90,50" 
-              stroke="url(#connectivity-gradient)" 
-              strokeWidth="0.2" 
-              fill="none" 
-              strokeDasharray="1 2"
+              initial={{ d: "M10,50 Q30,30 50,50 T90,50" }}
               animate={{ 
-                d: ["M10,50 Q30,30 50,50 T90,50", "M10,60 Q30,40 50,60 T90,60", "M10,50 Q30,30 50,50 T90,50"] 
+                d: [
+                  "M10,50 Q30,30 50,50 T90,50",
+                  "M10,60 Q30,40 50,60 T90,60",
+                  "M10,50 Q30,30 50,50 T90,50"
+                ] 
               }}
               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+              stroke="url(#connectivity-gradient)"
+              strokeWidth="0.2"
+              fill="none"
+              strokeDasharray="1 2"
             />
             <defs>
               <linearGradient id="connectivity-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -742,26 +1010,34 @@ const ClientsPage = () => {
           {/* Data stream visualization */}
           <svg className="absolute inset-0 w-full h-full z-10 opacity-30 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
             <motion.path 
-              d="M0,50 Q25,45 50,50 T100,50" 
-              stroke="url(#data-gradient)" 
-              strokeWidth="0.5" 
-              fill="none" 
-              strokeDasharray="1 2"
+              initial={{ d: "M0,50 Q25,45 50,50 T100,50" }}
               animate={{ 
-                d: ["M0,50 Q25,45 50,50 T100,50", "M0,55 Q25,50 50,45 T100,45", "M0,50 Q25,45 50,50 T100,50"] 
+                d: [
+                  "M0,50 Q25,45 50,50 T100,50",
+                  "M0,55 Q25,50 50,45 T100,45",
+                  "M0,50 Q25,45 50,50 T100,50"
+                ] 
               }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              stroke="url(#data-gradient)"
+              strokeWidth="0.5"
+              fill="none"
+              strokeDasharray="1 2"
             />
             <motion.path 
-              d="M0,60 Q30,65 50,60 T100,60" 
-              stroke="url(#data-gradient)" 
-              strokeWidth="0.5" 
-              fill="none" 
-              strokeDasharray="2 1"
+              initial={{ d: "M0,60 Q30,65 50,60 T100,60" }}
               animate={{ 
-                d: ["M0,60 Q30,65 50,60 T100,60", "M0,55 Q30,50 50,55 T100,55", "M0,60 Q30,65 50,60 T100,60"] 
+                d: [
+                  "M0,60 Q30,65 50,60 T100,60",
+                  "M0,55 Q30,50 50,55 T100,55",
+                  "M0,60 Q30,65 50,60 T100,60"
+                ] 
               }}
               transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              stroke="url(#data-gradient)"
+              strokeWidth="0.5"
+              fill="none"
+              strokeDasharray="2 1"
             />
             <defs>
               <linearGradient id="data-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -810,40 +1086,15 @@ const ClientsPage = () => {
               viewport={{ once: true }}
               className="relative z-20"
             >
-              <Link href="/contact">
-                <motion.a 
-                  className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden font-medium text-primary-700 bg-white rounded-full shadow-md"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {/* Button background glow */}
-                  <motion.span 
-                    className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                  
-                  {/* Button text */}
+                <Link href="/contact" passHref>
+                  <div className="group relative inline-flex items-center justify-center px-10 py-4 overflow-hidden font-medium text-primary-700 bg-white rounded-full shadow-md cursor-pointer">
                   <span className="relative flex items-center font-semibold text-lg">
                     Contact Us Today
-                    <motion.span 
-                      className="ml-2 text-lg"
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
-                    >
+                      <span className="ml-2 text-lg">
                       <FaArrowRight />
-                    </motion.span>
                   </span>
-                  
-                  {/* Digital scan effect */}
-                  <motion.span 
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-500/30 opacity-0 group-hover:opacity-100"
-                  >
-                    <motion.span 
-                      className="absolute inset-0 bg-primary-500"
-                      animate={{ scaleX: [0, 1, 0], x: ["0%", "0%", "100%"] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    />
-                  </motion.span>
-                </motion.a>
+                    </span>
+                  </div>
               </Link>
             </motion.div>
           </div>
@@ -865,6 +1116,7 @@ const ClientsPage = () => {
         </section>
       </div>
     </div>
+    </Suspense>
   );
 };
 

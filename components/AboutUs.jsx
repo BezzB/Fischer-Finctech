@@ -305,12 +305,14 @@ const AboutUs = () => {
                   <div className="absolute inset-0 bg-gradient-to-br from-primary-900/80 to-primary-800/80 opacity-0 group-hover:opacity-20 transition-opacity duration-700"></div>
                   
                   <div className="aspect-video relative overflow-hidden rounded-xl">
-          <Image
-                    src="/Fischerlogo.png" 
-                      alt="Fischer Telesec" 
-                    width={600} 
-                    height={400} 
-                      className="w-full h-auto object-cover bg-white p-8 transition-transform duration-700 group-hover:scale-105"
+                    <Image
+                      src="/Fischerlogo.png"
+                      alt="Fischer Fintech Logo"
+                      width={200}
+                      height={80}
+                      priority={true}
+                      style={{ width: 'auto', height: 'auto' }}
+                      className="object-contain"
                     />
                     
                     {/* Digital edge accents */}
@@ -319,7 +321,7 @@ const AboutUs = () => {
                     <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-accent-500/50 rounded-bl-sm"></div>
                     <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-accent-500/50 rounded-br-sm"></div>
                   </div>
-        </div>
+                </div>
               </div>
             </motion.div>
             
@@ -364,7 +366,7 @@ const AboutUs = () => {
                     </div>
                   </div>
                 </div>
-        </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -533,14 +535,14 @@ const AboutUs = () => {
                         transition={{ duration: 3, repeat: Infinity }}
                       />
                       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-full p-4 flex items-center justify-center">
-            <Image
-              src="/mission.png"
-                  alt="Mission" 
-                  width={40} 
-                  height={40} 
+                        <Image
+                          src="/mission.png"
+                          alt="Mission"
+                          width={40}
+                          height={40}
                           className="group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
+                        />
+                      </div>
                     </div>
                     
                     <h3 className="text-3xl font-bold mb-6 text-primary-900 flex items-center">
@@ -553,8 +555,8 @@ const AboutUs = () => {
                     </h3>
                     
                     <p className="text-lg text-neutral-700 leading-relaxed">
-                To empower businesses through innovative telecommunications and IT solutions that enhance connectivity, productivity, and growth, delivered with unparalleled expertise and customer service.
-              </p>
+                      To empower businesses through innovative telecommunications and IT solutions that enhance connectivity, productivity, and growth, delivered with unparalleled expertise and customer service.
+                    </p>
                     
                     {/* Data connection visualization */}
                     <div className="absolute bottom-6 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -604,14 +606,14 @@ const AboutUs = () => {
                         transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
                       />
                       <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-full p-4 flex items-center justify-center">
-                <Image 
-                  src="/vision-1.png" 
-                  alt="Vision" 
-                  width={40} 
-                  height={40} 
+                        <Image
+                          src="/vision-1.png"
+                          alt="Vision"
+                          width={40}
+                          height={40}
                           className="group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
+                        />
+                      </div>
                     </div>
                     
                     <h3 className="text-3xl font-bold mb-6 text-primary-900 flex items-center">
@@ -624,8 +626,8 @@ const AboutUs = () => {
                     </h3>
                     
                     <p className="text-lg text-neutral-700 leading-relaxed">
-                To be the leading telecommunications and IT solutions provider in East Africa, recognized for our technical excellence, innovation, and commitment to helping businesses thrive in the digital era.
-              </p>
+                      To be the leading telecommunications and IT solutions provider in East Africa, recognized for our technical excellence, innovation, and commitment to helping businesses thrive in the digital era.
+                    </p>
                     
                     {/* Data connection visualization */}
                     <div className="absolute bottom-6 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -701,8 +703,8 @@ const AboutUs = () => {
               transition={{ duration: 2, delay: 0.9 }}
             />
           </svg>
-          </div>
-          
+        </div>
+        
         <div className="container-wide relative z-10">
               <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -766,12 +768,12 @@ const AboutUs = () => {
                     <div className="p-6">
                       <div className="relative w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-primary-100 group-hover:border-primary-300 transition-colors duration-300">
                         <div className="absolute inset-0 bg-primary-50 group-hover:bg-primary-100 transition-colors duration-300"></div>
-                  <Image 
-                    src={member.image} 
-                    alt={member.name} 
-                          width={96} 
-                          height={96} 
-                          className="relative z-10 object-cover transition-transform duration-500 group-hover:scale-110" 
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          width={96}
+                          height={96}
+                          className="relative z-10 object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                         
                         {/* Digital scan effect */}
@@ -780,8 +782,8 @@ const AboutUs = () => {
                           initial={{ top: "0%" }}
                           animate={{ top: ["0%", "100%", "0%"] }}
                           transition={{ duration: 3, repeat: Infinity, repeatType: "loop", delay: index * 0.5 }}
-                  />
-                </div>
+                        />
+                      </div>
                       
                       <div className="text-center">
                         <h3 className="text-xl font-bold mb-1 text-primary-900">{member.name}</h3>
@@ -900,7 +902,7 @@ const AboutUs = () => {
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                   </svg>
-        </div>
+                </div>
               </Link>
               
               <Link href="/services" className="btn border-2 border-white/30 bg-white/5 backdrop-blur-sm text-white px-8 py-4 rounded-full group hover:bg-white/10 transition-all duration-300 font-medium">
@@ -919,7 +921,7 @@ const AboutUs = () => {
               </div>
             </div>
           </motion.div>
-      </div>
+        </div>
       </section>
     </div>
   );

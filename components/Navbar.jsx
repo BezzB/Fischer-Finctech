@@ -181,13 +181,13 @@ const Navbar = () => {
                 transition={{ duration: 3, repeat: Infinity, repeatType: "loop" }}
               />
               
-              <Image 
-                src="/Fischerlogo.png" 
-                alt="Fischer Telesec Logo" 
-                width={120} 
-                height={30} 
-                className="object-contain relative z-10" 
-                priority
+              <Image
+                src="/Fischerlogo.png"
+                alt="Fischer Fintech Logo"
+                width={120}
+                height={30}
+                priority={true}
+                className="object-contain"
               />
             </Link>
           </motion.div>

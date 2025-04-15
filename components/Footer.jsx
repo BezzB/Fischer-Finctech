@@ -89,9 +89,10 @@ const Footer = () => {
                 
                 <Image 
                   src="/Fischerlogo.png" 
-                  alt="Fischer Telesec Logo" 
-                  width={180} 
-                  height={45} 
+                  alt="Fischer Fintech Logo" 
+                  width={120} 
+                  height={30} 
+                  priority={true}
                   className="object-contain bg-white p-2 rounded-md relative z-10"
                 />
               </Link>

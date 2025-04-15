@@ -28,23 +28,59 @@ const PartnersPage = () => {
   // Strategic partners with more details
   const strategicPartners = [
     {
+      name: "Safaricom",
+      logo: "/safaricomlogo.png",
+      description: "Leading telecommunications provider in Kenya, collaborating on network infrastructure and mobile solutions.",
+      partnerSince: "2014"
+    },
+    {
+      name: "Huawei",
+      logo: "/huawei-logo.png",
+      description: "Global technology leader, partnering on telecommunications equipment and network solutions.",
+      partnerSince: "2016"
+    },
+    {
       name: "ICT Authority",
       logo: "/ictlogo.png",
       description: "Collaborating on digital transformation initiatives and ICT infrastructure development across Kenya.",
       partnerSince: "2015"
     },
     {
-      name: "Liquid Telecom",
-      logo: "/logoliquid.png",
-      description: "Strategic partnership for fiber optic network solutions and enterprise connectivity services.",
+      name: "Hewlett Packard",
+      logo: "/hp-logo.png",
+      description: "Strategic partnership for enterprise IT solutions and hardware infrastructure.",
       partnerSince: "2017"
     },
     {
-      name: "Safaricom",
-      logo: "/safaricomlogo.png",
-      description: "Joint ventures in telecommunications infrastructure and mobile network solutions.",
-      partnerSince: "2014"
+      name: "Cambium Networks",
+      logo: "/cambium-logo.png",
+      description: "Partnering on wireless network solutions and connectivity technologies.",
+      partnerSince: "2018"
     },
+    {
+      name: "Cisco",
+      logo: "/cisco-logo.png",
+      description: "Collaborating on networking hardware and enterprise solutions.",
+      partnerSince: "2019"
+    },
+    {
+      name: "Airtel",
+      logo: "/airtel-logo.png",
+      description: "Joint ventures in telecommunications infrastructure and mobile network solutions.",
+      partnerSince: "2017"
+    },
+    {
+      name: "iColo",
+      logo: "/icolo-logo.png",
+      description: "Digital Realty Company, partnering on data center solutions and colocation services.",
+      partnerSince: "2020"
+    },
+    {
+      name: "Wingu Datacenters",
+      logo: "/wingu-logo.png",
+      description: "Collaborating on data center infrastructure and cloud services.",
+      partnerSince: "2021"
+    }
   ];
 
   // Technology partners
