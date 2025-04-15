@@ -604,31 +604,6 @@ const ClientsPage = () => {
             >
               Our Valued Clients
             </motion.h2>
-            
-            <motion.div 
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center"
-            >
-              {clientLogos.map((logo, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 flex items-center justify-center h-32 w-full"
-                >
-                  <Image
-                    src={logo}
-                    alt={`Client ${index + 1}`}
-                    width={120}
-                    height={60}
-                    className="object-contain"
-                    priority={index === 0}
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
         </section>
 
