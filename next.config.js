@@ -5,6 +5,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   output: 'export',
+  // Uncomment the basePath line and replace 'repo-name' with your actual repository name
+  // if deploying to a GitHub project page (not username.github.io)
+  // basePath: '/Fischer-Finctech',
 
   images: {
     domains: ['fischertelesec.com'],
