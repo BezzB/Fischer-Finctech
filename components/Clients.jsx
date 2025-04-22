@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { FaHandshake, FaUsers, FaBuilding, FaGlobe, FaArrowRight, FaStar } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaHandshake, FaUsers, FaBuilding, FaGlobe, FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
 
@@ -30,8 +30,6 @@ const itemVariants = {
     },
   },
 };
-
-// Testimonials removed as requested
 
 const featuredClients = [
   {
@@ -81,30 +79,6 @@ const featuredClients = [
     logo: "/chai-trading-logo.png",
     description: "Leading tea trading company",
     industry: "Agriculture"
-  },
-  {
-    name: "Mitchell Cotts Logistics",
-    logo: "/mitchell-cotts-logo.png",
-    description: "Comprehensive logistics solutions",
-    industry: "Logistics"
-  },
-  {
-    name: "Securex Agencies Limited",
-    logo: "/securex-logo.png",
-    description: "Security and risk management services",
-    industry: "Security"
-  },
-  {
-    name: "Double Portion Agencies Limited",
-    logo: "/double-portion-logo.png",
-    description: "Business development and consulting",
-    industry: "Consulting"
-  },
-  {
-    name: "The Nyali School",
-    logo: "/nyali-school-logo.png",
-    description: "Premier educational institution",
-    industry: "Education"
   }
 ];
 
@@ -134,12 +108,6 @@ const partners = [
     industry: "Technology"
   },
   {
-    name: "Cambium Networks",
-    logo: "/cambium-logo.png",
-    description: "Wireless networking solutions provider",
-    industry: "Technology"
-  },
-  {
     name: "Cisco",
     logo: "/cisco-logo.png",
     description: "Networking and communications technology",
@@ -150,18 +118,6 @@ const partners = [
     logo: "/airtel-logo.png",
     description: "Global telecommunications company",
     industry: "Telecommunications"
-  },
-  {
-    name: "iColo (Digital Reality Company)",
-    logo: "/icolo-logo.png",
-    description: "Data center and cloud solutions provider",
-    industry: "Technology"
-  },
-  {
-    name: "Wingu Datacenters",
-    logo: "/wingu-logo.png",
-    description: "Data center and cloud infrastructure provider",
-    industry: "Technology"
   }
 ];
 
@@ -186,19 +142,40 @@ const sectors = [
 
 const ClientsPage = () => {
   const [mounted, setMounted] = useState(false);
-  const [positions, setPositions] = useState([]);
+  const [arcPosition, setArcPosition] = useState(0);
 
   useEffect(() => {
     setMounted(true);
-    const newPositions = Array.from({ length: 8 }).map(() => ({
-      transform: `translate(${Math.random() * 80}%, ${Math.random() * 60}%)`
-    }));
-    setPositions(newPositions);
+    
+    // Automatic animation along the arc
+    const timer = setInterval(() => {
+      setArcPosition(prev => (prev + 1) % clientLogos.length);
+    }, 3000);
+    
+    return () => clearInterval(timer);
   }, []);
 
   if (!mounted) {
     return null;
   }
+  
+  // Function to rotate array to simulate movement along the arc
+  const getRotatedLogos = () => {
+    if (!clientLogos.length) return [];
+    
+    // Create a copy of the array
+    const rotated = [...clientLogos];
+    
+    // Rotate the array by arcPosition
+    for (let i = 0; i < arcPosition; i++) {
+      const item = rotated.shift();
+      rotated.push(item);
+    }
+    
+    return rotated;
+  };
+  
+  const rotatedLogos = getRotatedLogos();
 
   return (
     <div className="bg-white min-h-screen">
@@ -227,72 +204,7 @@ const ClientsPage = () => {
               </div>
             </div>
             
-            <div className="hidden lg:block">
-              {/* Client Logos Grid with floating animation */}
-              <div className="relative h-[400px] w-full">
-                {clientLogos.slice(0, 8).map((logo, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute"
-                    style={{
-                      ...positions[i],
-                    }}
-                    animate={{
-                      y: [0, Math.random() * 20 - 10, 0],
-                      x: [0, Math.random() * 20 - 10, 0],
-                      rotate: [0, Math.random() * 6 - 3, 0],
-                    }}
-                    transition={{
-                      duration: 5 + Math.random() * 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <div className="bg-white/10 backdrop-blur-sm p-3 rounded-lg border border-white/10 shadow-lg hover:shadow-accent-500/20 transition-all duration-300 hover:scale-105">
-                      <Image
-                        src={logo}
-                        alt="Client Logo"
-                        width={100}
-                        height={50}
-                        className="max-h-12 w-auto object-contain"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/Fischerlogo.png"; // Fallback image
-                        }}
-                      />
-                    </div>
-                  </motion.div>
-                ))}
-                
-                {/* Central connecting element */}
-                <motion.div
-                  className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
-                  animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <div className="relative w-24 h-24 rounded-full flex items-center justify-center">
-                    <div className="absolute inset-0 bg-accent-500/20 rounded-full blur-xl"></div>
-                    <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-4 rounded-full border border-primary-600">
-                      <Image
-                        src="/Fischerlogo.png"
-                        alt="Fischer Telesec"
-                        width={60}
-                        height={60}
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
             </div>
-          </div>
         </div>
       </section>
 
@@ -357,7 +269,7 @@ const ClientsPage = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-10 items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 items-center">
             {partners.map((partner, index) => (
               <motion.div
                 key={index}
