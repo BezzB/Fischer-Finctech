@@ -1,11 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import emailjs from '@emailjs/browser';
 import { FaCheckCircle, FaNetworkWired, FaServer, FaShieldAlt, FaHeadset, FaCloudUploadAlt, FaTools, FaChevronRight } from 'react-icons/fa';
 
 const GetQuote = () => {
-  const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState(null);
   const [formData, setFormData] = useState({
@@ -87,32 +86,48 @@ const GetQuote = () => {
       }).join(', ')
     };
     
-    // Send email
-    emailjs
-      .send('service_dv7wh96', 'template_nf3bs2w', templateParams, {
-        publicKey: 'bD4Vm_zoa3MYX5QBf',
-      })
-      .then(
-        () => {
-          console.log('SUCCESS!');
-          setFormError(null);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            company: '',
-            message: '',
-            services: []
-          });
-          toast.success('Your quote request has been submitted successfully. We will get back to you soon!');
-          setIsSubmitting(false);
-        },
-        (error) => {
-          console.log('FAILED...', error.text);
-          setFormError('Failed to send quote request. Please try again later or contact us directly.');
-          setIsSubmitting(false);
+    // Send email using EmailJS with the correct service ID
+    emailjs.send(
+      'service_dv7wh96',  // Correct EmailJS service ID
+      'template_bsvmkq7', // EmailJS template ID
+      templateParams,
+      {
+        publicKey: 'bD4Vm_zoa3MYX5QBf'
+      }
+    )
+    .then((response) => {
+      console.log('SUCCESS!', response.status, response.text);
+      setFormError(null);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        message: '',
+        services: []
+      });
+      toast.success('Your quote request has been submitted successfully. We will get back to you soon!');
+      setIsSubmitting(false);
+    }, (error) => {
+      console.log('FAILED...', error);
+      
+      // Check for Gmail API authorization error
+      if (error && error.text && error.text.includes('Gmail_API: Invalid grant')) {
+        setFormError('Our email service is temporarily unavailable. Please contact us directly at info@fischertelesec.co.ke or try again later.');
+        
+        // Send direct notification to admin about the EmailJS Gmail issue
+        console.error('EmailJS Gmail API authorization error: Please log in to EmailJS dashboard and reconnect your Gmail account');
+      } else {
+        // Generic error handling for other issues
+        let errorMessage = 'Failed to send quote request. Please try again later or contact us directly.';
+        if (error && error.text) {
+          errorMessage = `Error: ${error.text}`;
         }
-      );
+        setFormError(errorMessage);
+      }
+      
+      setIsSubmitting(false);
+    });
   };
 
   return (
@@ -314,7 +329,7 @@ const GetQuote = () => {
                 </div>
               )}
               
-              <form ref={form} onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">

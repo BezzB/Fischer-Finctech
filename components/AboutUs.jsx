@@ -58,10 +58,10 @@ const AboutUs = () => {
 
   const teamMembers = [
     {
-      name: 'John Kamau',
+      name: 'Robert Bii',
       position: 'CEO & Founder',
       image: '/user.svg',
-      bio: 'With over 15 years of experience in telecommunications, John founded Fischer Telesec with a vision to transform how businesses leverage technology.'
+      bio: 'With over 15 years of experience in telecommunications, Robert founded Fischer Telesec with a vision to transform how businesses leverage technology.'
     },
     {
       name: 'Sarah Njeri',
@@ -306,13 +306,11 @@ const AboutUs = () => {
                   
                   <div className="aspect-video relative overflow-hidden rounded-xl">
                     <Image
-                      src="/Fischerlogo.png"
-                      alt="Fischer Fintech Logo"
-                      width={200}
-                      height={80}
-                      priority={true}
-                      style={{ width: 'auto', height: 'auto' }}
-                      className="object-contain"
+                      src="/logo-white.png"
+                      alt="Fischer Telesec Logo"
+                      width={180}
+                      height={60}
+                      className="h-16 w-auto object-contain"
                     />
                     
                     {/* Digital edge accents */}

@@ -48,14 +48,19 @@ const ContactUs = () => {
     setIsSubmitting(true);
     setFormError(null);
 
-    // Send email if form is valid
+    // Send email if form is valid using the updated EmailJS API and correct service ID
     emailjs
-      .sendForm('service_dv7wh96', 'template_nf3bs2w', form.current, {
-        publicKey: 'bD4Vm_zoa3MYX5QBf',
-      })
+      .sendForm(
+        'service_dv7wh96', // Correct EmailJS service ID
+        'template_bsvmkq7', // EmailJS template ID
+        form.current,
+        {
+          publicKey: 'bD4Vm_zoa3MYX5QBf',
+        }
+      )
       .then(
-        () => {
-          console.log('SUCCESS!');
+        (response) => {
+          console.log('SUCCESS!', response.status, response.text);
           setFormError(null);
           form.current.reset(); // Reset form after successful submission
           setFormData({
@@ -70,8 +75,23 @@ const ContactUs = () => {
           setIsSubmitting(false);
         },
         (error) => {
-          console.log('FAILED...', error.text);
-          setFormError('Failed to send message. Please try again later or contact us directly.');
+          console.log('FAILED...', error);
+          
+          // Check for Gmail API authorization error
+          if (error && error.text && error.text.includes('Gmail_API: Invalid grant')) {
+            setFormError('Our email service is temporarily unavailable. Please contact us directly at info@fischertelesec.co.ke or try again later.');
+            
+            // Send direct notification to admin about the EmailJS Gmail issue
+            console.error('EmailJS Gmail API authorization error: Please log in to EmailJS dashboard and reconnect your Gmail account');
+          } else {
+            // Generic error handling for other issues
+            let errorMessage = 'Failed to send message. Please try again later or contact us directly.';
+            if (error && error.text) {
+              errorMessage = `Error: ${error.text}`;
+            }
+            setFormError(errorMessage);
+          }
+          
           setIsSubmitting(false);
         },
       );

@@ -78,6 +78,21 @@ const LandingPage = () => {
     })
   };
 
+  // State for digital circuit nodes
+  const [circuitNodes, setCircuitNodes] = useState([]);
+
+  // Generate circuit nodes on client-side only to avoid hydration errors
+  useEffect(() => {
+    const nodes = Array.from({ length: 10 }).map((_, i) => ({
+      id: i,
+      top: `${Math.random() * 100}%`,
+      left: `${Math.random() * 100}%`,
+      animationDelay: `${Math.random() * 3}s`,
+      animationDuration: `${2 + Math.random() * 3}s`
+    }));
+    setCircuitNodes(nodes);
+  }, []);
+
   return (
     <div className="w-full">
       {/* Hero Section */}
@@ -99,17 +114,17 @@ const LandingPage = () => {
               <path d="M50,0 L50,100" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" strokeDasharray="5,5" className="animate-pulse delay-700"></path>
           </svg>
             
-            {/* Digital circuit nodes */}
+            {/* Digital circuit nodes - Now using client-side generated values to prevent hydration errors */}
             <div className="absolute inset-0 grid grid-cols-6 grid-rows-6">
-              {Array.from({ length: 10 }).map((_, i) => (
+              {circuitNodes.map((node) => (
                 <div 
-                  key={i} 
-                  className={`absolute w-1.5 h-1.5 rounded-full bg-primary-300/40 animate-ping`}
+                  key={node.id} 
+                  className="absolute w-1.5 h-1.5 rounded-full bg-primary-300/40 animate-ping"
                   style={{ 
-                    top: `${Math.random() * 100}%`, 
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 3}s`,
-                    animationDuration: `${2 + Math.random() * 3}s`
+                    top: node.top, 
+                    left: node.left,
+                    animationDelay: node.animationDelay,
+                    animationDuration: node.animationDuration
                   }}
                 />
               ))}
@@ -195,7 +210,8 @@ const LandingPage = () => {
                 alt="Data Center Technology"
                 width={600}
                 height={500}
-                    className="rounded-2xl shadow-2xl object-cover relative animate-float border-2 border-white/10"
+                priority
+                className="rounded-2xl shadow-2xl object-cover relative animate-float border-2 border-white/10"
               />
                   <div className="absolute -bottom-4 -right-4 bg-gradient-to-br from-primary-600 to-primary-700 p-4 rounded-xl shadow-lg">
                 <div className="flex items-center gap-2">
@@ -429,34 +445,21 @@ const LandingPage = () => {
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex flex-col items-center"
+                  className="flex flex-col items-center justify-center"
                 >
-                  <div className="bg-white p-4 rounded-xl shadow-lg border border-primary-50 hover:border-primary-300 transition-all duration-300 group relative transform hover:scale-105 hover:shadow-xl mb-3 h-24 w-full flex items-center justify-center overflow-hidden">
-                    {/* Hover glow effect */}
-                    <div className="absolute inset-0 bg-primary-50 opacity-0 group-hover:opacity-10 rounded-xl transition-opacity duration-300"></div>
-                    <div className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary-500 to-transparent transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    
-                    {/* Digital corner accents */}
-                    <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-primary-300/0 group-hover:border-primary-300/80 transition-colors duration-300 rounded-tl-sm"></div>
-                    <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-primary-300/0 group-hover:border-primary-300/80 transition-colors duration-300 rounded-tr-sm"></div>
-                    <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-primary-300/0 group-hover:border-primary-300/80 transition-colors duration-300 rounded-bl-sm"></div>
-                    <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-primary-300/0 group-hover:border-primary-300/80 transition-colors duration-300 rounded-br-sm"></div>
-                    
+                  <div className="relative w-full h-16 mb-2">
                     <Image 
                       src={partner.img} 
                       alt={partner.name} 
-                      width={130} 
-                      height={65} 
-                      className="transition-all duration-300 group-hover:brightness-110 z-10 relative" 
+                      width={100}
+                      height={40}
+                      style={{ width: 'auto', height: '100%' }}
+                      className="object-contain mx-auto" 
                     />
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-primary-500 animate-pulse"></div>
-                    <span className="text-sm font-medium text-primary-700">Trusted Partner</span>
-                  </div>
+                  <span className="text-xs text-primary-600 font-medium">{partner.name}</span>
                 </motion.div>
               ))}
             </div>
@@ -834,58 +837,6 @@ const LandingPage = () => {
               </svg>
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-24 bg-primary-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/circuit-board.svg')] opacity-5"></div>
-        <div className="absolute right-0 top-0 w-64 h-64 bg-primary-600 rounded-full opacity-20 filter blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute left-0 bottom-0 w-64 h-64 bg-primary-400 rounded-full opacity-10 filter blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-        
-        <div className="container-tight relative z-10">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1 rounded-full bg-primary-800 text-sm font-medium text-primary-200 mb-4 border border-primary-700">Testimonials</span>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">What Our Clients Say</h2>
-            <p className="text-xl text-primary-200 max-w-2xl mx-auto font-light">
-              We&apos;ve helped businesses across East Africa transform their telecommunications and IT infrastructure
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gradient-to-br from-primary-800 to-primary-900 p-10 rounded-2xl shadow-xl backdrop-blur-sm border border-primary-700/30"
-              >
-                <svg className="w-12 h-12 text-primary-500 mb-6 opacity-80" fill="currentColor" viewBox="0 0 32 32">
-                  <path d="M10,8c-4.418,0-8,3.582-8,8c0,2.837,1.479,5.331,3.704,6.752C5.802,23.139,6,23.939,6,24c0,2.25-0.5,4-0.5,4h5v-2c0-1.104,0.896-2,2-2h2c0.359,0,0.689,0.118,0.964,0.304C16.469,24.754,17.586,25,18,25c0.761,0,1.464-0.196,2.065-0.511C20.345,24.817,20.668,25,21,25h2c1.104,0,2,0.896,2,2v2h5c0,0-0.5-1.75-0.5-4c0-0.061,0.198-0.861,0.296-1.248C32.521,21.331,34,18.837,34,16c0-4.418-3.582-8-8-8C21.979,8,18.19,11.983,16,11.983C13.806,11.983,10.019,8,10,8z"></path>
-                </svg>
-                <p className="text-primary-100 italic text-lg mb-8 leading-relaxed">&quot;{testimonial.quote}&quot;</p>
-                <div className="flex items-center">
-                  <div className="mr-4">
-                    <div className="p-1 bg-gradient-to-r from-primary-400 to-primary-600 rounded-full">
-                    <Image 
-                      src={testimonial.image} 
-                      alt={testimonial.author} 
-                      width={60} 
-                      height={60}
-                      className="rounded-full bg-white p-1" 
-                    />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-lg text-white">{testimonial.author}</h4>
-                    <p className="text-primary-300">{testimonial.position}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 

@@ -4,7 +4,12 @@ const nextConfig = {
   swcMinify: true,
   compress: true,
   poweredByHeader: false,
+  
+  // Using static export mode for static hosting
+  // Note: With this enabled, API routes won't work
+  // Use EmailJS or other browser-based form submission services instead
   output: 'export',
+  
   // Uncomment the basePath line and replace 'repo-name' with your actual repository name
   // if deploying to a GitHub project page (not username.github.io)
   // basePath: '/Fischer-Finctech',

@@ -182,12 +182,11 @@ const Navbar = () => {
               />
               
               <Image
-                src="/Fischerlogo.png"
-                alt="Fischer Fintech Logo"
-                width={120}
-                height={30}
-                priority={true}
-                className="object-contain"
+                src="/logo-white.png"
+                width={160}
+                height={50}
+                className="h-8 md:h-10 w-auto"
+                alt="Fischer Telesec Logo"
               />
             </Link>
           </motion.div>
