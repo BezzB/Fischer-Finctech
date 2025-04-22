@@ -412,7 +412,7 @@ const ServicesPage = () => {
             </div>
             
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white transition-all duration-700 leading-tight md:leading-tight">
-              Technology Solutions for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-600">Digital Era</span>
+              Technology Solutions for the <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Digital Era</span>
             </h2>
             
             <div className="h-1 w-24 bg-accent-500/70 mx-auto mb-8 rounded-full"></div>

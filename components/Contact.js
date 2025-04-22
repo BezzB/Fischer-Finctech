@@ -15,7 +15,8 @@ const ContactUs = () => {
     user_phone: '',
     company: '',
     service_interest: '',
-    message: ''
+    message: '',
+    recipient_email: 'bezbanco@gmail.com' // Default recipient email
   });
 
   const handleInputChange = (e) => {
@@ -23,6 +24,14 @@ const ContactUs = () => {
     setFormData({
       ...formData,
       [name]: value
+    });
+  };
+
+  // Allow admin to change recipient email through a hidden field or UI component
+  const setRecipientEmail = (email) => {
+    setFormData({
+      ...formData,
+      recipient_email: email
     });
   };
 
@@ -48,12 +57,25 @@ const ContactUs = () => {
     setIsSubmitting(true);
     setFormError(null);
 
-    // Send email if form is valid using the updated EmailJS API and correct service ID
+    // Create a template params object including the recipient_email
+    const templateParams = {
+      user_name: formData.user_name,
+      user_email: formData.user_email,
+      user_phone: formData.user_phone,
+      company: formData.company,
+      service_interest: formData.service_interest,
+      message: formData.message,
+      recipient_email: formData.recipient_email // Pass the recipient email
+      // Note: You must update your EmailJS template to include {{recipient_email}} 
+      // in the "To Email" field in the EmailJS dashboard for this to work
+    };
+
+    // Send email if form is valid using the updated EmailJS API
     emailjs
-      .sendForm(
-        'service_dv7wh96', // Correct EmailJS service ID
+      .send(
+        'service_dv7wh96', // EmailJS service ID
         'template_bsvmkq7', // EmailJS template ID
-        form.current,
+        templateParams, // Use template params instead of form
         {
           publicKey: 'bD4Vm_zoa3MYX5QBf',
         }
@@ -69,7 +91,8 @@ const ContactUs = () => {
             user_phone: '',
             company: '',
             service_interest: '',
-            message: ''
+            message: '',
+            recipient_email: 'info@fischertelesec.co.ke' // Reset to default recipient
           });
           toast.success('Your message has been sent successfully. We will get back to you soon!');
           setIsSubmitting(false);
@@ -380,7 +403,7 @@ const ContactUs = () => {
                           value={formData.user_name}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
-                          placeholder="John Doe"
+                          placeholder="Name"
                           required
                         />
                         <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
@@ -399,7 +422,7 @@ const ContactUs = () => {
                           value={formData.user_email}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
-                          placeholder="john@example.com"
+                          placeholder="email"
                           required
                         />
                         <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
@@ -492,6 +515,29 @@ const ContactUs = () => {
                       <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
                     </div>
                   </div>
+                  
+                  {/* Hidden Recipient Email field - Only visible to admins with proper authentication */}
+                  {/* Uncomment and customize this section when you have admin authentication in place
+                  {isAdminUser && (
+                    <div className="group">
+                      <label htmlFor="recipient_email" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
+                        Recipient Email *
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="email"
+                          name="recipient_email"
+                          id="recipient_email"
+                          value={formData.recipient_email}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
+                          placeholder="recipient@example.com"
+                        />
+                        <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
+                      </div>
+                    </div>
+                  )}
+                  */}
                   
                   <div>
                     <motion.button

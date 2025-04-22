@@ -1,7 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaHandshake, FaUsers, FaBuilding, FaGlobe, FaArrowRight } from "react-icons/fa";
+import { 
+  FaHandshake, 
+  FaUsers, 
+  FaBuilding, 
+  FaGlobe, 
+  FaArrowRight, 
+  FaGraduationCap, 
+  FaHome, 
+  FaHotel, 
+  FaShieldAlt 
+} from "react-icons/fa";
 import Link from "next/link";
 import dynamic from 'next/dynamic';
 
@@ -59,8 +69,8 @@ const featuredClients = [
   {
     name: "Symbion Consulting Group",
     logo: "/symbion-logo.png",
-    description: "Business and technology consulting firm",
-    industry: "Consulting"
+    description: "Leading Architectural company in East Africa",
+    industry: "Architecture"
   },
   {
     name: "Green Telecoms Tanzania Limited",
@@ -71,8 +81,8 @@ const featuredClients = [
   {
     name: "Solian",
     logo: "/solian-logo.png",
-    description: "Digital transformation specialists",
-    industry: "Technology"
+    description: "Leading Real Estate company in Kenya",
+    industry: "Real Estate"
   },
   {
     name: "Chai Trading Company Limited (KTDA)",
@@ -137,19 +147,82 @@ const sectors = [
   { name: "Telecommunications", icon: <FaGlobe className="text-4xl text-primary-600 mb-4" /> },
   { name: "Information Technology", icon: <FaUsers className="text-4xl text-primary-600 mb-4" /> },
   { name: "Manufacturing", icon: <FaBuilding className="text-4xl text-primary-600 mb-4" /> },
-  { name: "Corporate", icon: <FaHandshake className="text-4xl text-primary-600 mb-4" /> }
+  { name: "Corporate", icon: <FaHandshake className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Education", icon: <FaGraduationCap className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Real Estate", icon: <FaHome className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Hospitality", icon: <FaHotel className="text-4xl text-primary-600 mb-4" /> },
+  { name: "Security", icon: <FaShieldAlt className="text-4xl text-primary-600 mb-4" /> }
 ];
 
 const ClientsPage = () => {
   const [mounted, setMounted] = useState(false);
-  const [arcPosition, setArcPosition] = useState(0);
+  const [logoPositions, setLogoPositions] = useState([]);
+  const [centerLogo, setCenterLogo] = useState(null);
+  const containerRef = useRef(null);
+
+  // Define the calculateLogoPositions function before using it in useEffect
+  const calculateLogoPositions = () => {
+    // Rotate the logos array to create animation
+    const newClientLogos = [...clientLogos];
+    const firstLogo = newClientLogos.shift();
+    newClientLogos.push(firstLogo);
+    
+    // Set the center logo (middle of the array)
+    const centerIndex = Math.floor(newClientLogos.length / 2);
+    setCenterLogo(newClientLogos[centerIndex]);
+    
+    // Explicitly define positions for a left-facing arc
+    // These positions form a left-facing "C" shape
+    const arcPositions = [
+      { x: -100, y: -160 },  // Top position
+      { x: -140, y: -120 },  
+      { x: -160, y: -60 },   
+      { x: -170, y: 0 },     // Middle position (furthest left)
+      { x: -160, y: 60 },    
+      { x: -140, y: 120 },   
+      { x: -100, y: 160 },   // Bottom position
+      { x: -50, y: 180 },
+      { x: 0, y: 190 }
+    ];
+    
+    // If we have fewer logos than positions, use only the middle positions
+    const adjustedPositions = arcPositions.slice(
+      Math.max(0, Math.floor((arcPositions.length - newClientLogos.length) / 2)),
+      Math.min(arcPositions.length, Math.floor((arcPositions.length - newClientLogos.length) / 2) + newClientLogos.length)
+    );
+    
+    // If we have more logos than positions, duplicate the middle positions
+    while (adjustedPositions.length < newClientLogos.length) {
+      adjustedPositions.splice(Math.floor(adjustedPositions.length / 2), 0, arcPositions[Math.floor(arcPositions.length / 2)]);
+    }
+    
+    // Map logos to positions
+    const positions = newClientLogos.map((logo, index) => {
+      // Scale factor (1.0 is original size, center logo is bigger)
+      const distanceFromCenter = Math.abs(index - centerIndex);
+      const scale = 1 - (distanceFromCenter * 0.15); // Scale down as it gets further from center
+      
+      return {
+        ...logo,
+        x: adjustedPositions[index].x,
+        y: adjustedPositions[index].y,
+        scale,
+        opacity: 0.4 + (1 - distanceFromCenter / (newClientLogos.length / 2)) * 0.6 // Fade out logos farther from center
+      };
+    });
+    
+    setLogoPositions(positions);
+  };
 
   useEffect(() => {
     setMounted(true);
     
+    // Initial calculation
+    calculateLogoPositions();
+    
     // Automatic animation along the arc
     const timer = setInterval(() => {
-      setArcPosition(prev => (prev + 1) % clientLogos.length);
+      calculateLogoPositions();
     }, 3000);
     
     return () => clearInterval(timer);
@@ -158,24 +231,6 @@ const ClientsPage = () => {
   if (!mounted) {
     return null;
   }
-  
-  // Function to rotate array to simulate movement along the arc
-  const getRotatedLogos = () => {
-    if (!clientLogos.length) return [];
-    
-    // Create a copy of the array
-    const rotated = [...clientLogos];
-    
-    // Rotate the array by arcPosition
-    for (let i = 0; i < arcPosition; i++) {
-      const item = rotated.shift();
-      rotated.push(item);
-    }
-    
-    return rotated;
-  };
-  
-  const rotatedLogos = getRotatedLogos();
 
   return (
     <div className="bg-white min-h-screen">
@@ -188,7 +243,7 @@ const ClientsPage = () => {
             <div>
               <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-primary-800 to-primary-700 text-sm font-medium text-primary-200 mb-5 border border-primary-700/50">Fischer Telesec</span>
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
-                Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-400 to-accent-500">Industry Leaders</span> Across East Africa
+                Trusted by <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Industry Leaders</span> Across East Africa
               </h1>
               <p className="text-xl text-primary-200 mb-8 max-w-lg">
                 Delivering innovative telecommunications and IT solutions to businesses of all sizes across multiple industries.
@@ -204,7 +259,60 @@ const ClientsPage = () => {
               </div>
             </div>
             
+            {/* Logo Arc Section */}
+            <div ref={containerRef} className="relative h-[400px] w-full hidden lg:block">
+              <div className="absolute inset-0 flex items-center justify-center">
+                {/* Semi-circular arc guide (optional, for visual debugging) */}
+                {/* <div className="absolute w-[360px] h-[360px] border-l-2 border-t-2 border-b-2 border-primary-500/10 rounded-l-full"></div> */}
+                
+                {/* Company logos along the arc */}
+                {logoPositions.map((logo, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ x: logo.x, y: logo.y, scale: logo.scale, opacity: logo.opacity }}
+                    animate={{ x: logo.x, y: logo.y, scale: logo.scale, opacity: logo.opacity }}
+                    transition={{ duration: 1.2, ease: "easeInOut" }}
+                    className="absolute"
+                    style={{ transform: `translate(${logo.x}px, ${logo.y}px)` }}
+                  >
+                    <div 
+                      className={`
+                        flex items-center justify-center rounded-full bg-white shadow-lg
+                        ${logo.name === centerLogo?.name ? 'w-24 h-24 border-2 border-primary-500' : 'w-16 h-16 border border-gray-100'}
+                        transition-all duration-300
+                      `}
+                    >
+                      <Image
+                        src={logo.image || "/Fischerlogo.png"}
+                        alt={logo.name}
+                        width={logo.name === centerLogo?.name ? 80 : 50}
+                        height={logo.name === centerLogo?.name ? 80 : 50}
+                        className="object-contain p-2 max-w-[80%] max-h-[80%]"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/Fischerlogo.png"; // Fallback image
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Only show name for center logo */}
+                    {logo.name === centerLogo?.name && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap"
+                      >
+                        <span className="font-medium text-white bg-primary-700/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+                          {logo.name}
+                        </span>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
             </div>
+          </div>
         </div>
       </section>
 
@@ -303,7 +411,7 @@ const ClientsPage = () => {
       </section>
 
       {/* Industries Served */}
-      <section className="py-20 px-4 bg-gray-50 relative overflow-hidden">
+      <section className="py-20 px-4 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
         {/* Digital accent patterns */}
         <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
           <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -344,7 +452,8 @@ const ClientsPage = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl font-bold text-gray-900 mb-2 relative inline-block">
+            <span className="inline-block px-4 py-1 rounded-full bg-primary-100 text-sm font-medium text-primary-700 mb-4">Industry Expertise</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 relative inline-block">
               Industries We Serve
               <motion.div
                 className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full"
@@ -355,7 +464,7 @@ const ClientsPage = () => {
               />
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mt-6">
-              Our expertise spans across multiple sectors, providing specialized telecommunications and IT solutions.
+              Our expertise spans across multiple sectors, providing specialized telecommunications and IT solutions tailored to your industry's unique needs.
             </p>
           </motion.div>
           
@@ -364,22 +473,23 @@ const ClientsPage = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
           >
             {sectors.map((sector, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
                 whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 15px 30px rgba(0, 0, 0, 0.1)",
+                  y: -8,
+                  boxShadow: "0 20px 30px rgba(0, 0, 0, 0.1)",
                 }}
-                className="bg-white p-8 rounded-xl shadow-md text-center relative group overflow-hidden border border-gray-100"
+                className="bg-white p-6 rounded-xl shadow-md text-center relative group overflow-hidden border border-gray-100 transition-all duration-300"
               >
-                {/* Hover background effect */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
-                />
+                {/* Hover gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-accent-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
+                
+                {/* Top accent bar */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 z-10"></div>
                 
                 {/* Digital corner accents */}
                 <svg className="absolute top-0 right-0 w-16 h-16 text-primary-500/5" viewBox="0 0 16 16" fill="none">
@@ -390,40 +500,34 @@ const ClientsPage = () => {
                 </svg>
                 
                 {/* Icon container with glow effect */}
-                <motion.div 
-                  className="relative z-10 inline-flex items-center justify-center mb-4"
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <motion.div 
-                    className="absolute -inset-4 rounded-full opacity-0 group-hover:opacity-20 bg-primary-500 blur-md transition-opacity duration-300"
-                  />
+                <div className="relative z-10 mb-4">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-primary-50 to-primary-100 flex items-center justify-center group-hover:shadow-lg group-hover:shadow-primary-200/40 transition-all duration-300">
                   <motion.div 
                     animate={{ 
                       scale: [1, 1.05, 1],
-                      opacity: [0.8, 1, 0.8]
                     }}
                     transition={{ duration: 3, repeat: Infinity }}
-                    className="text-primary-600 relative"
+                      className="text-primary-600 relative group-hover:text-primary-700 transition-colors duration-300"
                   >
                     {sector.icon}
                   </motion.div>
-                </motion.div>
+                  </div>
+                  <motion.div 
+                    className="absolute -inset-4 rounded-full opacity-0 group-hover:opacity-30 bg-primary-500/20 blur-lg transition-opacity duration-300"
+                    style={{ top: '25%', left: '25%' }}
+                  />
+                </div>
                 
-                <h3 className="text-xl font-semibold text-gray-900 relative z-10 group-hover:text-primary-700 transition-colors duration-300">
+                <h3 className="text-lg font-semibold text-gray-900 relative z-10 group-hover:text-primary-700 transition-colors duration-300 mb-1">
                   {sector.name}
                 </h3>
                 
-                {/* Digital scan effect on hover */}
-                <motion.div 
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                >
-                  <motion.div 
-                    className="h-full bg-primary-500"
-                    initial={{ width: "0%" }}
-                    animate={{ x: ["0%", "100%"] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                  />
-                </motion.div>
+                <div className="w-8 h-0.5 bg-primary-300/50 mx-auto mt-2 mb-3 group-hover:bg-primary-500 transition-colors duration-300"></div>
+                
+                {/* Hover indicator */}
+                <div className="absolute bottom-3 left-0 right-0 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <span className="text-xs text-primary-600 font-medium">Learn More</span>
+                </div>
               </motion.div>
             ))}
           </motion.div>
