@@ -159,97 +159,150 @@ const ClientsPage = () => {
   const [logoPositions, setLogoPositions] = useState([]);
   const [centerLogo, setCenterLogo] = useState(null);
   const containerRef = useRef(null);
+  const animationRef = useRef(null);
+  const lastUpdateTimeRef = useRef(0);
+  const rotationProgressRef = useRef(0);
   const [activeLogoIndex, setActiveLogoIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [currentLogoIndex, setCurrentLogoIndex] = useState(0);
 
-  // Calculate logo positions with improved arc motion
-  const calculateLogoPositions = () => {
-    // Create enhanced client logos with proper data
-    const enhancedLogos = clientLogos.map((logo) => {
-      // Find matching client data if available
-      const clientData = [...featuredClients, ...partners].find(
-        client => client.logo && client.logo.includes(logo.replace("/", ""))
-      );
-      
-      return {
-        image: logo,
-        name: clientData?.name || "Partner",
-        industry: clientData?.industry || "Technology"
-      };
-    });
+  // Create enhanced client logos with proper data
+  const enhancedLogos = clientLogos.map((logo) => {
+    // Find matching client data if available
+    const clientData = [...featuredClients, ...partners].find(
+      client => client.logo && client.logo.includes(logo.replace("/", ""))
+    );
     
-    // Setup left-facing C-shaped arc positions
-    if (!isTransitioning) {
-      setIsTransitioning(true);
-      
-      // Update the active logo index
-      const nextIndex = (activeLogoIndex + 1) % enhancedLogos.length;
-      setActiveLogoIndex(nextIndex);
-      
-      // Define left-facing C-shaped arc positions
-      const arcPositions = [
-        { x: -50, y: 180 },   // Bottom entry point
-        { x: -100, y: 130 },  // Bottom arc 
-        { x: -140, y: 60 },   // Lower middle
-        { x: -160, y: 0 },    // Center position (furthest left)
-        { x: -140, y: -60 },  // Upper middle
-        { x: -100, y: -130 }, // Top arc
-        { x: -50, y: -180 },  // Top exit point
-      ];
-      
-      // Calculate which logos should be in which positions (scrolling effect)
-      const totalPositions = arcPositions.length;
-      const positions = [];
-      
-      for (let posIndex = 0; posIndex < totalPositions; posIndex++) {
-        // Calculate which logo goes in this position
-        const logoIndex = (nextIndex - (totalPositions - 1 - posIndex) + enhancedLogos.length) % enhancedLogos.length;
-        const logo = enhancedLogos[logoIndex];
-        
-        // Calculate scale and opacity based on position
-        // Position 3 is the center (largest)
-        const distanceFromCenter = Math.abs(posIndex - 3);
-        const scale = 1 - (distanceFromCenter * 0.15);
-        const opacity = 0.4 + (1 - distanceFromCenter / 3) * 0.6;
-        
-        positions.push({
-          ...logo,
-          x: arcPositions[posIndex].x,
-          y: arcPositions[posIndex].y,
-          scale,
-          opacity,
-          posIndex,
-          isCenter: posIndex === 3
-        });
-      }
-      
-      // Set center logo for reference
-      const centerLogoPos = positions.find(logo => logo.isCenter);
-      setCenterLogo(centerLogoPos);
-      
-      // Update positions state
-      setLogoPositions(positions);
-      
-      // Reset transition state after animation completes
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 1000);
+    return {
+      image: logo,
+      name: clientData?.name || "Partner",
+      industry: clientData?.industry || "Technology"
+    };
+  });
+
+  // Set up timed logo cycling - separate from the animation
+  useEffect(() => {
+    // Cycle to the next logo every 4 seconds
+    const logoTimer = setInterval(() => {
+      setCurrentLogoIndex(prev => (prev + 1) % enhancedLogos.length);
+    }, 4000);
+    
+    return () => clearInterval(logoTimer);
+  }, [enhancedLogos.length]);
+
+  // Define left-facing C-shaped arc positions with more points for smoother path
+  const arcPositions = [
+    { x: -50, y: 180 },   // Bottom entry point
+    { x: -75, y: 155 },   // Additional point
+    { x: -100, y: 130 },  // Bottom arc 
+    { x: -120, y: 95 },   // Additional point
+    { x: -140, y: 60 },   // Lower middle
+    { x: -155, y: 30 },   // Additional point
+    { x: -160, y: 0 },    // Center position (furthest left)
+    { x: -155, y: -30 },  // Additional point
+    { x: -140, y: -60 },  // Upper middle
+    { x: -120, y: -95 },  // Additional point
+    { x: -100, y: -130 }, // Top arc
+    { x: -75, y: -155 },  // Additional point
+    { x: -50, y: -180 },  // Top exit point
+  ];
+
+  // Animate the rotation continuously - only handle position animations
+  const animateRotation = (timestamp) => {
+    if (!lastUpdateTimeRef.current) {
+      lastUpdateTimeRef.current = timestamp;
     }
+    
+    const deltaTime = timestamp - lastUpdateTimeRef.current;
+    lastUpdateTimeRef.current = timestamp;
+    
+    // Progress at a constant rate - extremely slow for elegant, measured flow
+    const rotationSpeed = 0.000015; // Extremely slow for a premium showcase experience
+    rotationProgressRef.current += deltaTime * rotationSpeed;
+    
+    // Reset progress counter when it reaches 1
+    if (rotationProgressRef.current >= 1) {
+      rotationProgressRef.current = 0;
+    }
+    
+    updateLogoPositions(rotationProgressRef.current);
+    
+    animationRef.current = requestAnimationFrame(animateRotation);
+  };
+  
+  // Update logo positions based on current rotation progress
+  const updateLogoPositions = (progress) => {
+    const totalPositions = arcPositions.length;
+    const positions = [];
+    
+    // For each position in the arc
+    for (let posIndex = 0; posIndex < totalPositions; posIndex++) {
+      // Calculate the blended position based on progress
+      const currentPosIndex = posIndex;
+      const nextPosIndex = (posIndex + 1) % totalPositions;
+      
+      // For smooth transitions between arc positions with better curve interpolation
+      const startPos = arcPositions[currentPosIndex];
+      const endPos = posIndex === totalPositions - 1 
+        ? { x: arcPositions[0].x, y: arcPositions[0].y - 350 } // Special case for wrapping animation
+        : arcPositions[nextPosIndex];
+      
+      // Use cubic bezier easing for extremely smooth motion around curves
+      const t = progress;
+      const easedT = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // Custom easing for smoother flow
+      const x = startPos.x + (endPos.x - startPos.x) * easedT;
+      const y = startPos.y + (endPos.y - startPos.y) * easedT;
+      
+      // Calculate logo index to ensure all logos cycle through
+      // Use the time-based currentLogoIndex instead of the animation-based activeLogoIndex
+      const totalLogos = enhancedLogos.length;
+      const logoIndex = (currentLogoIndex + posIndex) % totalLogos;
+      
+      const logo = enhancedLogos[logoIndex];
+      
+      // Calculate scale and opacity based on position - emphasize center logo more
+      // Position 6 is the center (largest)
+      const distanceFromCenter = Math.abs(6 - (posIndex + progress));
+      const scale = 1 - (distanceFromCenter * 0.06); // Even smaller scaling factor for more gradual size changes
+      const opacity = 0.3 + (1 - distanceFromCenter / 6) * 0.7; // More contrast between center and other logos
+      
+      positions.push({
+        ...logo,
+        x,
+        y,
+        scale,
+        opacity,
+        posIndex,
+        progress,
+        isCenter: posIndex === 6 && progress < 0.5 || posIndex === 5 && progress >= 0.5
+      });
+    }
+    
+    // Set center logo for reference
+    const centerLogoPos = positions.find(logo => logo.isCenter);
+    setCenterLogo(centerLogoPos);
+    
+    // Update positions state
+    setLogoPositions(positions);
   };
 
   useEffect(() => {
     setMounted(true);
     
-    // Set initial positions
-    calculateLogoPositions();
+    // Ensure we start with a clean state
+    lastUpdateTimeRef.current = 0;
+    rotationProgressRef.current = 0;
+    setActiveLogoIndex(0);
     
-    // Set up automatic rotation
-    const timer = setInterval(() => {
-      calculateLogoPositions();
-    }, 4000);
+    // Start the animation loop
+    animationRef.current = requestAnimationFrame(animateRotation);
     
-    return () => clearInterval(timer);
-  }, [activeLogoIndex]); // Add dependency to re-run when activeLogoIndex changes
+    // Cleanup animation frame on unmount
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, []); // No dependencies to ensure animation runs only once
 
   if (!mounted) {
     return null;
@@ -282,7 +335,7 @@ const ClientsPage = () => {
               </div>
             </div>
             
-            {/* Improved Logo Arc Showcase */}
+            {/* Fluid Logo Arc Showcase */}
             <div ref={containerRef} className="relative h-[500px] w-full hidden lg:block">
               {/* Subtle arc path guide - left-facing C shape */}
               <svg className="absolute inset-0 w-full h-full overflow-visible">
@@ -296,116 +349,200 @@ const ClientsPage = () => {
                 />
               </svg>
 
-              {/* Accent glow spots */}
-              <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"></div>
+              {/* Dynamic glow effect that follows center logo */}
+              {centerLogo && (
+                <motion.div 
+                  className="absolute w-[400px] h-[400px] rounded-full bg-gradient-to-r from-primary-500/10 via-yellow-500/10 to-primary-500/10 blur-3xl"
+                  animate={{
+                    x: centerLogo.x,
+                    y: centerLogo.y,
+                    opacity: [0.1, 0.25, 0.1],
+                    scale: [0.9, 1.05, 0.9]
+                  }}
+                  transition={{
+                    opacity: {
+                      repeat: Infinity,
+                      duration: 4,
+                      ease: "easeInOut"
+                    },
+                    scale: {
+                      repeat: Infinity,
+                      duration: 5,
+                      ease: "easeInOut"
+                    },
+                    x: {
+                      type: "spring",
+                      damping: 20,
+                    },
+                    y: {
+                      type: "spring",
+                      damping: 20,
+                    }
+                  }}
+                />
+              )}
               
-              {/* Logo showcase */}
+              {/* Logo showcase - fluid animation */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <AnimatePresence mode="popLayout">
-                  {logoPositions.map((logo, index) => (
-                    <motion.div
-                      key={`logo-${logo.posIndex}-${activeLogoIndex}`}
-                      initial={{ 
-                        // New logos start below and slide up into position
-                        x: logo.posIndex === 0 ? logo.x : logo.x,
-                        y: logo.posIndex === 0 ? logo.y + 150 : logo.y,
-                        opacity: logo.posIndex === 0 ? 0 : logo.opacity,
-                        scale: logo.scale * 0.7
-                      }}
-                      animate={{ 
-                        x: logo.x, 
-                        y: logo.y, 
-                        opacity: logo.opacity, 
-                        scale: logo.scale,
-                        zIndex: logo.isCenter ? 10 : 1
-                      }}
-                      exit={{ 
-                        // Exiting logos slide up and fade out
-                        y: logo.posIndex === 6 ? logo.y - 150 : logo.y,
-                        opacity: logo.posIndex === 6 ? 0 : logo.opacity,
-                        scale: logo.posIndex === 6 ? logo.scale * 0.7 : logo.scale,
-                        transition: { duration: 0.4, ease: "easeOut" }
-                      }}
-                      transition={{ 
-                        type: "spring",
-                        damping: 22,
-                        stiffness: 90,
-                        mass: 0.8
-                      }}
-                      className="absolute"
-                      style={{
-                        zIndex: logo.isCenter ? 10 : (10 - Math.abs(3 - logo.posIndex))
+                {logoPositions.map((logo, index) => (
+                  <motion.div
+                    key={`logo-${currentLogoIndex}-${logo.posIndex}-${logo.name}`}
+                    initial={false}
+                    animate={{ 
+                      x: logo.x, 
+                      y: logo.y, 
+                      opacity: logo.opacity, 
+                      scale: logo.isCenter ? 1.25 : logo.scale,
+                      zIndex: logo.isCenter ? 10 : (10 - Math.abs(6 - logo.posIndex)),
+                    }}
+                    transition={{ 
+                      type: "tween", 
+                      duration: 1.5,
+                      ease: [0.4, 0.0, 0.2, 1]
+                    }}
+                    className="absolute"
+                  >
+                    {/* Logo container with glass effect for center logo */}
+                    <motion.div 
+                      className={`
+                        relative flex items-center justify-center rounded-full 
+                        ${logo.isCenter 
+                          ? 'w-36 h-36 bg-white shadow-2xl border-3 border-yellow-400' 
+                          : `w-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} h-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} bg-white/90 border border-white/50 backdrop-blur-sm`
+                        }
+                        transition-all duration-700
+                      `}
+                      whileHover={{ scale: 1.05 }}
+                      animate={logo.isCenter ? {
+                        boxShadow: ['0 0 15px rgba(255,255,255,0.4)', '0 0 30px rgba(255,255,255,0.6)', '0 0 15px rgba(255,255,255,0.4)']
+                      } : {}}
+                      transition={{
+                        boxShadow: { repeat: Infinity, duration: 3 }
                       }}
                     >
-                      {/* Logo container with glass effect for center logo */}
-                      <motion.div 
-                        className={`
-                          relative flex items-center justify-center rounded-full 
-                          ${logo.isCenter 
-                            ? 'w-32 h-32 bg-white shadow-xl border-2 border-yellow-400' 
-                            : `w-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} h-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} bg-white/90 border border-white/50 backdrop-blur-sm`
-                          }
-                          transition-all duration-300
-                        `}
-                        whileHover={{ scale: 1.05 }}
-                        animate={logo.isCenter ? {
-                          boxShadow: ['0 0 10px rgba(255,255,255,0.3)', '0 0 20px rgba(255,255,255,0.4)', '0 0 10px rgba(255,255,255,0.3)']
-                        } : {}}
-                        transition={{
-                          boxShadow: { repeat: Infinity, duration: 2 }
+                      <Image
+                        src={logo.image || "/Fischerlogo.png"}
+                        alt={logo.name}
+                        width={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
+                        height={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
+                        className="object-contain p-3 max-w-[85%] max-h-[85%]"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "/Fischerlogo.png"; // Fallback image
                         }}
-                      >
-                        <Image
-                          src={logo.image || "/Fischerlogo.png"}
-                          alt={logo.name}
-                          width={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
-                          height={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
-                          className="object-contain p-3 max-w-[85%] max-h-[85%]"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "/Fischerlogo.png"; // Fallback image
-                          }}
-                        />
-                        
-                        {/* Subtle radial highlight behind center logo */}
-                        {logo.isCenter && (
-                          <div className="absolute inset-0 rounded-full overflow-hidden -z-10">
-                            <div className="absolute inset-1 bg-gradient-to-br from-white via-yellow-50 to-white rounded-full opacity-80"></div>
-                          </div>
-                        )}
-                      </motion.div>
+                      />
                       
-                      {/* Enhanced name and info display for center logo - positioned to the left */}
+                      {/* Animated pulse behind center logo */}
                       {logo.isCenter && (
                         <motion.div 
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -20 }}
-                          transition={{ delay: 0.2, duration: 0.5 }}
-                          className="absolute top-1/2 right-full -translate-y-1/2 mr-4 flex flex-col items-end gap-2"
+                          className="absolute inset-0 rounded-full -z-10"
+                          animate={{
+                            scale: [1, 1.05, 1],
+                            opacity: [0.8, 1, 0.8],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
                         >
-                          <span className="font-medium text-white bg-primary-600/80 px-4 py-1.5 rounded-full text-sm backdrop-blur-sm shadow-lg whitespace-nowrap">
-                            {logo.name}
-                          </span>
-                          
-                          {logo.industry && (
-                            <span className="text-xs bg-yellow-500/80 text-white/90 px-3 py-0.5 rounded-full shadow-sm">
-                              {logo.industry}
-                            </span>
-                          )}
+                          <div className="absolute inset-1 bg-gradient-to-br from-white via-yellow-50 to-white rounded-full"></div>
                         </motion.div>
                       )}
+
+                      {/* Subtle particle effects for center logo - reduced quantity */}
+                      {logo.isCenter && (
+                        <div className="absolute -inset-10 -z-10">
+                          {[...Array(4)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              className="absolute w-1 h-1 bg-yellow-400/50 rounded-full"
+                              initial={{
+                                x: 0,
+                                y: 0,
+                                opacity: 0,
+                              }}
+                              animate={{
+                                x: [0, (Math.random() - 0.5) * 60],
+                                y: [0, (Math.random() - 0.5) * 60],
+                                opacity: [0, 0.5, 0],
+                                scale: [0.5, 1, 0.5],
+                              }}
+                              transition={{
+                                duration: 3 + Math.random() * 2,
+                                repeat: Infinity,
+                                delay: Math.random() * 3,
+                                ease: "easeInOut" // Smoother easing
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </motion.div>
-                  ))}
-                </AnimatePresence>
+                    
+                    {/* Enhanced name and info display for center logo - positioned to the left */}
+                    {logo.isCenter && (
+                      <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.5 }}
+                        className="absolute top-1/2 right-full -translate-y-1/2 mr-4 flex flex-col items-end gap-2"
+                      >
+                        <span className="font-medium text-white bg-primary-600/80 px-4 py-1.5 rounded-full text-sm backdrop-blur-sm shadow-lg whitespace-nowrap">
+                          {logo.name}
+                        </span>
+                        
+                        {logo.industry && (
+                          <span className="text-xs bg-yellow-500/80 text-white/90 px-3 py-0.5 rounded-full shadow-sm">
+                            {logo.industry}
+                          </span>
+                        )}
+                      </motion.div>
+                    )}
+                  </motion.div>
+                ))}
               </div>
               
-              {/* Scrolling indicator */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                <div className="h-px w-8 bg-white/20"></div>
-                <span className="text-white/50 text-xs">Auto-Scrolling Partners</span>
-                <div className="h-px w-8 bg-white/20"></div>
-              </div>
+              {/* Animated scrolling indicator */}
+              <motion.div 
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2"
+                animate={{
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <motion.div 
+                  className="h-px w-8 bg-white/20"
+                  animate={{
+                    width: [32, 48, 32],
+                    opacity: [0.2, 0.4, 0.2]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                <span className="text-white/60 text-xs font-light">Continuous Flow</span>
+                <motion.div 
+                  className="h-px w-8 bg-white/20"
+                  animate={{
+                    width: [32, 48, 32],
+                    opacity: [0.2, 0.4, 0.2]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                />
+              </motion.div>
             </div>
           </div>
         </div>
