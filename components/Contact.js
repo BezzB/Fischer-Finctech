@@ -1,22 +1,19 @@
-import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaClock, FaArrowRight, FaPaperPlane } from 'react-icons/fa';
 
 const ContactUs = () => {
-  const form = useRef();
   const [formError, setFormError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    user_name: '',
-    user_email: '',
-    user_phone: '',
+    name: '',
+    email: '',
+    phone: '',
     company: '',
     service_interest: '',
     message: '',
-    recipient_email: 'bezbanco@gmail.com' // Default recipient email
   });
 
   const handleInputChange = (e) => {
@@ -27,24 +24,16 @@ const ContactUs = () => {
     });
   };
 
-  // Allow admin to change recipient email through a hidden field or UI component
-  const setRecipientEmail = (email) => {
-    setFormData({
-      ...formData,
-      recipient_email: email
-    });
-  };
-
   const validateForm = () => {
     // Basic validation
-    if (!formData.user_name.trim()) return 'Please enter your name';
-    if (!formData.user_email.trim()) return 'Please enter your email';
-    if (!/^\S+@\S+\.\S+$/.test(formData.user_email)) return 'Please enter a valid email address';
+    if (!formData.name.trim()) return 'Please enter your name';
+    if (!formData.email.trim()) return 'Please enter your email';
+    if (!/^\S+@\S+\.\S+$/.test(formData.email)) return 'Please enter a valid email address';
     if (!formData.message.trim()) return 'Please enter your message';
     return null;
   };
 
-  const sendEmail = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form
@@ -57,67 +46,62 @@ const ContactUs = () => {
     setIsSubmitting(true);
     setFormError(null);
 
-    // Create a template params object including the recipient_email
-    const templateParams = {
-      user_name: formData.user_name,
-      user_email: formData.user_email,
-      user_phone: formData.user_phone,
-      company: formData.company,
-      service_interest: formData.service_interest,
-      message: formData.message,
-      recipient_email: formData.recipient_email // Pass the recipient email
-      // Note: You must update your EmailJS template to include {{recipient_email}} 
-      // in the "To Email" field in the EmailJS dashboard for this to work
-    };
+    try {
+      // Prepare form data with explicit _replyto field for Formspree
+      const formspreeData = {
+        ...formData,
+        _replyto: formData.email, // Ensure email is explicitly set as reply-to
+        _subject: `Fischer Telesec Contact Form: ${formData.service_interest || 'General Inquiry'}`
+      };
 
-    // Send email if form is valid using the updated EmailJS API
-    emailjs
-      .send(
-        'service_dv7wh96', // EmailJS service ID
-        'template_bsvmkq7', // EmailJS template ID
-        templateParams, // Use template params instead of form
-        {
-          publicKey: 'bD4Vm_zoa3MYX5QBf',
-        }
-      )
-      .then(
-        (response) => {
-          console.log('SUCCESS!', response.status, response.text);
-          setFormError(null);
-          form.current.reset(); // Reset form after successful submission
+      // Using Formspree API endpoint with the correct form ID
+      const response = await fetch('https://formspree.io/f/mayrbovd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formspreeData),
+      });
+
+      if (response.ok) {
+        // Reset form on success
           setFormData({
-            user_name: '',
-            user_email: '',
-            user_phone: '',
+          name: '',
+          email: '',
+          phone: '',
             company: '',
             service_interest: '',
             message: '',
-            recipient_email: 'info@fischertelesec.co.ke' // Reset to default recipient
           });
-          toast.success('Your message has been sent successfully. We will get back to you soon!');
-          setIsSubmitting(false);
-        },
-        (error) => {
-          console.log('FAILED...', error);
-          
-          // Check for Gmail API authorization error
-          if (error && error.text && error.text.includes('Gmail_API: Invalid grant')) {
-            setFormError('Our email service is temporarily unavailable. Please contact us directly at info@fischertelesec.co.ke or try again later.');
-            
-            // Send direct notification to admin about the EmailJS Gmail issue
-            console.error('EmailJS Gmail API authorization error: Please log in to EmailJS dashboard and reconnect your Gmail account');
+          toast.success('Your message has been sent successfully. We will get back to you soon!', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              background: "linear-gradient(to right, #0f2b4a, #1e4976)",
+              color: "white",
+              borderRadius: "10px",
+              boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+              padding: "16px",
+              fontSize: "16px"
+            },
+            progressStyle: { background: "#00b4d8" },
+            icon: "🎉"
+          });
           } else {
-            // Generic error handling for other issues
-            let errorMessage = 'Failed to send message. Please try again later or contact us directly.';
-            if (error && error.text) {
-              errorMessage = `Error: ${error.text}`;
-            }
-            setFormError(errorMessage);
-          }
-          
-          setIsSubmitting(false);
-        },
-      );
+        const responseData = await response.json();
+        throw new Error(responseData.error || 'Form submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormError('Failed to send message. Please try again later or contact us directly at info@fischertelesec.co.ke');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -389,18 +373,21 @@ const ContactUs = () => {
                   </motion.div>
                 )}
                 
-                <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Honeypot field to prevent spam - should remain empty */}
+                  <input type="text" name="_gotcha" style={{ display: 'none' }} />
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="group">
-                      <label htmlFor="user_name" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
+                      <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
                         Full Name *
                       </label>
                       <div className="relative">
                         <input
                           type="text"
-                          name="user_name"
-                          id="user_name"
-                          value={formData.user_name}
+                          name="name"
+                          id="name"
+                          value={formData.name}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
                           placeholder="Name"
@@ -411,15 +398,15 @@ const ContactUs = () => {
                     </div>
                     
                     <div className="group">
-                      <label htmlFor="user_email" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
+                      <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
                         Email Address *
                       </label>
                       <div className="relative">
                         <input
                           type="email"
-                          name="user_email"
-                          id="user_email"
-                          value={formData.user_email}
+                          name="email"
+                          id="email"
+                          value={formData.email}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
                           placeholder="email"
@@ -432,15 +419,15 @@ const ContactUs = () => {
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="group">
-                      <label htmlFor="user_phone" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
+                      <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
                         Phone Number
                       </label>
                       <div className="relative">
                         <input
                           type="tel"
-                          name="user_phone"
-                          id="user_phone"
-                          value={formData.user_phone}
+                          name="phone"
+                          id="phone"
+                          value={formData.phone}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
                           placeholder="+254 7XX XXX XXX"
@@ -515,29 +502,6 @@ const ContactUs = () => {
                       <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
                     </div>
                   </div>
-                  
-                  {/* Hidden Recipient Email field - Only visible to admins with proper authentication */}
-                  {/* Uncomment and customize this section when you have admin authentication in place
-                  {isAdminUser && (
-                    <div className="group">
-                      <label htmlFor="recipient_email" className="block text-sm font-medium text-neutral-700 mb-1 group-focus-within:text-primary-600 transition-colors">
-                        Recipient Email *
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          name="recipient_email"
-                          id="recipient_email"
-                          value={formData.recipient_email}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 rounded-lg border border-neutral-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all bg-white/50 focus:bg-white"
-                          placeholder="recipient@example.com"
-                        />
-                        <div className="absolute top-0 left-0 h-full w-0.5 bg-primary-500 scale-y-0 origin-bottom group-focus-within:scale-y-100 transition-transform duration-300"></div>
-                      </div>
-                    </div>
-                  )}
-                  */}
                   
                   <div>
                     <motion.button

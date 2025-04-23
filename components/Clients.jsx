@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -190,7 +190,8 @@ const ClientsPage = () => {
   }, [enhancedLogos.length]);
 
   // Define left-facing C-shaped arc positions with more points for smoother path
-  const arcPositions = [
+  // Use useMemo to prevent this array from causing re-renders
+  const arcPositions = useMemo(() => [
     { x: -50, y: 180 },   // Bottom entry point
     { x: -75, y: 155 },   // Additional point
     { x: -100, y: 130 },  // Bottom arc 
@@ -204,33 +205,10 @@ const ClientsPage = () => {
     { x: -100, y: -130 }, // Top arc
     { x: -75, y: -155 },  // Additional point
     { x: -50, y: -180 },  // Top exit point
-  ];
+  ], []);
 
-  // Animate the rotation continuously - only handle position animations
-  const animateRotation = (timestamp) => {
-    if (!lastUpdateTimeRef.current) {
-      lastUpdateTimeRef.current = timestamp;
-    }
-    
-    const deltaTime = timestamp - lastUpdateTimeRef.current;
-    lastUpdateTimeRef.current = timestamp;
-    
-    // Progress at a constant rate - extremely slow for elegant, measured flow
-    const rotationSpeed = 0.000015; // Extremely slow for a premium showcase experience
-    rotationProgressRef.current += deltaTime * rotationSpeed;
-    
-    // Reset progress counter when it reaches 1
-    if (rotationProgressRef.current >= 1) {
-      rotationProgressRef.current = 0;
-    }
-    
-    updateLogoPositions(rotationProgressRef.current);
-    
-    animationRef.current = requestAnimationFrame(animateRotation);
-  };
-  
   // Update logo positions based on current rotation progress
-  const updateLogoPositions = (progress) => {
+  const updateLogoPositions = useCallback((progress) => {
     const totalPositions = arcPositions.length;
     const positions = [];
     
@@ -253,7 +231,6 @@ const ClientsPage = () => {
       const y = startPos.y + (endPos.y - startPos.y) * easedT;
       
       // Calculate logo index to ensure all logos cycle through
-      // Use the time-based currentLogoIndex instead of the animation-based activeLogoIndex
       const totalLogos = enhancedLogos.length;
       const logoIndex = (currentLogoIndex + posIndex) % totalLogos;
       
@@ -283,8 +260,31 @@ const ClientsPage = () => {
     
     // Update positions state
     setLogoPositions(positions);
-  };
+  }, [arcPositions, currentLogoIndex, enhancedLogos]);
 
+  // Animate the rotation continuously - only handle position animations
+  const animateRotation = useCallback((timestamp) => {
+    if (!lastUpdateTimeRef.current) {
+      lastUpdateTimeRef.current = timestamp;
+    }
+    
+    const deltaTime = timestamp - lastUpdateTimeRef.current;
+    lastUpdateTimeRef.current = timestamp;
+    
+    // Progress at a constant rate - extremely slow for elegant, measured flow
+    const rotationSpeed = 0.000015; // Extremely slow for a premium showcase experience
+    rotationProgressRef.current += deltaTime * rotationSpeed;
+    
+    // Reset progress counter when it reaches 1
+    if (rotationProgressRef.current >= 1) {
+      rotationProgressRef.current = 0;
+    }
+    
+    updateLogoPositions(rotationProgressRef.current);
+    
+    animationRef.current = requestAnimationFrame(animateRotation);
+  }, [updateLogoPositions]);
+  
   useEffect(() => {
     setMounted(true);
     
@@ -302,7 +302,7 @@ const ClientsPage = () => {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []); // No dependencies to ensure animation runs only once
+  }, [animateRotation]); // Add animateRotation as a dependency
 
   if (!mounted) {
     return null;
@@ -386,7 +386,7 @@ const ClientsPage = () => {
               <div className="absolute inset-0 flex items-center justify-center">
                 {logoPositions.map((logo, index) => (
                   <motion.div
-                    key={`logo-${currentLogoIndex}-${logo.posIndex}-${logo.name}`}
+                    key={`logo-${currentLogoIndex}-${logo.posIndex}-${index}`}
                     initial={false}
                     animate={{ 
                       x: logo.x, 
@@ -408,10 +408,14 @@ const ClientsPage = () => {
                         relative flex items-center justify-center rounded-full 
                         ${logo.isCenter 
                           ? 'w-36 h-36 bg-white shadow-2xl border-3 border-yellow-400' 
-                          : `w-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} h-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} bg-white/90 border border-white/50 backdrop-blur-sm`
+                          : 'bg-white/90 border border-white/50 backdrop-blur-sm'
                         }
                         transition-all duration-700
                       `}
+                      style={{
+                        width: logo.isCenter ? '9rem' : `${(16 + (4 * (3 - Math.abs(logo.posIndex - 3))))*0.25}rem`,
+                        height: logo.isCenter ? '9rem' : `${(16 + (4 * (3 - Math.abs(logo.posIndex - 3))))*0.25}rem`
+                      }}
                       whileHover={{ scale: 1.05 }}
                       animate={logo.isCenter ? {
                         boxShadow: ['0 0 15px rgba(255,255,255,0.4)', '0 0 30px rgba(255,255,255,0.6)', '0 0 15px rgba(255,255,255,0.4)']
@@ -696,7 +700,7 @@ const ClientsPage = () => {
               />
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mt-6">
-              Our expertise spans across multiple sectors, providing specialized telecommunications and IT solutions tailored to your industry's unique needs.
+              Our expertise spans across multiple sectors, providing specialized telecommunications and IT solutions tailored to your industry&apos;s unique needs.
             </p>
           </motion.div>
           

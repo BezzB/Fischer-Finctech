@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import emailjs from '@emailjs/browser';
 import { FaCheckCircle, FaNetworkWired, FaServer, FaShieldAlt, FaHeadset, FaCloudUploadAlt, FaTools, FaChevronRight } from 'react-icons/fa';
 
 const GetQuote = () => {
@@ -60,7 +59,7 @@ const GetQuote = () => {
     return null;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form
@@ -73,61 +72,73 @@ const GetQuote = () => {
     setIsSubmitting(true);
     setFormError(null);
     
-    // Prepare form data for EmailJS
-    const templateParams = {
-      from_name: formData.name,
-      from_email: formData.email,
+    // Prepare formatted services list
+    const selectedServices = formData.services.map(id => {
+      const service = services.find(s => s.id === id);
+      return service ? service.name : id;
+    }).join(', ');
+    
+    // Prepare form data for Formspree with explicit reply-to field
+    const formspreeData = {
+      name: formData.name,
+      email: formData.email,
+      _replyto: formData.email,
       phone: formData.phone,
       company: formData.company,
       message: formData.message,
-      services: formData.services.map(id => {
-        const service = services.find(s => s.id === id);
-        return service ? service.name : id;
-      }).join(', ')
+      services: selectedServices,
+      _subject: `Quote Request: ${formData.name} - ${selectedServices}`
     };
     
-    // Send email using EmailJS with the correct service ID
-    emailjs.send(
-      'service_dv7wh96',  // Correct EmailJS service ID
-      'template_bsvmkq7', // EmailJS template ID
-      templateParams,
-      {
-        publicKey: 'bD4Vm_zoa3MYX5QBf'
-      }
-    )
-    .then((response) => {
-      console.log('SUCCESS!', response.status, response.text);
-      setFormError(null);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: '',
-        services: []
+    try {
+      // Using Formspree API endpoint
+      const response = await fetch('https://formspree.io/f/mayrbovd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formspreeData),
       });
-      toast.success('Your quote request has been submitted successfully. We will get back to you soon!');
-      setIsSubmitting(false);
-    }, (error) => {
-      console.log('FAILED...', error);
-      
-      // Check for Gmail API authorization error
-      if (error && error.text && error.text.includes('Gmail_API: Invalid grant')) {
-        setFormError('Our email service is temporarily unavailable. Please contact us directly at info@fischertelesec.co.ke or try again later.');
-        
-        // Send direct notification to admin about the EmailJS Gmail issue
-        console.error('EmailJS Gmail API authorization error: Please log in to EmailJS dashboard and reconnect your Gmail account');
+
+      if (response.ok) {
+        // Reset form on success
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: '',
+          services: []
+        });
+        toast.success('Your quote request has been submitted successfully. We will get back to you soon!', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            background: "linear-gradient(to right, #0f2b4a, #1e4976)",
+            color: "white",
+            borderRadius: "10px",
+            boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+            padding: "16px",
+            fontSize: "16px"
+          },
+          progressStyle: { background: "#00b4d8" },
+          icon: "🎉"
+        });
       } else {
-        // Generic error handling for other issues
-        let errorMessage = 'Failed to send quote request. Please try again later or contact us directly.';
-        if (error && error.text) {
-          errorMessage = `Error: ${error.text}`;
-        }
-        setFormError(errorMessage);
+        const responseData = await response.json();
+        throw new Error(responseData.error || 'Form submission failed');
       }
-      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setFormError('Failed to send quote request. Please try again later or contact us directly at info@fischertelesec.co.ke');
+    } finally {
       setIsSubmitting(false);
-    });
+    }
   };
 
   return (
@@ -330,6 +341,9 @@ const GetQuote = () => {
               )}
               
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot field to prevent spam - should remain empty */}
+                <input type="text" name="_gotcha" style={{ display: 'none' }} />
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-neutral-700 mb-1">
@@ -347,7 +361,7 @@ const GetQuote = () => {
                     />
                   </div>
                   
-    <div>
+                  <div>
                     <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
                       Email Address *
                     </label>
