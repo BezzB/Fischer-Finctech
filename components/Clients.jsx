@@ -159,74 +159,97 @@ const ClientsPage = () => {
   const [logoPositions, setLogoPositions] = useState([]);
   const [centerLogo, setCenterLogo] = useState(null);
   const containerRef = useRef(null);
+  const [activeLogoIndex, setActiveLogoIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Define the calculateLogoPositions function before using it in useEffect
+  // Calculate logo positions with improved arc motion
   const calculateLogoPositions = () => {
-    // Rotate the logos array to create animation
-    const newClientLogos = [...clientLogos];
-    const firstLogo = newClientLogos.shift();
-    newClientLogos.push(firstLogo);
-    
-    // Set the center logo (middle of the array)
-    const centerIndex = Math.floor(newClientLogos.length / 2);
-    setCenterLogo(newClientLogos[centerIndex]);
-    
-    // Explicitly define positions for a left-facing arc
-    // These positions form a left-facing "C" shape
-    const arcPositions = [
-      { x: -100, y: -160 },  // Top position
-      { x: -140, y: -120 },  
-      { x: -160, y: -60 },   
-      { x: -170, y: 0 },     // Middle position (furthest left)
-      { x: -160, y: 60 },    
-      { x: -140, y: 120 },   
-      { x: -100, y: 160 },   // Bottom position
-      { x: -50, y: 180 },
-      { x: 0, y: 190 }
-    ];
-    
-    // If we have fewer logos than positions, use only the middle positions
-    const adjustedPositions = arcPositions.slice(
-      Math.max(0, Math.floor((arcPositions.length - newClientLogos.length) / 2)),
-      Math.min(arcPositions.length, Math.floor((arcPositions.length - newClientLogos.length) / 2) + newClientLogos.length)
-    );
-    
-    // If we have more logos than positions, duplicate the middle positions
-    while (adjustedPositions.length < newClientLogos.length) {
-      adjustedPositions.splice(Math.floor(adjustedPositions.length / 2), 0, arcPositions[Math.floor(arcPositions.length / 2)]);
-    }
-    
-    // Map logos to positions
-    const positions = newClientLogos.map((logo, index) => {
-      // Scale factor (1.0 is original size, center logo is bigger)
-      const distanceFromCenter = Math.abs(index - centerIndex);
-      const scale = 1 - (distanceFromCenter * 0.15); // Scale down as it gets further from center
+    // Create enhanced client logos with proper data
+    const enhancedLogos = clientLogos.map((logo) => {
+      // Find matching client data if available
+      const clientData = [...featuredClients, ...partners].find(
+        client => client.logo && client.logo.includes(logo.replace("/", ""))
+      );
       
       return {
-        ...logo,
-        x: adjustedPositions[index].x,
-        y: adjustedPositions[index].y,
-        scale,
-        opacity: 0.4 + (1 - distanceFromCenter / (newClientLogos.length / 2)) * 0.6 // Fade out logos farther from center
+        image: logo,
+        name: clientData?.name || "Partner",
+        industry: clientData?.industry || "Technology"
       };
     });
     
-    setLogoPositions(positions);
+    // Setup left-facing C-shaped arc positions
+    if (!isTransitioning) {
+      setIsTransitioning(true);
+      
+      // Update the active logo index
+      const nextIndex = (activeLogoIndex + 1) % enhancedLogos.length;
+      setActiveLogoIndex(nextIndex);
+      
+      // Define left-facing C-shaped arc positions
+      const arcPositions = [
+        { x: -50, y: 180 },   // Bottom entry point
+        { x: -100, y: 130 },  // Bottom arc 
+        { x: -140, y: 60 },   // Lower middle
+        { x: -160, y: 0 },    // Center position (furthest left)
+        { x: -140, y: -60 },  // Upper middle
+        { x: -100, y: -130 }, // Top arc
+        { x: -50, y: -180 },  // Top exit point
+      ];
+      
+      // Calculate which logos should be in which positions (scrolling effect)
+      const totalPositions = arcPositions.length;
+      const positions = [];
+      
+      for (let posIndex = 0; posIndex < totalPositions; posIndex++) {
+        // Calculate which logo goes in this position
+        const logoIndex = (nextIndex - (totalPositions - 1 - posIndex) + enhancedLogos.length) % enhancedLogos.length;
+        const logo = enhancedLogos[logoIndex];
+        
+        // Calculate scale and opacity based on position
+        // Position 3 is the center (largest)
+        const distanceFromCenter = Math.abs(posIndex - 3);
+        const scale = 1 - (distanceFromCenter * 0.15);
+        const opacity = 0.4 + (1 - distanceFromCenter / 3) * 0.6;
+        
+        positions.push({
+          ...logo,
+          x: arcPositions[posIndex].x,
+          y: arcPositions[posIndex].y,
+          scale,
+          opacity,
+          posIndex,
+          isCenter: posIndex === 3
+        });
+      }
+      
+      // Set center logo for reference
+      const centerLogoPos = positions.find(logo => logo.isCenter);
+      setCenterLogo(centerLogoPos);
+      
+      // Update positions state
+      setLogoPositions(positions);
+      
+      // Reset transition state after animation completes
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 1000);
+    }
   };
 
   useEffect(() => {
     setMounted(true);
     
-    // Initial calculation
+    // Set initial positions
     calculateLogoPositions();
     
-    // Automatic animation along the arc
+    // Set up automatic rotation
     const timer = setInterval(() => {
       calculateLogoPositions();
-    }, 3000);
+    }, 4000);
     
     return () => clearInterval(timer);
-  }, []);
+  }, [activeLogoIndex]); // Add dependency to re-run when activeLogoIndex changes
 
   if (!mounted) {
     return null;
@@ -259,57 +282,129 @@ const ClientsPage = () => {
               </div>
             </div>
             
-            {/* Logo Arc Section */}
-            <div ref={containerRef} className="relative h-[400px] w-full hidden lg:block">
+            {/* Improved Logo Arc Showcase */}
+            <div ref={containerRef} className="relative h-[500px] w-full hidden lg:block">
+              {/* Subtle arc path guide - left-facing C shape */}
+              <svg className="absolute inset-0 w-full h-full overflow-visible">
+                <path
+                  d="M-50,-180 C-120,-120 -180,-70 -160,0 C-180,70 -120,120 -50,180"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth="1"
+                  strokeDasharray="4,4"
+                  className="animate-pulse"
+                />
+              </svg>
+
+              {/* Accent glow spots */}
+              <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-primary-500/10 rounded-full blur-3xl"></div>
+              
+              {/* Logo showcase */}
               <div className="absolute inset-0 flex items-center justify-center">
-                {/* Semi-circular arc guide (optional, for visual debugging) */}
-                {/* <div className="absolute w-[360px] h-[360px] border-l-2 border-t-2 border-b-2 border-primary-500/10 rounded-l-full"></div> */}
-                
-                {/* Company logos along the arc */}
-                {logoPositions.map((logo, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ x: logo.x, y: logo.y, scale: logo.scale, opacity: logo.opacity }}
-                    animate={{ x: logo.x, y: logo.y, scale: logo.scale, opacity: logo.opacity }}
-                    transition={{ duration: 1.2, ease: "easeInOut" }}
-                    className="absolute"
-                    style={{ transform: `translate(${logo.x}px, ${logo.y}px)` }}
-                  >
-                    <div 
-                      className={`
-                        flex items-center justify-center rounded-full bg-white shadow-lg
-                        ${logo.name === centerLogo?.name ? 'w-24 h-24 border-2 border-primary-500' : 'w-16 h-16 border border-gray-100'}
-                        transition-all duration-300
-                      `}
+                <AnimatePresence mode="popLayout">
+                  {logoPositions.map((logo, index) => (
+                    <motion.div
+                      key={`logo-${logo.posIndex}-${activeLogoIndex}`}
+                      initial={{ 
+                        // New logos start below and slide up into position
+                        x: logo.posIndex === 0 ? logo.x : logo.x,
+                        y: logo.posIndex === 0 ? logo.y + 150 : logo.y,
+                        opacity: logo.posIndex === 0 ? 0 : logo.opacity,
+                        scale: logo.scale * 0.7
+                      }}
+                      animate={{ 
+                        x: logo.x, 
+                        y: logo.y, 
+                        opacity: logo.opacity, 
+                        scale: logo.scale,
+                        zIndex: logo.isCenter ? 10 : 1
+                      }}
+                      exit={{ 
+                        // Exiting logos slide up and fade out
+                        y: logo.posIndex === 6 ? logo.y - 150 : logo.y,
+                        opacity: logo.posIndex === 6 ? 0 : logo.opacity,
+                        scale: logo.posIndex === 6 ? logo.scale * 0.7 : logo.scale,
+                        transition: { duration: 0.4, ease: "easeOut" }
+                      }}
+                      transition={{ 
+                        type: "spring",
+                        damping: 22,
+                        stiffness: 90,
+                        mass: 0.8
+                      }}
+                      className="absolute"
+                      style={{
+                        zIndex: logo.isCenter ? 10 : (10 - Math.abs(3 - logo.posIndex))
+                      }}
                     >
-                      <Image
-                        src={logo.image || "/Fischerlogo.png"}
-                        alt={logo.name}
-                        width={logo.name === centerLogo?.name ? 80 : 50}
-                        height={logo.name === centerLogo?.name ? 80 : 50}
-                        className="object-contain p-2 max-w-[80%] max-h-[80%]"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/Fischerlogo.png"; // Fallback image
-                        }}
-                      />
-                    </div>
-                    
-                    {/* Only show name for center logo */}
-                    {logo.name === centerLogo?.name && (
+                      {/* Logo container with glass effect for center logo */}
                       <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 whitespace-nowrap"
+                        className={`
+                          relative flex items-center justify-center rounded-full 
+                          ${logo.isCenter 
+                            ? 'w-32 h-32 bg-white shadow-xl border-2 border-yellow-400' 
+                            : `w-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} h-${16 + (4 * (3 - Math.abs(logo.posIndex - 3)))} bg-white/90 border border-white/50 backdrop-blur-sm`
+                          }
+                          transition-all duration-300
+                        `}
+                        whileHover={{ scale: 1.05 }}
+                        animate={logo.isCenter ? {
+                          boxShadow: ['0 0 10px rgba(255,255,255,0.3)', '0 0 20px rgba(255,255,255,0.4)', '0 0 10px rgba(255,255,255,0.3)']
+                        } : {}}
+                        transition={{
+                          boxShadow: { repeat: Infinity, duration: 2 }
+                        }}
                       >
-                        <span className="font-medium text-white bg-primary-700/80 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
-                          {logo.name}
-                        </span>
+                        <Image
+                          src={logo.image || "/Fischerlogo.png"}
+                          alt={logo.name}
+                          width={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
+                          height={logo.isCenter ? 90 : 45 + (5 * (3 - Math.abs(logo.posIndex - 3)))}
+                          className="object-contain p-3 max-w-[85%] max-h-[85%]"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/Fischerlogo.png"; // Fallback image
+                          }}
+                        />
+                        
+                        {/* Subtle radial highlight behind center logo */}
+                        {logo.isCenter && (
+                          <div className="absolute inset-0 rounded-full overflow-hidden -z-10">
+                            <div className="absolute inset-1 bg-gradient-to-br from-white via-yellow-50 to-white rounded-full opacity-80"></div>
+                          </div>
+                        )}
                       </motion.div>
-                    )}
-                  </motion.div>
-                ))}
+                      
+                      {/* Enhanced name and info display for center logo - positioned to the left */}
+                      {logo.isCenter && (
+                        <motion.div 
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ delay: 0.2, duration: 0.5 }}
+                          className="absolute top-1/2 right-full -translate-y-1/2 mr-4 flex flex-col items-end gap-2"
+                        >
+                          <span className="font-medium text-white bg-primary-600/80 px-4 py-1.5 rounded-full text-sm backdrop-blur-sm shadow-lg whitespace-nowrap">
+                            {logo.name}
+                          </span>
+                          
+                          {logo.industry && (
+                            <span className="text-xs bg-yellow-500/80 text-white/90 px-3 py-0.5 rounded-full shadow-sm">
+                              {logo.industry}
+                            </span>
+                          )}
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+              
+              {/* Scrolling indicator */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                <div className="h-px w-8 bg-white/20"></div>
+                <span className="text-white/50 text-xs">Auto-Scrolling Partners</span>
+                <div className="h-px w-8 bg-white/20"></div>
               </div>
             </div>
           </div>
